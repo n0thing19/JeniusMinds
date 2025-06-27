@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
         /* Menggunakan font Poppins sebagai default */
         body {
@@ -99,6 +101,7 @@
 </head>
 <body class="text-gray-700">
 
+    <!-- ===== Bagian Header ===== -->
     <header class="sticky top-0 bg-[#FFFAF3] bg-opacity/70 backdrop-blur-lg z-20 shadow-sm">
         <div class="container mx-auto px-4 py-2">
             <div class="flex justify-between items-center">
@@ -106,21 +109,73 @@
                     <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="w-14 h-14">
                     <span class="text-xl font-bold text-gray-800 group-hover:text-brand-pink-dark transition-colors">Jenius Minds</span>
                 </a>
+                
                 <div class="hidden md:block w-1/3">
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-search text-gray-400"></i></span>
                         <input type="text" placeholder="Search for quizzes..." class="w-full pl-10 pr-4 py-2 border brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-brand-pink-dark/50 transition-all">
                     </div>
                 </div>
+
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('signin') }}" class="text-black-600 hover:text-brand-pink-dark font-medium transition-colors">Sign In</a>
-                    <a href="{{ route('signup') }}" class="btn-gradient text-black px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
+                    @guest
+                        <a href="{{ route('signin') }}" class="text-gray-600 hover:brand-pink-dark font-medium transition-colors">Sign In</a>
+                        <a href="{{ route('signup') }}" class="btn-gradient text-white px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
+                    @endguest
+
+                    @auth
+                        <div x-data="{ open: false }" class="relative">
+                            <button @click="open = !open" class="w-10 h-10 rounded-full overflow-hidden border-2 border-pink-200 hover:border-pink-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-400 transition">
+                                <img class="w-full h-full object-cover" src="https://placehold.co/100x100/FEF6F3/EEA99D?text={{ substr(Auth::user()->name, 0, 1) }}" alt="Foto Profil">
+                            </button>
+
+                            <div 
+                                x-show="open"
+                                @click.away="open = false"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-30"
+                                style="display: none;"
+                            >
+                                <div class="py-1">
+                                    <div class="px-4 py-3 border-b border-gray-200">
+                                        <p class="text-sm text-gray-500">Signed in as</p>
+                                        <p class="text-base font-semibold text-gray-800 truncate">{{ Auth::user()->name }}</p>
+                                    </div>
+                                    
+                                    <div class="py-1">
+                                        <a href="{{-- route('profile.edit') --}}" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-user-circle w-5 mr-3 text-gray-500"></i> Profile
+                                        </a>
+                                        <a href="#" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-cog w-5 mr-3 text-gray-500"></i> Settings
+                                        </a>
+                                    </div>
+
+                                    <div class="py-1 border-t border-gray-200">
+                                        <form method="POST" action="{{ route('signout') }}">
+                                            @csrf
+                                            <button type="submit" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600">
+                                                <i class="fas fa-sign-out-alt w-5 mr-3 text-gray-500"></i> Sign Out
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endauth
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- ===== Bagian Main Content ===== -->
     <div class="container mx-auto px-6 py-4 mt-4">
+
         <main>
             <section class="mb-10 text-left">
                 <label for="enter-code" class="font-semibold text-lg text-gray-700">Have a code?</label>
