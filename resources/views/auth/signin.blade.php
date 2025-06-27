@@ -54,7 +54,8 @@
                 <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Welcome Back!</h1>
                 <p class="text-gray-500 mb-8">Sign in to continue your journey of fun learning.</p>
 
-                <form action="#" method="POST" class="space-y-6">
+                <form action="{{ route('authenticate') }}" method="POST" class="space-y-6">
+                    @csrf
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-600">Email Address</label>
                         <div class="relative">
@@ -87,7 +88,7 @@
 
                 <div class="mt-8 text-center">
                     <p class="text-sm text-gray-500">
-                        Don't have an account? <a href="#" class="font-bold brand-pink-dark hover:underline">Sign Up</a>
+                        Don't have an account? <a href={{ route('signup') }} class="font-bold brand-pink-dark hover:underline">Sign Up</a>
                     </p>
                 </div>
             </div>

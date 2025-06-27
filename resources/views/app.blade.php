@@ -76,8 +76,17 @@
 
                 <!-- Tombol Sign In & Sign Up -->
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('signin') }}" class="text-gray-600 hover:text-brand-pink-dark font-medium transition-colors">Sign In</a>
-                    <a href="{{ route('signup') }}" class="btn-gradient text-white px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
+                    @guest
+                        <a href="{{ route('signin') }}" class="text-gray-600 hover:text-brand-pink-dark font-medium transition-colors">Sign In</a>
+                        <a href="{{ route('signup') }}" class="btn-gradient text-white px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
+                        @endguest
+
+                    @auth
+                        <form action="{{ route('signout') }}" method="POST" class="flex items-center space-x-4">
+                            @csrf
+                            <button type="submit" class="btn-gradient text-white px-6 py-2 rounded-full font-bold shadow-md">Sign Out</button>
+                        </form>
+                    @endauth
                 </div>
             </div>
         </div>
