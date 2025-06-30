@@ -12,9 +12,9 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #FFFBF5;
+            background-color: #FFFAF3;
         }
-        .brand-pink-dark { color: #EEA99D; }
+        .brand-pink-dark { color: #C96944; }
         .btn-gradient {
             background-image: linear-gradient(to right, #F5B9B0, #EEA99D);
             transition: all 0.3s ease;
@@ -44,22 +44,20 @@
 <body class="text-gray-700">
 
     <div class="min-h-screen flex items-center justify-center p-6">
-        <div class="container mx-auto max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
-            
-            <div class="hidden md:block p-12 flex flex-col items-center justify-center text-center rounded-l-2xl" style="background-color: #EBF5FF;">
-                 <img src="https://placehold.co/300x300/60A5FA/FFFFFF?text=Create" alt="Ilustrasi Membuat Akun" class="rounded-2xl mb-8 shadow-xl mx-auto">
-                 <h2 class="text-2xl font-bold text-gray-800">Start Your Learning Adventure</h2>
-                 <p class="text-gray-600 mt-2 max-w-sm mx-auto">Create an account to save your progress and create your own quizzes.</p>
+            <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+
+            <div class="p-8">
+                <div class="flex justify-center mb-4"> 
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="rounded-full w-12 h-12">
+                    <span class="text-3xl font-bold text-gray-800">Jenius Minds</span>
+                </a>
             </div>
 
-            <div class="p-8 md:p-12">
-                <a href="/" class="flex items-center space-x-3 group mb-6">
-                     <img src="https://placehold.co/40x40/EEA99D/FFFFFF?text=JM" alt="Logo Jenius Minds" class="rounded-full">
-                     <span class="text-xl font-bold text-gray-800">Jenius Minds</span>
-                 </a>
-
-                <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Create Account</h1>
-                <p class="text-gray-500 mb-6">It's free and only takes a minute.</p>
+                <div class="mb-2">
+                <h1 class="text-2xl text-center font-bold text-gray-800 mb-2">Create Account</h1>
+                <p class="text-gray-500 text-center mb-6">It's free and only takes a minute.</p>
+                </div>
 
                 <form action="{{ route('register') }}" method="POST" class="space-y-5">
                     @csrf
@@ -114,7 +112,7 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="w-full btn-gradient text-white font-bold py-3 px-4 rounded-lg shadow-md text-lg">
+                        <button type="submit" class="w-full btn-gradient text-black font-bold py-3 px-4 rounded-lg shadow-md text-lg">
                             Create Account
                         </button>
                     </div>
