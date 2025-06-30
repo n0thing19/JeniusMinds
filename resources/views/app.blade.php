@@ -73,7 +73,7 @@
         }
         .scroll-btn {
             position: absolute;
-            top: 50%;
+            top: 60%;
             transform: translateY(-50%);
             background: white;
             border-radius: 50%;
@@ -113,14 +113,15 @@
                 <div class="hidden md:block w-1/3">
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-search text-gray-400"></i></span>
-                        <input type="text" placeholder="Search for quizzes..." class="w-full pl-10 pr-4 py-2 border brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-brand-pink-dark/50 transition-all">
+                        <input type="text" placeholder="Search for quizzes..." class="w-full pl-10 pr-4 py-2 border brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all">
+
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4">
                     @guest
                         <a href="{{ route('signin') }}" class="text-gray-600 hover:brand-pink-dark font-medium transition-colors">Sign In</a>
-                        <a href="{{ route('signup') }}" class="btn-gradient text-white px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
+                        <a href="{{ route('signup') }}" class="btn-gradient text-black px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
                     @endguest
 
                     @auth
@@ -211,7 +212,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-calculator mr-3 text-gray-600"></i> Mathematics</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-yellow-card border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/math.png') }}" alt="Ilustrasi Matematika" class="max-h-full object-contain">
                         </div>
@@ -230,7 +231,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-book-open mr-3 text-gray-600"></i> English</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-pink-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/english.png') }}" alt="Ilustrasi English" class="max-h-full object-contain">
                         </div>
@@ -249,7 +250,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-flask mr-3 text-gray-600"></i> Chemistry</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-blue-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/chemistry.png') }}" alt="Ilustrasi Chemistry" class="max-h-full object-contain">
                         </div>
@@ -268,7 +269,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-desktop mr-3 text-gray-600"></i> Computers</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-purple-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/computer.png') }}" alt="Ilustrasi Computers" class="max-h-full object-contain">
                         </div>
@@ -287,7 +288,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-dna mr-3 text-gray-600"></i> Biology</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-green-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/biology.png') }}" alt="Ilustrasi Biology" class="max-h-full object-contain">
                         </div>
@@ -306,7 +307,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-chart-line mr-3 text-gray-600"></i> Economy</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-gray-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/economy.png') }}" alt="Ilustrasi Economy" class="max-h-full object-contain">
                         </div>
@@ -325,7 +326,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-globe-asia mr-3 text-gray-600"></i> Geography</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-teal-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/geography.png') }}" alt="Ilustrasi Geography" class="max-h-full object-contain">
                         </div>
@@ -344,7 +345,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-atom mr-3 text-gray-600"></i> Physics</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-yellow-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/physics.png') }}" alt="Ilustrasi Physics" class="max-h-full object-contain">
                         </div>
@@ -363,7 +364,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-music mr-3 text-gray-600"></i> Music</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-indigo-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/music.png') }}" alt="Ilustrasi Music" class="max-h-full object-contain">
                         </div>
@@ -382,7 +383,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-futbol mr-3 text-gray-600"></i> Sports</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-red-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/sport.png') }}" alt="Ilustrasi Sports" class="max-h-full object-contain">
                         </div>
@@ -401,7 +402,7 @@
             <div class="category-container">
                 <section>
                     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-language mr-3 text-gray-600"></i> Mandarin</h3>
-                    <div class="scroll-container flex overflow-x-auto gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="scroll-container flex overflow-x-auto gap-6 py-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="flex-shrink-0 w-64 h-48 brand-gold-card p-6 border brand-border rounded-2xl flex items-center justify-center card-hover-effect">
                             <img src="{{ asset('assets/mandarin.png') }}" alt="Ilustrasi Mandarin" class="max-h-full object-contain">
                         </div>
