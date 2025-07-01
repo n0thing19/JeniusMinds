@@ -193,7 +193,7 @@
                         <p class="mt-2 text-gray-600 max-w-md">Got some fun ideas in your head? Or want to share knowledge in an engaging way? Let's create a quiz! It'll be a blast, for sure.</p>
                     </div>
                 </div>
-                <a href="#" class="btn-gradient text-black px-8 py-4 rounded-full font-bold shadow-lg text-lg whitespace-nowrap"><i class="fas fa-pencil-alt mr-2"></i> QUIZ EDITOR</a>
+                <a href={{ route('quizeditor') }} class="btn-gradient text-black px-8 py-4 rounded-full font-bold shadow-lg text-lg whitespace-nowrap"><i class="fas fa-pencil-alt mr-2"></i> QUIZ EDITOR</a>
             </section>
             
             <?php
