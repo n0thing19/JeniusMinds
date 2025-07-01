@@ -32,5 +32,11 @@ Route::get('/quiztypeanswer', function () {
     return view('quiz.addtypeanswer');
 })->name('quiztypeanswer');
 
+Route::get('/quizreorder', function () {
+    return view('quiz.addreorder');
+})->name('quizaddreorder');
+
+
+
 
 

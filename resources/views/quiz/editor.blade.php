@@ -96,8 +96,8 @@
                 </div>
             </a>
             <!-- Checkbox -->
+            <a href={{ route('quizaddcheckbox') }}>
             <div class="question-type-card bg-brand-pink-light p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
-                <a href={{ route('quizaddcheckbox') }}>
                 <div class="icon-box">
                     <i class="far fa-check-square"></i>
                 </div>
@@ -108,8 +108,8 @@
             </div>
             </a>
             <!-- Reorder -->
+            <a href={{ route('quizaddreorder') }}>
             <div class="question-type-card bg-brand-pink-light p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
-                {{-- <a href={{ route('quizaddreorder') }}>  --}}
                 <div class="icon-box">
                     <i class="fas fa-layer-group"></i>
                  </div>
@@ -118,10 +118,10 @@
                     <p class="text-gray-500">Place answers in the correct order</p>
                 </div>
             </div>
-            {{-- </a> --}}
+            </a>
             <!-- Type Answer -->
+            <a href={{ route('quiztypeanswer') }}>
             <div class="question-type-card bg-brand-pink-light p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
-                <a href={{ route('quiztypeanswer') }}>
                 <div class="icon-box">
                     <span class="custom-icon-text">Aa</span>
                  </div>
