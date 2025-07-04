@@ -43,10 +43,11 @@
             <div class="p-8">
             <!-- Logo Section -->
             <div class="flex justify-center mb-4"> 
-                <a href="/" class="flex items-center space-x-3 group">
+                <div class="flex items-center space-x-3 group">
                     <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="rounded-full w-12 h-12">
                     <span class="text-3xl font-bold text-gray-800">Jenius Minds</span>
-                </a>
+
+                </div>
             </div>
 
                 <!-- Header Section -->

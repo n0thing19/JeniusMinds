@@ -48,15 +48,15 @@
 
             <div class="p-8">
                 <div class="flex justify-center mb-4"> 
-                <a href="/" class="flex items-center space-x-3 group">
-                    <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="rounded-full w-12 h-12">
-                    <span class="text-3xl font-bold text-gray-800">Jenius Minds</span>
-                </a>
-            </div>
+                    <div class="flex items-center space-x-3 group">
+                        <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="rounded-full w-12 h-12">
+                        <span class="text-3xl font-bold text-gray-800">Jenius Minds</span>
+                    </div>
+                </div>
 
                 <div class="mb-2">
-                <h1 class="text-2xl text-center font-bold text-gray-800 mb-2">Create Account</h1>
-                <p class="text-gray-500 text-center mb-6">It's free and only takes a minute.</p>
+                    <h1 class="text-2xl text-center font-bold text-gray-800 mb-2">Create Account</h1>
+                    <p class="text-gray-500 text-center mb-6">It's free and only takes a minute.</p>
                 </div>
 
                 <form action="{{ route('register') }}" method="POST" class="space-y-5">
