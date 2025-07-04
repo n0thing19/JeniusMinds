@@ -14,33 +14,52 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #FFFBF5;
-            padding-bottom: 100px; /* Ruang untuk footer navigasi */
         }
-        .brand-pink-light { background-color: #FDECE7; }
+        .brand-pink-light { background-color: #FFFBF5; }
         .brand-pink-dark-bg { background-color: #F5B9B0; }
         .brand-border { border-color: #F3EAE6; }
 
         .answer-card {
-            background-color: #FDECE7;
-            border: 3px solid transparent;
+            background-color: #FFE2D6;
+            border: 5px solid transparent;
             transition: all 0.3s ease;
         }
         .answer-card.correct {
-            border-color: #34D399; /* Green-400 */
-            box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
+            border-color: #45862E; /* Green-400 */
+            box-shadow: 0 0 20px rgba(47, 201, 145, 0.3);
         }
         .answer-card.incorrect {
-            border-color: #EF4444; /* Red-500 */
+            border-color: #A62828; /* Red-500 */
+            box-shadow: 0 0 20px rgba(231, 69, 69, 0.3);
         }
 
+        /* --- Updated Footer Styles --- */
         .question-nav-btn {
             transition: all 0.2s ease;
+            flex-shrink: 0; /* Prevents buttons from shrinking */
+            font-weight: 700;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 2px solid #F3EAE6; /* Consistent border */
+            width: 56px; /* w-14 */
+            height: 56px; /* h-14 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        
         .question-nav-btn.active {
-            background-color: #F5B9B0;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px -2px rgba(238, 169, 157, 0.5);
+            background-color: #FFE3D6;
+            color: black;
+            border-color: #F7B5A3; /* Use a different border color for active state */
+        }
+
+        /* Utility to hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
     </style>
 </head>
@@ -63,10 +82,10 @@
     </header>
 
     <!-- ===== Konten Editor Utama ===== -->
-    <main class="container mx-auto px-6 py-8">
+    <main class="container mx-auto px-8 py-16">
         
         <!-- Kotak Pertanyaan -->
-        <div class="bg-brand-pink-light p-6 rounded-2xl shadow-lg mb-8">
+        <div class="bg-[#F7B5A3] p-12 rounded-xl shadow-lg mb-10">
             <textarea 
                 rows="3" 
                 placeholder="Type Question Here" 
@@ -75,9 +94,9 @@
         </div>
 
         <!-- Grid Opsi Jawaban -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Jawaban Benar -->
-            <div class="answer-card correct p-4 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card correct p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     value="Type Answer Here" 
@@ -86,7 +105,7 @@
                 >
             </div>
             <!-- Jawaban Salah -->
-            <div class="answer-card incorrect p-4 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     value="Type Answer Here" 
@@ -95,7 +114,7 @@
                 >
             </div>
             <!-- Jawaban Salah -->
-            <div class="answer-card incorrect p-4 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     value="Type Answer Here" 
@@ -104,7 +123,7 @@
                 >
             </div>
             <!-- Jawaban Salah -->
-            <div class="answer-card incorrect p-4 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     value="Type Answer Here" 
@@ -116,18 +135,37 @@
         
     </main>
 
-    <!-- ===== Navigasi Bawah ===== -->
-    <footer class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm p-4 border-t brand-border">
-        <div class="container mx-auto flex items-center justify-center space-x-2">
-            <button class="question-nav-btn bg-gray-200 px-5 py-3 rounded-lg font-bold">Settings</button>
-            <button class="question-nav-btn bg-brand-pink-light w-12 h-12 rounded-lg font-bold active">1</button>
-            <button class="question-nav-btn bg-brand-pink-light w-12 h-12 rounded-lg font-bold">2</button>
-            <button class="question-nav-btn bg-brand-pink-light w-12 h-12 rounded-lg font-bold">3</button>
-            <button class="question-nav-btn bg-brand-pink-light w-12 h-12 rounded-lg font-bold">4</button>
-            <button class="question-nav-btn bg-brand-pink-light w-12 h-12 rounded-lg font-bold">5</button>
-            <button class="question-nav-btn bg-brand-pink-light w-12 h-12 rounded-lg font-bold">6</button>
-            <button class="question-nav-btn bg-brand-pink-light w-12 h-12 rounded-lg font-bold">7</button>
-            <button class="bg-gray-800 text-white w-12 h-12 rounded-lg font-bold text-2xl hover:bg-gray-700 transition-transform hover:scale-105">+</button>
+    <!-- ===== Navigasi Bawah (Updated) ===== -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-[#FFFBF5] p-4 border-t brand-border">
+        <div class="container mx-auto flex items-center justify-between space-x-4">
+            
+            <!-- Tombol Settings (Kiri) -->
+            <button class="bg-[#F7B5A3] text-sm text-black px-4 h-14 rounded-xl font-bold flex items-center flex-shrink-0 hover:brightness-105 transition">Settings</button>
+            
+            <!-- Kontainer Nomor Pertanyaan yang Bisa di-scroll -->
+            <div class="flex-grow overflow-x-auto no-scrollbar">
+                <div class="flex justify-start items-center space-x-2 px-2">
+                    <button class="question-nav-btn px-12 py-5 active">1</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">2</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">3</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">4</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">5</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">6</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">7</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">8</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">9</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">10</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">11</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">12</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">13</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">14</button>
+                    <button class="question-nav-btn bg-brand-pink-light px-12 py-5">15</button>
+                </div>
+            </div>
+            
+            <!-- Tombol Tambah (Kanan) -->
+            <button class="bg-gray-800 text-white w-14 h-14 rounded-xl font-bold text-2xl hover:bg-gray-700 transition-transform hover:scale-105 flex-shrink-0 flex items-center justify-center">+</button>
+
         </div>
     </footer>
 
