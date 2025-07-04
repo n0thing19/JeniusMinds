@@ -34,23 +34,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: white;
-            border-radius: 0.75rem; /* 12px */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
         
         .icon-box .fa-square, .icon-box .fa-check-square {
             font-size: 2rem; /* 32px */
-            color: #F5B9B0;
+            color: #000000;
         }
         .icon-box .fa-layer-group {
             font-size: 1.8rem;
-            color: #F5B9B0;
+            color: #000000;
         }
          .icon-box .custom-icon-text {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #F5B9B0;
+            color: #000000;
         }
     </style>
 </head>
@@ -85,7 +82,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <a href={{ route('quizaddbutton') }}>
             <!-- Tombol -->
-            <div class="question-type-card bg-brand-pink-light p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
+            <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
                         <i class="far fa-square"></i>
                     </div>
@@ -97,7 +94,7 @@
             </a>
             <!-- Checkbox -->
             <a href={{ route('quizaddcheckbox') }}>
-            <div class="question-type-card bg-brand-pink-light p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
+            <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
                     <i class="far fa-check-square"></i>
                 </div>
@@ -109,7 +106,7 @@
             </a>
             <!-- Reorder -->
             <a href={{ route('quizaddreorder') }}>
-            <div class="question-type-card bg-brand-pink-light p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
+            <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
                     <i class="fas fa-layer-group"></i>
                  </div>
@@ -121,7 +118,7 @@
             </a>
             <!-- Type Answer -->
             <a href={{ route('quiztypeanswer') }}>
-            <div class="question-type-card bg-brand-pink-light p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
+            <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
                     <span class="custom-icon-text">Aa</span>
                  </div>
