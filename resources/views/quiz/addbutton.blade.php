@@ -90,7 +90,7 @@
                 rows="3" 
                 placeholder="Type Question Here" 
                 class="w-full bg-transparent text-2xl font-bold placeholder:text-gray-500/80 focus:outline-none resize-none"
-            >Type Question Here</textarea>
+            ></textarea>
         </div>
 
         <!-- Grid Opsi Jawaban -->
@@ -99,7 +99,6 @@
             <div class="answer-card correct p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
-                    value="Type Answer Here" 
                     placeholder="Type Answer Here" 
                     class="w-full bg-transparent text-lg font-semibold focus:outline-none"
                 >
@@ -108,7 +107,6 @@
             <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
-                    value="Type Answer Here" 
                     placeholder="Type Answer Here" 
                     class="w-full bg-transparent text-lg font-semibold focus:outline-none"
                 >
@@ -117,7 +115,6 @@
             <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
-                    value="Type Answer Here" 
                     placeholder="Type Answer Here" 
                     class="w-full bg-transparent text-lg font-semibold focus:outline-none"
                 >
@@ -126,7 +123,6 @@
             <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
-                    value="Type Answer Here" 
                     placeholder="Type Answer Here" 
                     class="w-full bg-transparent text-lg font-semibold focus:outline-none"
                 >

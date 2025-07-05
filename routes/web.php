@@ -2,41 +2,42 @@
 
 use App\Http\Controllers\AuthContoller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QuizController;
+use Illuminate\Routing\RouteRegistrar;
+
 
 Route::get('/', function () {
-    return view('app');
+    return view('homepage.index');
 });
 
+// --- Authentication Routes ---
+// Routes for guests (users who are not logged in)
 Route::controller(AuthContoller::class)
     ->group(function () {
         Route::get('/signin', 'signin')->name('signin');
         Route::post('/signin', 'authenticate')->name('authenticate');
         Route::get('/signup', 'signup')->name('signup');
         Route::post('/signup', 'register')->name('register');
-        Route::post('/signout', 'signout')->name('signout');
     });
 
-Route::get('/quizeditor', function () {
-    return view('quiz.editor');
-})->name('quizeditor'); 
-
-Route::get('/quizaddbutton', function () {
-    return view('quiz.addbutton');
-})->name('quizaddbutton');
-
-Route::get('/quizaddcheckbox', function () {
-    return view('quiz.addcheckbox');
-})->name('quizaddcheckbox');
-
-Route::get('/quiztypeanswer', function () {
-    return view('quiz.addtypeanswer');
-})->name('quiztypeanswer');
-
-Route::get('/quizreorder', function () {
-    return view('quiz.addreorder');
-})->name('quizaddreorder');
+// --- Protected Routes ---
+// Routes that require a user to be authenticated
+Route::middleware('auth')->group(function () {
+    // It's good practice to protect the signout route
+    Route::post('/signout', [AuthContoller::class, 'signout'])->name('signout');
+    quizeditor();
+});
 
 
-
-
-
+function quizeditor(): RouteRegistrar{
+    return Route::controller(QuizController::class)
+        ->prefix('quiz')
+        ->name('quiz.')
+        ->group(function () {
+            Route::get('/editor', 'editor')->name('editor');
+            Route::get('/addbutton', 'addbutton')->name('addbutton');
+            Route::get('/addcheckbox', 'addcheckbox')->name('addcheckbox');
+            Route::get('/typeanswer', 'addtypeanswer')->name('typeanswer');
+            Route::get('/reorder', 'addreorder')->name('addreorder');
+        });
+}

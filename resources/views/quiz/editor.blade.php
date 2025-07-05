@@ -80,7 +80,7 @@
         <h1 class="text-center text-4xl font-extrabold text-gray-800 mb-12">ADD QUESTIONS</h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <a href={{ route('quizaddbutton') }}>
+            <a href={{ route('quiz.addbutton') }}>
             <!-- Tombol -->
             <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
@@ -93,7 +93,7 @@
                 </div>
             </a>
             <!-- Checkbox -->
-            <a href={{ route('quizaddcheckbox') }}>
+            <a href={{ route('quiz.addcheckbox') }}>
             <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
                     <i class="far fa-check-square"></i>
@@ -105,7 +105,7 @@
             </div>
             </a>
             <!-- Reorder -->
-            <a href={{ route('quizaddreorder') }}>
+            <a href={{ route('quiz.addreorder') }}>
             <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
                     <i class="fas fa-layer-group"></i>
@@ -117,7 +117,7 @@
             </div>
             </a>
             <!-- Type Answer -->
-            <a href={{ route('quiztypeanswer') }}>
+            <a href={{ route('quiz.typeanswer') }}>
             <div class="question-type-card bg-[#F7B5A3] p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
                 <div class="icon-box">
                     <span class="custom-icon-text">Aa</span>
