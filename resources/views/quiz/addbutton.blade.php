@@ -82,7 +82,7 @@
     </header>
 
     <!-- ===== Konten Editor Utama ===== -->
-    <main class="container mx-auto px-8 py-16">
+    <main class="container mx-auto px-8 py-8">
         
         <!-- Kotak Pertanyaan -->
         <div class="bg-[#F7B5A3] p-12 rounded-xl shadow-lg mb-10">
@@ -96,7 +96,7 @@
         <!-- Grid Opsi Jawaban -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Jawaban Benar -->
-            <div class="answer-card correct p-6 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card correct p-8 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     placeholder="Type Answer Here" 
@@ -104,7 +104,7 @@
                 >
             </div>
             <!-- Jawaban Salah -->
-            <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card incorrect p-8 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     placeholder="Type Answer Here" 
@@ -112,7 +112,7 @@
                 >
             </div>
             <!-- Jawaban Salah -->
-            <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card incorrect p-8 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     placeholder="Type Answer Here" 
@@ -120,7 +120,7 @@
                 >
             </div>
             <!-- Jawaban Salah -->
-            <div class="answer-card incorrect p-6 rounded-2xl flex items-center shadow-md">
+            <div class="answer-card incorrect p-8 rounded-2xl flex items-center shadow-md">
                 <input 
                     type="text" 
                     placeholder="Type Answer Here" 
