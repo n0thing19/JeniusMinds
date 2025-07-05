@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="h-full overflow-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,42 +14,24 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #FFFBF5;
-            padding-bottom: 100px; /* Ruang untuk footer navigasi */
         }
         .brand-pink-light { background-color: #FFFBF5; }
         .brand-pink-dark-bg { background-color: #F5B9B0; }
         .brand-border { border-color: #F3EAE6; }
 
+        /* --- Answer Card Styles --- */
         .answer-card {
             background-color: #FFE2D6;
-            border: 5px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .question-nav-btn {
+            border: 3px solid transparent;
             transition: all 0.2s ease;
-            flex-shrink: 0; /* Prevents buttons from shrinking */
-            font-weight: 700;
-            border-radius: 0.75rem; /* rounded-xl */
-            border: 2px solid #F3EAE6; /* Consistent border */
-            width: 56px; /* w-14 */
-            height: 56px; /* h-14 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            cursor: pointer;
         }
-
-        .question-nav-btn.active {
-            background-color: #FFE3D6;
-            color: black;
-            border-color: #F7B5A3; /* Use a different border color for active state */
-        }
-
-        /* Styling untuk checkbox kustom */
+        
+        /* --- Custom Checkbox Styles --- */
         .custom-checkbox {
             width: 28px;
             height: 28px;
-            border: 3px solid #F5B9B0;
+            border: 3px solid rgb(248, 132, 100);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -57,107 +39,118 @@
             flex-shrink: 0;
             transition: all 0.2s ease;
         }
-        .custom-checkbox.checked {
-            background-color: #F5B9B0;
-            border-color: #F5B9B0;
+
+        .custom-checkbox i {
+            display: none; /* Hide icon by default */
         }
-        .custom-checkbox.checked i {
-            display: block;
+        
+        /* --- Selected State Styles --- */
+        .answer-card.selected {
+            border-color:rgb(224, 126, 65);
+            background-color:rgb(240, 207, 187);
         }
 
-        /* Utility to hide scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        .answer-card.selected .custom-checkbox {
+            background-color: rgb(228, 167, 129);
+            border-color: rgb(224, 126, 65);
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+
+        .answer-card.selected .custom-checkbox i {
+            display: block; /* Show icon when selected */
         }
+
+
+        /* --- Footer Button Styles --- */
+        .question-nav-btn {
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            border: 2px solid #F3EAE6;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .question-nav-btn.active {
+            background-color: #FFE3D6;
+            color: black;
+            border-color: #F7B5A3;
+        }
+
+        /* --- Scrollbar Utility --- */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-gray-700">
+<body class="h-full text-gray-700">
 
-    <!-- ===== Bagian Header ===== -->
-    <header class="bg-[#FFFBF5] z-20">
-        <div class="container mx-auto px-6 py-3 border-b-2 brand-border">
-            <div class="flex justify-between items-center">
-                <a href="/" class="flex items-center space-x-3 group">
-                    <img src="https://placehold.co/56x56/F4E0DA/000?text=JM" alt="Logo Jenius Minds" class="w-14 h-14 rounded-full">
-                    <span class="text-xl font-bold text-gray-800 group-hover:text-pink-500 transition-colors">Jenius Minds</span>
-                </a>
-                <div class="flex items-center space-x-4">
-                    <a href="#" class="text-gray-600 hover:text-pink-500 font-medium transition-colors">Sign In</a>
-                    <a href="#" class="bg-brand-pink-dark-bg text-white px-6 py-2 rounded-lg font-bold shadow-sm hover:brightness-105 transition">Sign Up</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <!-- Main application wrapper for layout -->
+    <div class="flex flex-col h-full">
 
-    <!-- ===== Konten Editor Utama ===== -->
-    <main class="container mx-auto px-8 py-16">
-        
-        <!-- Kotak Pertanyaan -->
-        <div class="bg-[#F7B5A3] p-12 rounded-xl shadow-lg mb-10">
-            <textarea 
-                rows="3" 
-                placeholder="Type Question Here" 
-                class="w-full bg-transparent text-2xl font-bold placeholder:text-gray-500/80 focus:outline-none resize-none"
-            >Type Question Here</textarea>
-        </div>
+        <!-- ===== Bagian Header (Fixed) ===== -->
+        <header class="bg-[#FFFBF5] z-20 flex-shrink-0">
+            <div class="container mx-auto px-6 py-3 border-b-2 brand-border">
+                <div class="flex justify-between items-center">
+                    <a href="/" class="flex items-center space-x-3 group">
+                        <img src="https://placehold.co/56x56/F4E0DA/000?text=JM" alt="Logo Jenius Minds" class="w-14 h-14 rounded-full">
+                        <span class="text-xl font-bold text-gray-800 group-hover:text-pink-500 transition-colors">Jenius Minds</span>
+                    </a>
+                    <div class="flex items-center space-x-4">
+                        <a href="#" class="text-gray-600 hover:text-pink-500 font-medium transition-colors">Sign In</a>
+                        <a href="#" class="bg-brand-pink-dark-bg text-white px-6 py-2 rounded-lg font-bold shadow-sm hover:brightness-105 transition">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-        <!-- Grid Opsi Jawaban -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Opsi 1 (Checked) -->
-            <div class="answer-card p-6 rounded-2xl flex items-center justify-between shadow-md">
-                <input 
-                    type="text" 
-                    value="Type Answer Here" 
-                    placeholder="Type Answer Here" 
-                    class="w-full bg-transparent text-lg font-semibold focus:outline-none"
-                >
-                <div class="custom-checkbox checked ml-4">
-                    <i class="fas fa-check text-white text-lg"></i>
+        <!-- ===== Konten Editor Utama (Scrollable) ===== -->
+        <main class="flex-grow overflow-y-auto">
+            <div class="container mx-auto px-8 py-16">
+                <!-- Kotak Pertanyaan -->
+                <div class="bg-[#F7B5A3] p-12 rounded-xl shadow-lg mb-10">
+                    <textarea 
+                        rows="3" 
+                        placeholder="Type Question Here" 
+                        class="w-full bg-transparent text-2xl font-bold placeholder:text-gray-500/80 focus:outline-none resize-none"
+                    >Type Question Here</textarea>
+                </div>
+
+                <!-- Grid Opsi Jawaban (Selectable) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Opsi 1 -->
+                    <div class="answer-card p-8 rounded-2xl flex items-center justify-between shadow-md" onclick="toggleSelect(this)">
+                        <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none placeholder:text-gray-500/80">
+                        <div class="custom-checkbox ml-4">
+                            <i class="fas fa-check text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <!-- Opsi 2 (Selected Example) -->
+                    <div class="answer-card selected p-8 rounded-2xl flex items-center justify-between shadow-md" onclick="toggleSelect(this)">
+                        <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none placeholder:text-gray-500/80">
+                        <div class="custom-checkbox ml-4">
+                            <i class="fas fa-check text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <!-- Opsi 3 -->
+                    <div class="answer-card p-8 rounded-2xl flex items-center justify-between shadow-md" onclick="toggleSelect(this)">
+                        <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none placeholder:text-gray-500/80">
+                        <div class="custom-checkbox ml-4">
+                            <i class="fas fa-check text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <!-- Opsi 4 -->
+                    <div class="answer-card p-8 rounded-2xl flex items-center justify-between shadow-md" onclick="toggleSelect(this)">
+                        <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none placeholder:text-gray-500/80">
+                        <div class="custom-checkbox ml-4">
+                            <i class="fas fa-check text-white text-lg"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Opsi 2 (Unchecked) -->
-            <div class="answer-card p-6 rounded-2xl flex items-center justify-between shadow-md">
-                <input 
-                    type="text" 
-                    value="Type Answer Here" 
-                    placeholder="Type Answer Here" 
-                    class="w-full bg-transparent text-lg font-semibold focus:outline-none"
-                >
-                 <div class="custom-checkbox ml-4">
-                    <i class="fas fa-check text-white text-lg hidden"></i>
-                </div>
-            </div>
-            <!-- Opsi 3 (Checked) -->
-            <div class="answer-card p-6 rounded-2xl flex items-center justify-between shadow-md">
-                <input 
-                    type="text" 
-                    value="Type Answer Here" 
-                    placeholder="Type Answer Here" 
-                    class="w-full bg-transparent text-lg font-semibold focus:outline-none"
-                >
-                 <div class="custom-checkbox checked ml-4">
-                    <i class="fas fa-check text-white text-lg"></i>
-                </div>
-            </div>
-            <!-- Opsi 4 (Unchecked) -->
-            <div class="answer-card p-6 rounded-2xl flex items-center justify-between shadow-md">
-                <input 
-                    type="text" 
-                    value="Type Answer Here" 
-                    placeholder="Type Answer Here" 
-                    class="w-full bg-transparent text-lg font-semibold focus:outline-none"
-                >
-                 <div class="custom-checkbox ml-4">
-                    <i class="fas fa-check text-white text-lg hidden"></i>
-                </div>
-            </div>
-        </div>
-        
-    </main>
+        </main>
 
     <!-- ===== Navigasi Bawah (Updated) ===== -->
     <footer class="fixed bottom-0 left-0 right-0 bg-[#FFFBF5] p-4 border-t brand-border">
@@ -193,6 +186,15 @@
         </div>
     </footer>
 
+    </div>
+
+    <script>
+        // Function to toggle the 'selected' class on the answer card
+        function toggleSelect(cardElement) {
+            // This allows selecting multiple answers.
+            cardElement.classList.toggle('selected');
+        }
+    </script>
 
 </body>
 </html>
