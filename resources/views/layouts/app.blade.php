@@ -54,8 +54,8 @@
 
                 <div class="flex items-center space-x-4">
                     @guest
-                        <a href="{{-- route('signin') --}}" class="text-gray-600 hover:text-[#EEA99D] font-medium transition-colors">Sign In</a>
-                        <a href="{{-- route('signup') --}}" class="btn-gradient text-black px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
+                        <a href="{{ route('signin') }}" class="text-gray-600 hover:text-[#EEA99D] font-medium transition-colors">Sign In</a>
+                        <a href="{{ route('signup') }}" class="btn-gradient text-black px-6 py-2 rounded-full font-bold shadow-md">Sign Up</a>
                     @else
                         <div x-data="{ open: false }" class="relative">
                             <button @click="open = !open" class="w-10 h-10 rounded-full overflow-hidden border-2 border-pink-200 hover:border-pink-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-400 transition">
@@ -68,8 +68,8 @@
                                         <p class="text-sm text-gray-500">Signed in as</p>
                                         <p class="text-base font-semibold text-gray-800 truncate">{{ Auth::user()->name }}</p>
                                     </div>
-                                    <a href="#" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fas fa-user-circle w-5 mr-3 text-gray-500"></i> Profile</a>
-                                    <form method="POST" action="{{-- route('signout') --}}">
+                                    <a href="{{ route('profile') }}" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fas fa-user-circle w-5 mr-3 text-gray-500"></i> Profile</a>
+                                    <form method="POST" action="{{ route('signout') }}">
                                         @csrf
                                         <button type="submit" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"><i class="fas fa-sign-out-alt w-5 mr-3 text-gray-500"></i> Sign Out</button>
                                     </form>
