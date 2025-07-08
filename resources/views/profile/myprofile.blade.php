@@ -42,7 +42,7 @@
         <div class="flex items-center space-x-4">
             {{-- Ganti dengan nama pengguna yang sebenarnya --}}
             <h1 class="text-4xl font-bold text-gray-800">Misellin Mindany</h1>
-            <a href="{{ route('editprofile') }}" class="text-gray-500 hover:text-gray-800 transition-colors">
+            <a href="{{ route('profile.edit') }}" class="text-gray-500 hover:text-gray-800 transition-colors">
                 <i class="fas fa-pencil-alt text-2xl"></i>
             </a>
         </div>
