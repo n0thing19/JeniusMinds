@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthContoller;
 use App\Http\Controllers\QuizController;
-use App\Http\Controllers\ProfileController; // Tambahkan ini
+use App\Http\Controllers\ProfileController;
 use Illuminate\Routing\RouteRegistrar;
 
 Route::get('/', function () {
@@ -26,15 +26,12 @@ Route::middleware('auth')->group(function () {
         ->group(function() {
             Route::get('/', 'show')->name('show');
             Route::get('/edit', 'edit')->name('edit');
-            // Route::put('/update', 'update')->name('update'); // Tambahkan ini nanti untuk proses update
     });
 
-    // --- Rute Quiz Editor ---
     quizeditor();
 });
 
 
-// Helper function untuk rute quiz
 function quizeditor(): RouteRegistrar
 {
     return Route::controller(QuizController::class)
