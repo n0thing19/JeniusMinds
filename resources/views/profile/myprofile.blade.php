@@ -5,7 +5,7 @@
 @push('styles')
 <style>
     body {
-        background-color: #FFFBF5;
+        background-color: #FFFAF3;
     }
     .brand-pink-dark-bg { background-color: #F5B9B0; }
     
@@ -55,18 +55,16 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {{-- Loop melalui kuis milik pengguna --}}
             <!-- Kartu Kuis 1 -->
-            <div class="quiz-card bg-gray-100 p-6 rounded-2xl">
+            <div class="quiz-card bg-[#F5F5F5] p-8 rounded-2xl">
                 <h3 class="font-bold text-xl text-gray-800 mb-4">Mathematics</h3>
                 <p class="text-sm text-gray-500">Created : 23 Jun 2025</p>
             </div>
 
             <!-- Kartu Kuis 2 -->
-            <div class="quiz-card bg-purple-100 p-6 rounded-2xl">
+            <div class="quiz-card bg-[#DEDDE8] p-8 rounded-2xl">
                 <h3 class="font-bold text-xl text-gray-800 mb-4">Computers</h3>
                 <p class="text-sm text-gray-500">Created : 21 Jun 2025</p>
             </div>
-
-            {{-- Anda bisa menambahkan lebih banyak kartu kuis di sini secara dinamis --}}
 
         </div>
     </section>
