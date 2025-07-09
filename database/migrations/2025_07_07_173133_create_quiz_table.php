@@ -30,8 +30,9 @@ return new class extends Migration
             $table->string('topic_name');
             
             // Foreign key ke tabel 'subjects'
+            // PERBAIKAN: Menambahkan nama kolom referensi 'subject_id'
             $table->foreignId('subject_id')
-                  ->constrained('subjects')
+                  ->constrained(table: 'subjects', column: 'subject_id')
                   ->onDelete('cascade'); // Jika subject dihapus, topic ikut terhapus
         });
 
@@ -41,13 +42,15 @@ return new class extends Migration
             $table->text('question_text'); // Gunakan text untuk pertanyaan yang lebih panjang
 
             // Foreign key ke tabel 'topics'
+            // PERBAIKAN: Menambahkan nama kolom referensi 'topic_id'
             $table->foreignId('topic_id')
-                  ->constrained('topics')
+                  ->constrained(table: 'topics', column: 'topic_id')
                   ->onDelete('cascade');
 
             // Foreign key ke tabel 'question_types'
+            // PERBAIKAN: Menambahkan nama kolom referensi 'q_type_id'
             $table->foreignId('q_type_id')
-                  ->constrained('question_types');
+                  ->constrained(table: 'question_types', column: 'q_type_id');
             
             // Kolom 'correct_ans' dihapus karena informasinya dikelola di tabel 'choices'
         });
@@ -62,18 +65,20 @@ return new class extends Migration
             $table->unsignedInteger('correct_order')->nullable(); 
 
             // Foreign key ke tabel 'questions'
+            // PERBAIKAN: Menambahkan nama kolom referensi 'question_id'
             $table->foreignId('question_id')
-                  ->constrained('questions')
+                  ->constrained(table: 'questions', column: 'question_id')
                   ->onDelete('cascade'); // Jika pertanyaan dihapus, pilihan jawaban ikut terhapus
         });
     }
 
     /**
      * Reverse the migrations.
-     * (Anda harus menambahkan fungsi down() dengan urutan terbalik)
+     * (Fungsi down() sudah benar dengan urutan terbalik)
      */
     public function down(): void
     {
+        // Urutan drop sudah benar, dari tabel yang memiliki foreign key ke tabel yang dirujuk.
         Schema::dropIfExists('choices');
         Schema::dropIfExists('questions');
         Schema::dropIfExists('topics');

@@ -14,9 +14,9 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #FFFBF5;
+            background-color: #FFFAF3;
         }
-        .brand-pink-dark-bg { background-color: #F5B9B0; }
+        .brand-pink-dark-bg { background-color: #F7B5A3; }
         .brand-border { border-color: #F3EAE6; }
         
         .form-input-group {
@@ -84,7 +84,7 @@
                     <div class="flex items-center space-x-6 mb-8">
                         <img class="w-24 h-24 rounded-full object-cover" src="https://placehold.co/100x100/FDECE7/CC6C4F?text=M" alt="Foto Profil">
                         <div>
-                            <button type="button" class="bg-brand-pink-dark-bg text-white px-5 py-2 rounded-lg font-semibold hover:brightness-105 transition">Upload new picture</button>
+                            <button type="button" class="bg-[#F7B5A3] text-black px-5 py-2 rounded-lg font-semibold hover:brightness-105 transition">Upload picture</button>
                             <p class="text-sm text-gray-500 mt-2">PNG, JPG, GIF up to 10MB.</p>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                 <!-- Tombol Aksi Utama -->
                 <div class="flex justify-end items-center space-x-6 pt-4">
                     <a href="#" class="font-bold text-gray-600 hover:text-gray-900 transition-colors">Cancel</a>
-                    <button type="submit" class="bg-brand-pink-dark-bg text-white px-8 py-3 rounded-lg font-bold shadow-md hover:brightness-105 transition-transform hover:scale-105">Save Changes</button>
+                    <button type="submit" class="bg-[#F7B5A3] text-black px-8 py-3 rounded-lg font-bold shadow-md hover:brightness-105 transition-transform hover:scale-105">Save Changes</button>
                 </div>
             </form>
         </div>
