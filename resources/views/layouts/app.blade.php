@@ -68,7 +68,7 @@
                                         <p class="text-sm text-gray-500">Signed in as</p>
                                         <p class="text-base font-semibold text-gray-800 truncate">{{ Auth::user()->name }}</p>
                                     </div>
-                                    <a href="{{ route('profile') }}" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fas fa-user-circle w-5 mr-3 text-gray-500"></i> Profile</a>
+                                    <a href="{{ route('profile.show') }}" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fas fa-user-circle w-5 mr-3 text-gray-500"></i> Profile</a>
                                     <form method="POST" action="{{ route('signout') }}">
                                         @csrf
                                         <button type="submit" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"><i class="fas fa-sign-out-alt w-5 mr-3 text-gray-500"></i> Sign Out</button>
