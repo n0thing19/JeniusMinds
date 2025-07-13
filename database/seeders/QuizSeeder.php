@@ -289,6 +289,34 @@ class QuizSeeder extends Seeder
             ], 
         ]);
 
+<<<<<<<<< Temporary merge branch 1
+        // Ambil ID yang diperlukan untuk tabel 'choices' menggunakan DB::table()
+        $question1 = DB::table('questions')->where('question_text', 'Bentuk sederhana dari 5(2x-1) - (x+7) adalah…')->first()->question_id;
+        $question2 = DB::table('questions')->where('question_text', 'Jika a = -3 dan b = 4, maka nilai dari 2a² - b adalah…')->first()->question_id;
+        $question3 = DB::table('questions')->where('question_text', 'Penyelesaian dari persamaan 4p + 12 = 7 - p adalah…')->first()->question_id;
+        $question4 = DB::table('questions')->where('question_text', 'Gradien dari garis yang melalui titik (2,1) dan (4,5) adalah…')->first()->question_id;
+        $question5 = DB::table('questions')->where('question_text', 'Hasil pemfaktoran dari x² - 10x + 21 adalah…')->first()->question_id;
+        $question6 = DB::table('questions')->where('question_text', 'Sederhanakan ekspresi aljabar berikut: 7y - (4y-9) = _____')->first()->question_id;
+        $question7 = DB::table('questions')->where('question_text', 'Tentukan himpunan penyelesaian dari sistem persamaan: x + y = 10 dan x - y = 4. (Tulis dalam format x=…, y=…)')->first()->question_id;
+        $question8 = DB::table('questions')->where('question_text', 'Manakah ekspresi berikut yang ekuivalen (setara) dengan (2x-3)²?')->first()->question_id;
+        $question9 = DB::table('questions')->where('question_text', 'Manakah di antara nilai-nilai x berikut yang merupakan solusi dari pertidaksamaan 2x - 1 ≤ 7?')->first()->question_id;
+        $question10 = DB::table('questions')->where('question_text', 'Urutkan langkah-langkah berikut untuk menyelesaikan persamaan 2(x - 1) = 8:')->first()->question_id;
+        $question11 = DB::table('questions')->where('question_text', 'The manager was **candid** about the companys financial problems. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question12 = DB::table('questions')->where('question_text', 'Her **diligent** work on the project paid off with a promotion. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question13 = DB::table('questions')->where('question_text', 'Smartphones have become **ubiquitous** in modern society. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question14 = DB::table('questions')->where('question_text', 'The monk lived an **austere** life with few possessions. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question15 = DB::table('questions')->where('question_text', 'The **benevolent** king was loved by all his subjects. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question16 = DB::table('questions')->where('question_text', 'The rainforest has an **abundant** supply of water. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question17 = DB::table('questions')->where('question_text', 'The company plans to **expand** its operations next year. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question18 = DB::table('questions')->where('question_text', 'He is a **frequent** visitor to the local library. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question19 = DB::table('questions')->where('question_text', 'The horse was **docile** and easy for the children to ride. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question20 = DB::table('questions')->where('question_text', 'The water in the lake was so clear it was almost **transparant**. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question21 = DB::table('questions')->where('question_text', 'A good leader must have ________ for the people they are leading. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question22 = DB::table('questions')->where('question_text', 'Despite facing many setbacks, the team remained ________ and eventually succeeded. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question23 = DB::table('questions')->where('question_text', 'The instructions for the device were ________, which made it difficult to assemble. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question24 = DB::table('questions')->where('question_text', 'Looking at old photographs often fills me with a sense of ________. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question25 = DB::table('questions')->where('question_text', 'After the big meal, I felt ________ and just wanted to take a nap. (Fill in the blank with the most appropriate word)')->first()->question_id;
+=========
         // Ambil ID yang diperlukan untuk tabel 'choices' menggunakan model Question
         $question1 = Question::where('question_text', 'Bentuk sederhana dari 5(2x-1) - (x+7) adalah…')->first()->question_id;
         $question2 = Question::where('question_text', 'Jika a = -3 dan b = 4, maka nilai dari 2a² - b adalah…')->first()->question_id;
@@ -300,22 +328,7 @@ class QuizSeeder extends Seeder
         $question8 = Question::where('question_text', 'Manakah ekspresi berikut yang ekuivalen (setara) dengan (2x-3)²?')->first()->question_id;
         $question9 = Question::where('question_text', 'Manakah di antara nilai-nilai x berikut yang merupakan solusi dari pertidaksamaan 2x - 1 ≤ 7?')->first()->question_id;
         $question10 = Question::where('question_text', 'Urutkan langkah-langkah berikut untuk menyelesaikan persamaan 2(x - 1) = 8:')->first()->question_id;
-        $question11 = Question::where('question_text', 'The manager was **candid** about the companys financial problems. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
-        $question12 = Question::where('question_text', 'Her **diligent** work on the project paid off with a promotion. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
-        $question13 = Question::where('question_text', 'Smartphones have become **ubiquitous** in modern society. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
-        $question14 = Question::where('question_text', 'The monk lived an **austere** life with few possessions. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
-        $question15 = Question::where('question_text', 'The **benevolent** king was loved by all his subjects. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
-        $question16 = Question::where('question_text', 'The rainforest has an **abundant** supply of water. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
-        $question17 = Question::where('question_text', 'The company plans to **expand** its operations next year. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
-        $question18 = Question::where('question_text', 'He is a **frequent** visitor to the local library. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
-        $question19 = Question::where('question_text', 'The horse was **docile** and easy for the children to ride. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
-        $question20 = Question::where('question_text', 'The water in the lake was so clear it was almost **transparant**. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
-        $question21 = Question::where('question_text', 'A good leader must have ________ for the people they are leading. (Fill in the blank with the most appropriate word)')->first()->question_id;
-        $question22 = Question::where('question_text', 'Despite facing many setbacks, the team remained ________ and eventually succeeded. (Fill in the blank with the most appropriate word)')->first()->question_id;
-        $question23 = Question::where('question_text', 'The instructions for the device were ________, which made it difficult to assemble. (Fill in the blank with the most appropriate word)')->first()->question_id;
-        $question24 = Question::where('question_text', 'Looking at old photographs often fills me with a sense of ________. (Fill in the blank with the most appropriate word)')->first()->question_id;
-        $question25 = Question::where('question_text', 'After the big meal, I felt ________ and just wanted to take a nap. (Fill in the blank with the most appropriate word)')->first()->question_id;
-
+>>>>>>>>> Temporary merge branch 2
 
         // 5. Isi tabel 'choices' menggunakan model Choice
         Choice::insert([
@@ -371,7 +384,7 @@ class QuizSeeder extends Seeder
             ['question_id' => $question10, 'choice_text' => 'B. Tuliskan persamaan awal', 'is_correct' => false, 'correct_order' => 1],
             ['question_id' => $question10, 'choice_text' => 'A. Bagi kedua sisi dengan 2', 'is_correct' => false, 'correct_order' => 2],
             ['question_id' => $question10, 'choice_text' => 'C. Tambahkan 1 kedua sisi', 'is_correct' => false, 'correct_order' => 3],
-            ['question_id' => $question10, 'choice_text' => 'D. Dapatkan solusi akhir x = 5', 'is_correct' => false, 'correct_order' => 4], // Mengoreksi '55' menjadi '5'
+<<<<<<<<< Temporary merge branch 1
             ['question_id' => $question10, 'choice_text' => 'D. Dapatkan solusi akhir x = 55', 'is_correct' => false, 'correct_order' => 4],
 
             // Pertanyaan 11
@@ -448,6 +461,9 @@ class QuizSeeder extends Seeder
 
             //Pertanyaan 25
             ['question_id' => $question25, 'choice_text' => 'Lethargic', 'is_correct' => true, 'correct_order' => null],
+=========
+            ['question_id' => $question10, 'choice_text' => 'D. Dapatkan solusi akhir x = 5', 'is_correct' => false, 'correct_order' => 4], // Mengoreksi '55' menjadi '5'
+>>>>>>>>> Temporary merge branch 2
         ]);
 
         // Aktifkan kembali foreign key checks
