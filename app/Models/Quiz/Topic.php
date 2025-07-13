@@ -5,6 +5,7 @@ namespace App\Models\Quiz;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\User;
 
 class Topic extends Model
 {
@@ -35,6 +36,13 @@ class Topic extends Model
         return $this->belongsTo(Subject::class, 'subject_id', 'subject_id');
     }
 
+    public function user()
+    {
+        // 'Subject::class' adalah model yang berelasi.
+        // 'subject_id' adalah foreign key di tabel 'topics'.
+        // 'subject_id' adalah local key di tabel 'subjects'.
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
     /**
      * Mendefinisikan relasi One-to-Many dengan model Question.
      * Sebuah Topic memiliki banyak Questions.

@@ -34,6 +34,10 @@ return new class extends Migration
             $table->foreignId('subject_id')
                   ->constrained(table: 'subjects', column: 'subject_id')
                   ->onDelete('cascade'); // Jika subject dihapus, topic ikut terhapus
+            $table->foreignId('user_id')
+                  ->nullable()
+                  ->constrained(table: 'users', column: 'id')
+                  ->onDelete('cascade');
         });
 
         // Tabel utama untuk menyimpan pertanyaan
