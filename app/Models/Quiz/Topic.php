@@ -4,6 +4,7 @@ namespace App\Models\Quiz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Topic extends Model
 {
@@ -44,5 +45,19 @@ class Topic extends Model
         // 'topic_id' adalah foreign key di tabel 'questions'.
         // 'topic_id' adalah local key di tabel 'topics'.
         return $this->hasMany(Question::class, 'topic_id', 'topic_id');
+    }
+
+    protected function modalData(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => [
+                'id' => $this->topic_id,
+                'topic_name' => $this->topic_name,
+                'subject_name' => $this->subject->subject_name,
+                'question_count' => $this->questions_count, // Dari withCount()
+                'image_url' => $this->image_url ?? 'https://placehold.co/600x400/F5F5F5/fbbf24?text=' . urlencode($this->topic_name), // Ganti dengan path gambar Anda jika ada
+                // Tambahkan data lain yang dibutuhkan di sini
+            ],
+        );
     }
 }

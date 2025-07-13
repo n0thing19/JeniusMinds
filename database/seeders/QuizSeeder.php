@@ -75,7 +75,7 @@ class QuizSeeder extends Seeder
             ['topic_name' => 'Calculus', 'subject_id' => $matematika],
             ['topic_name' => 'Statistics', 'subject_id' => $matematika],
             ['topic_name' => 'Vocabulary', 'subject_id' => $inggris],
-            ['topic_name' => 'Grammer', 'subject_id' => $inggris],
+            ['topic_name' => 'Grammar', 'subject_id' => $inggris],
             ['topic_name' => 'Reading', 'subject_id' => $inggris],
             ['topic_name' => 'Speaking', 'subject_id' => $inggris],
             ['topic_name' => 'Writing', 'subject_id' => $inggris],
@@ -127,12 +127,12 @@ class QuizSeeder extends Seeder
             ['topic_name' => 'Tennis', 'subject_id' => $sports],
             ['topic_name' => 'Athletics', 'subject_id' => $sports],
             ['topic_name' => 'Pinyin', 'subject_id' => $mandarin],
-            ['topic_name' => 'Grammer', 'subject_id' => $mandarin],
+            ['topic_name' => 'Grammar', 'subject_id' => $mandarin],
             ['topic_name' => 'Conversation', 'subject_id' => $mandarin],
             ['topic_name' => 'Writing', 'subject_id' => $mandarin],
             ['topic_name' => 'Culture', 'subject_id' => $mandarin],
             ['topic_name' => 'Swimming', 'subject_id' => $sports],
-            ['topic_name' => 'Stategy', 'subject_id' => $sports],
+            ['topic_name' => 'Strategy', 'subject_id' => $sports],
             ['topic_name' => 'Characters', 'subject_id' => $mandarin],
         ]);
 
