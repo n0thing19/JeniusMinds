@@ -206,6 +206,96 @@ class QuizSeeder extends Seeder
                 'topic_id' => $algebra,
                 'q_type_id' => $reorder,
             ],
+
+            [
+                'question_text' => 'The manager was **candid** about the companys financial problems. (Choose the word that is closest in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'Her **diligent** work on the project paid off with a promotion. (Choose the word that is closest in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'Smartphones have become **ubiquitous** in modern society. (Choose the word that is closest in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'The monk lived an **austere** life with few possessions. (Choose the word that is closest in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'The **benevolent** king was loved by all his subjects. (Choose the word that is closest in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'The rainforest has an **abundant** supply of water. (Choose the word that is opposite in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'The company plans to **expand** its operations next year. (Choose the word that is opposite in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'He is a **frequent** visitor to the local library. (Choose the word that is opposite in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'The horse was **docile** and easy for the children to ride. (Choose the word that is opposite in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'The water in the lake was so clear it was almost **transparant**. (Choose the word that is opposite in meaning to the bold word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $button,
+            ],
+
+            [
+                'question_text' => 'A good leader must have ________ for the people they are leading. (Fill in the blank with the most appropriate word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $typeAnswer,
+            ],
+
+            [
+                'question_text' => 'Despite facing many setbacks, the team remained ________ and eventually succeeded. (Fill in the blank with the most appropriate word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $typeAnswer,
+            ],            
+
+            [
+                'question_text' => 'The instructions for the device were ________, which made it difficult to assemble. (Fill in the blank with the most appropriate word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $typeAnswer,
+            ], 
+
+            [
+                'question_text' => 'Looking at old photographs often fills me with a sense of ________. (Fill in the blank with the most appropriate word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $typeAnswer,
+            ],            
+
+            [
+                'question_text' => 'After the big meal, I felt ________ and just wanted to take a nap. (Fill in the blank with the most appropriate word)',
+                'topic_id' => $vocabulary,
+                'q_type_id' => $typeAnswer,
+            ], 
         ]);
 
         // Ambil ID yang diperlukan untuk tabel 'choices' menggunakan DB::table()
@@ -219,6 +309,21 @@ class QuizSeeder extends Seeder
         $question8 = DB::table('questions')->where('question_text', 'Manakah ekspresi berikut yang ekuivalen (setara) dengan (2x-3)²?')->first()->question_id;
         $question9 = DB::table('questions')->where('question_text', 'Manakah di antara nilai-nilai x berikut yang merupakan solusi dari pertidaksamaan 2x - 1 ≤ 7?')->first()->question_id;
         $question10 = DB::table('questions')->where('question_text', 'Urutkan langkah-langkah berikut untuk menyelesaikan persamaan 2(x - 1) = 8:')->first()->question_id;
+        $question11 = DB::table('questions')->where('question_text', 'The manager was **candid** about the companys financial problems. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question12 = DB::table('questions')->where('question_text', 'Her **diligent** work on the project paid off with a promotion. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question13 = DB::table('questions')->where('question_text', 'Smartphones have become **ubiquitous** in modern society. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question14 = DB::table('questions')->where('question_text', 'The monk lived an **austere** life with few possessions. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question15 = DB::table('questions')->where('question_text', 'The **benevolent** king was loved by all his subjects. (Choose the word that is closest in meaning to the bold word)')->first()->question_id;
+        $question16 = DB::table('questions')->where('question_text', 'The rainforest has an **abundant** supply of water. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question17 = DB::table('questions')->where('question_text', 'The company plans to **expand** its operations next year. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question18 = DB::table('questions')->where('question_text', 'He is a **frequent** visitor to the local library. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question19 = DB::table('questions')->where('question_text', 'The horse was **docile** and easy for the children to ride. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question20 = DB::table('questions')->where('question_text', 'The water in the lake was so clear it was almost **transparant**. (Choose the word that is opposite in meaning to the bold word)')->first()->question_id;
+        $question21 = DB::table('questions')->where('question_text', 'A good leader must have ________ for the people they are leading. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question22 = DB::table('questions')->where('question_text', 'Despite facing many setbacks, the team remained ________ and eventually succeeded. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question23 = DB::table('questions')->where('question_text', 'The instructions for the device were ________, which made it difficult to assemble. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question24 = DB::table('questions')->where('question_text', 'Looking at old photographs often fills me with a sense of ________. (Fill in the blank with the most appropriate word)')->first()->question_id;
+        $question25 = DB::table('questions')->where('question_text', 'After the big meal, I felt ________ and just wanted to take a nap. (Fill in the blank with the most appropriate word)')->first()->question_id;
 
         // 5. Isi tabel 'choices'
         DB::table('choices')->insert([
@@ -275,6 +380,81 @@ class QuizSeeder extends Seeder
             ['question_id' => $question10, 'choice_text' => 'B. Tuliskan persamaan awal', 'is_correct' => false, 'correct_order' => 1],
             ['question_id' => $question10, 'choice_text' => 'C. Tambahkan 1 kedua sisi', 'is_correct' => false, 'correct_order' => 3],
             ['question_id' => $question10, 'choice_text' => 'D. Dapatkan solusi akhir x = 55', 'is_correct' => false, 'correct_order' => 4],
+
+            // Pertanyaan 11
+            ['question_id' => $question11, 'choice_text' => 'A. Secretive', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question11, 'choice_text' => 'B. Rude', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question11, 'choice_text' => 'C. Frank', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question11, 'choice_text' => 'D. Quiet', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 12
+            ['question_id' => $question12, 'choice_text' => 'A. Industrious', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question12, 'choice_text' => 'B. Smart', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question12, 'choice_text' => 'C. Lazy', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question12, 'choice_text' => 'D. Quick', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 13
+            ['question_id' => $question13, 'choice_text' => 'A. Rare', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question13, 'choice_text' => 'B. Omnipresent', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question13, 'choice_text' => 'C. Hidden', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question13, 'choice_text' => 'D. Famous', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 14
+            ['question_id' => $question14, 'choice_text' => 'A. Simple', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question14, 'choice_text' => 'B. Friendly', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question14, 'choice_text' => 'C. Decorated', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question14, 'choice_text' => 'D. Luxurious', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 15
+            ['question_id' => $question15, 'choice_text' => 'A. Hostile', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question15, 'choice_text' => 'B. Selfish', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question15, 'choice_text' => 'C. Charitable', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question15, 'choice_text' => 'D. Greedy', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 16
+            ['question_id' => $question16, 'choice_text' => 'A. Plenty', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question16, 'choice_text' => 'B. Scarce', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question16, 'choice_text' => 'C. Rich', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question16, 'choice_text' => 'D. Many', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 17
+            ['question_id' => $question17, 'choice_text' => 'A. Grow', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question17, 'choice_text' => 'B. Stretch', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question17, 'choice_text' => 'C. Contract', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question17, 'choice_text' => 'D. Open', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 18
+            ['question_id' => $question18, 'choice_text' => 'A. Rare', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question18, 'choice_text' => 'B. Usual', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question18, 'choice_text' => 'C. Common', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question18, 'choice_text' => 'D. Constant', 'is_correct' => false, 'correct_order' => null],
+
+            // Pertanyaan 19
+            ['question_id' => $question19, 'choice_text' => 'A. Obedient', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question19, 'choice_text' => 'B. Gentle', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question19, 'choice_text' => 'C. Calm', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question19, 'choice_text' => 'D. Unruly', 'is_correct' => true, 'correct_order' => null],
+
+            // Pertanyaan 20
+            ['question_id' => $question20, 'choice_text' => 'A. Opaque', 'is_correct' => true, 'correct_order' => null],
+            ['question_id' => $question20, 'choice_text' => 'B. Clear', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question20, 'choice_text' => 'C. Visible', 'is_correct' => false, 'correct_order' => null],
+            ['question_id' => $question20, 'choice_text' => 'D. Lucid', 'is_correct' => false, 'correct_order' => null],
+
+            //Pertanyaan 21
+            ['question_id' => $question21, 'choice_text' => 'Empathy', 'is_correct' => true, 'correct_order' => null],
+
+            //Pertanyaan 22
+            ['question_id' => $question22, 'choice_text' => 'Resilient', 'is_correct' => true, 'correct_order' => null],
+
+            //Pertanyaan 23
+            ['question_id' => $question23, 'choice_text' => 'Ambiguous', 'is_correct' => true, 'correct_order' => null],
+
+            //Pertanyaan 24
+            ['question_id' => $question24, 'choice_text' => 'Nostalgia', 'is_correct' => true, 'correct_order' => null],
+
+            //Pertanyaan 25
+            ['question_id' => $question25, 'choice_text' => 'Lethargic', 'is_correct' => true, 'correct_order' => null],
         ]);
 
         // Aktifkan kembali foreign key checks
