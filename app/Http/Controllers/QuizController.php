@@ -2,168 +2,150 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Quiz\Question;
 use App\Models\Quiz\Choice;
 use App\Models\Quiz\QuestionType;
+use App\Models\Quiz\Subject; // <-- Impor Subject
+use App\Models\Quiz\Topic;   // <-- Impor Topic
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Quiz\Topic;
-
 
 class QuizController extends Controller
 {
-    public function editor(){
-        return view('quiz.editor');
-    }
-    public function addbutton(){
-        return view('quiz.addbutton');
-    }
-    public function addcheckbox(){
-        return view('quiz.addcheckbox');
-    }
-    public function addtypeanswer(){
-        return view('quiz.addtypeanswer');
-    }
-    public function addreorder(){
-        return view('quiz.addreorder');
-    }
-
-public function storeAll(Request $request)
-{
-    // Validasi input utama: data JSON harus ada dan topic_id harus dipilih
-    $validatedData = $request->validate([
-        'questions_data' => 'required|json',
-        'topic_id' => 'required|exists:topics,topic_id'
-    ], [
-        'questions_data.required' => 'There are no questions to save.',
-        'topic_id.required' => 'You must select a topic for the quiz before saving.'
-    ]);
-
-    $questionsData = json_decode($validatedData['questions_data'], true);
-    $topicId = $validatedData['topic_id'];
-
-    if (empty($questionsData)) {
-        return redirect()->route('quiz.editor')->withErrors(['main' => 'No questions were provided to save.']);
-    }
-
-    $questionTypes = QuestionType::pluck('q_type_id', 'type_name');
-
-    DB::beginTransaction();
-    try {
-        foreach ($questionsData as $index => $data) {
-            // Validasi setiap soal di dalam array JSON
-            $validator = Validator::make($data, [
-                'question_text' => 'required|string|min:3',
-                'q_type_name' => 'required|string', // Pastikan tipe soal ada
-                'choices' => 'required|array|min:4',
-                'choices.*' => 'required|string|min:1',
-                'correct_choice' => 'required|integer'
-            ]);
-
-            // Jika validasi untuk satu soal gagal, batalkan semua dan kirim pesan error
-            if ($validator->fails()) {
-                throw new \Exception("Validation failed for question #" . ($index + 1) . ": " . $validator->errors()->first());
-            }
-            
-            // Buat pertanyaan
-            $question = Question::create([
-                'question_text' => $data['question_text'],
-                'topic_id' => $topicId, // Gunakan topic_id yang sama untuk semua
-                'q_type_id' => $questionTypes[$data['q_type_name']] ?? null,
-            ]);
-
-            // Simpan pilihan jawaban
-            foreach ($data['choices'] as $choiceIndex => $choiceText) {
-                Choice::create([
-                    'question_id' => $question->question_id,
-                    'choice_text' => $choiceText,
-                    'is_correct' => ($choiceIndex === $data['correct_choice']),
-                    'correct_order' => ($data['q_type_name'] === 'reorder') ? $choiceIndex : null, // Hanya untuk tipe soal reorder
-                    // Anda bisa menambahkan 'correct_order' di sini untuk tipe soal reorder
-                ]);
-            }
-        }
-
-        // Jika semua berhasil
-        DB::commit();
-        // Beri pesan sukses dan hapus data dari session di sisi client
-        return redirect()->route('quiz.editor')->with('success', count($questionsData) . ' questions have been saved successfully!');
-
-    } catch (\Exception $e) {
-        // Jika ada error di tengah jalan
-        DB::rollBack();
-        Log::error("Failed to save all questions: " . $e->getMessage());
-        // Kembalikan ke halaman editor dengan pesan error yang jelas
-        return redirect()->route('quiz.editor')->withErrors(['main' => 'An error occurred: ' . $e->getMessage()]);
-    }
-}
-
-    public function start(Topic $topic)
+    /**
+     * Menampilkan halaman utama editor kuis.
+     * Mengambil semua subject untuk ditampilkan di modal.
+     */
+    public function editor()
     {
-        // Menggunakan Eager Loading untuk mengambil semua relasi yang dibutuhkan
-        // Ini sangat efisien dan mencegah masalah N+1 query.
-        $topic->load('questions.choices');
-
-        // Menyiapkan data dalam format yang dibutuhkan oleh Alpine.js di frontend
-        $quizData = [
-            'topic_name' => $topic->topic_name,
-            'questions' => $topic->questions->map(function ($question) {
-                return [
-                    'id' => $question->question_id,
-                    'question_text' => $question->question_text,
-                    // Mengambil hanya kolom yang diperlukan dari pilihan jawaban
-                    'choices' => $question->choices->map(function ($choice) {
-                        return [
-                            'id' => $choice->choice_id,
-                            'choice_text' => $choice->choice_text,
-                        ];
-                    }),
-                ];
-            }),
-        ];
-
-        // Mengirim data ke view
-        return view('quiz.show', [
-            'topic' => $topic,
-            'quizData' => $quizData,
-        ]);
+        $subjects = Subject::orderBy('subject_name')->get();
+        return view('quiz.editor', ['subjects' => $subjects]);
     }
 
     /**
-     * Memproses jawaban kuis yang telah disubmit oleh pengguna.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Menyimpan topik baru dan semua pertanyaan dari quiz editor.
      */
-    public function submit(Request $request)
+    public function storeAll(Request $request)
     {
-        // Validasi data yang masuk
-        $request->validate([
-            'topic_id' => 'required|exists:topics,topic_id',
-            'answers' => 'required|json',
+        // Aturan validasi baru
+        $validatedData = $request->validate([
+            'subject_id' => 'required|exists:subjects,subject_id',
+            'new_topic_name' => 'required|string|max:255|min:3',
+            'questions_data' => 'required|json'
         ]);
 
-        $userAnswers = json_decode($request->answers, true);
-        $topicId = $request->topic_id;
-
-        // Di sini Anda akan menambahkan logika untuk menghitung skor.
-        // 1. Ambil semua jawaban yang benar untuk kuis ini dari database.
-        // 2. Bandingkan jawaban pengguna dengan jawaban yang benar.
-        // 3. Hitung skor, akurasi, dll.
-        // 4. Simpan hasil kuis ke database.
-
-        // Untuk sekarang, kita hanya akan menampilkan hasilnya di console (log)
-        // dan mengarahkan ke halaman summary (yang akan dibuat nanti).
-        // \Log::info('Quiz Submitted for Topic ID: ' . $topicId);
-        // \Log::info('User Answers: ', $userAnswers);
-
-        // Arahkan ke halaman hasil/summary dengan membawa ID hasil kuis
-        // return redirect()->route('quiz.summary', ['result_id' => $newResult->id]);
+        $questionsData = json_decode($validatedData['questions_data'], true);
         
-        // Untuk sementara, kita arahkan kembali ke homepage
-        return redirect('/')->with('status', 'Quiz submitted successfully!');
+        if (empty($questionsData)) {
+            return redirect()->back()->withErrors(['main' => 'No valid questions were provided.']);
+        }
+
+        $questionTypes = QuestionType::pluck('q_type_id', 'type_name');
+
+        DB::beginTransaction();
+        try {
+            // 1. Buat Topik baru terlebih dahulu
+            $newTopic = Topic::create([
+                'topic_name' => $validatedData['new_topic_name'],
+                'subject_id' => $validatedData['subject_id'],
+            ]);
+
+            // 2. Dapatkan ID dari topik yang baru dibuat
+            $topicId = $newTopic->topic_id;
+
+            // 3. Loop dan simpan setiap pertanyaan dengan topic_id yang baru
+            foreach ($questionsData as $index => $data) {
+                // ... (Logika validasi dan penyimpanan per soal tetap sama seperti sebelumnya)
+                // Pastikan Anda menggunakan $topicId di sini
+                $question = Question::create([
+                    'question_text' => $data['question_text'],
+                    'topic_id' => $topicId, // <-- Gunakan ID topik baru
+                    'q_type_id' => $questionTypes[$data['q_type_name']] ?? null,
+                ]);
+
+                // Logika kondisional untuk menyimpan jawaban berdasarkan tipe soal
+                if ($data['q_type_name'] === 'Button') {
+                    if (!isset($data['correct_choice']) || $data['correct_choice'] < 0) {
+                        throw new \Exception("A correct answer must be selected for question #" . ($index + 1));
+                    }
+                    $correctIndex = $data['correct_choice'];
+                    foreach ($data['choices'] as $choiceIndex => $choiceText) {
+                        Choice::create([
+                            'question_id' => $question->question_id,
+                            'choice_text' => $choiceText,
+                            'is_correct' => ($choiceIndex == $correctIndex),
+                        ]);
+                    }
+                } elseif ($data['q_type_name'] === 'Checkbox') {
+                    if (!isset($data['correct_choices']) || !is_array($data['correct_choices']) || empty($data['correct_choices'])) {
+                        throw new \Exception("At least one correct answer must be selected for question #" . ($index + 1));
+                    }
+                    $correctIndices = $data['correct_choices'];
+                    foreach ($data['choices'] as $choiceIndex => $choiceText) {
+                        Choice::create([
+                            'question_id' => $question->question_id,
+                            'choice_text' => $choiceText,
+                            'is_correct' => in_array($choiceIndex, $correctIndices),
+                        ]);
+                    }
+                } elseif ($data['q_type_name'] === 'TypeAnswer') {
+                    // Untuk "TypeAnswer", kita simpan jawaban sebagai satu-satunya pilihan yang benar.
+                    Choice::create([
+                        'question_id' => $question->question_id,
+                        'choice_text' => $data['choices'][0], // Ambil jawaban dari elemen pertama
+                        'is_correct' => true,
+                    ]);
+                } elseif ($data['q_type_name'] === 'Reorder') {
+                    // Validasi bahwa semua item sudah diberi peringkat
+                    if (!isset($data['correct_order']) || count(array_filter($data['correct_order'], fn($v) => $v != -1)) !== 4) {
+                        throw new \Exception("All items must be ranked for reorder question #" . ($index + 1));
+                    }
+                    $correctOrder = $data['correct_order'];
+                    foreach ($data['choices'] as $choiceIndex => $choiceText) {
+                        Choice::create([
+                            'question_id' => $question->question_id,
+                            'choice_text' => $choiceText,
+                            'is_correct' => false, // Selalu false untuk tipe reorder
+                            'correct_order' => $correctOrder[$choiceIndex] ?? null, // Simpan urutan yang benar
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
+            // Arahkan ke homepage atau halaman lain dengan pesan sukses
+            return redirect()->route('quiz.editor')->with('success', 'Quiz "' . $newTopic->topic_name . '" has been created successfully!');
+
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error("Failed to save all questions: " . $e->getMessage());
+            return redirect()->back()->withErrors(['main' => 'An error occurred: ' . $e->getMessage()]);
+        }
     }
 
-}
+    public function addbutton()
+    {
+        $subjects = Subject::orderBy('subject_name')->get();
+        return view('quiz.addbutton', ['subjects' => $subjects]);
+    }
+
+    public function addcheckbox()
+    {
+        $subjects = Subject::orderBy('subject_name')->get();
+        return view('quiz.addcheckbox', ['subjects' => $subjects]);
+    }
+
+    public function addtypeanswer()
+    {
+        $subjects = Subject::orderBy('subject_name')->get();
+        return view('quiz.addtypeanswer', ['subjects' => $subjects]);
+    }
+
+    public function addreorder()
+    {
+        $subjects = Subject::orderBy('subject_name')->get();
+        return view('quiz.addreorder', ['subjects' => $subjects]);
+    }}

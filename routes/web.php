@@ -47,12 +47,12 @@ function quizeditor(): RouteRegistrar
             
             // --- Route untuk Editor Kuis ---
             Route::get('/editor', 'editor')->name('editor');
-            Route::post('/editor/store-all', 'storeAll')->name('store.all');
             Route::get('/addbutton', 'addbutton')->name('addbutton');
             Route::get('/addcheckbox', 'addcheckbox')->name('addcheckbox');
-            Route::get('/typeanswer', 'addtypeanswer')->name('typeanswer');
-            Route::get('/reorder', 'addreorder')->name('addreorder');
-
+            Route::get('/addtypeanswer', 'addtypeanswer')->name('addtypeanswer');
+            Route::get('/addreorder', 'addreorder')->name('addreorder');
+            Route::post('/editor/store-all', 'storeAll')->name('store.all');
+            
             // --- Route untuk Mengerjakan Kuis (YANG PERLU DITAMBAHKAN) ---
 
             // 1. Route untuk menampilkan halaman pengerjaan kuis

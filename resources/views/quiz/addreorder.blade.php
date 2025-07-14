@@ -4,21 +4,17 @@
 
 @push('styles')
 <style>
-    /* Style for answer box with border */
+    /* --- Answer Box Styles --- */
     .answer-box {
+        background-color: #FFE2D6;
         border: 2px solid #FFE2D6;
         border-radius: 1rem;
         padding: 1.5rem;
         margin-bottom: 1rem;
-        background-color: #FFE2D6;
         transition: all 0.2s ease;
     }
-    .answer-box:hover {
-        border-color: #F7B5A3;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
     
-    /* Style for ranking selector */
+    /* --- Rank Selector Styles --- */
     .rank-selector {
         display: flex;
         gap: 8px;
@@ -56,84 +52,30 @@
     <!-- Kotak Pertanyaan -->
     <div class="bg-[#F7B5A3] p-12 rounded-xl shadow-lg mb-10">
         <textarea 
+            id="question_text"
             rows="3" 
             placeholder="Type Question Here" 
             class="w-full bg-transparent text-2xl font-bold placeholder:text-gray-500/80 focus:outline-none resize-none"
-        >Type Question Here</textarea>
+        ></textarea>
     </div>
 
     <!-- Daftar Jawaban untuk Diurutkan -->
     <div class="space-y-4" id="answer-container">
-        <!-- Opsi 1 -->
-        <div class="answer-box answer-item" data-id="1">
+        @for ($i = 0; $i < 4; $i++)
+        <div class="answer-box answer-item">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4 w-full">
-                    <span class="text-lg font-semibold">1.</span>
-                    <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none border-b-2 border-transparent focus:border-gray-300 transition-colors">
+                    <span class="text-lg font-semibold">{{ $i + 1 }}.</span>
+                    <input type="text" placeholder="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none border-b-2 border-transparent focus:border-gray-300 transition-colors">
                 </div>
                 <div class="rank-selector">
-                    <div class="rank-option" data-rank="1" onclick="selectRank(this, 1)">1</div>
-                    <div class="rank-option" data-rank="2" onclick="selectRank(this, 2)">2</div>
-                    <div class="rank-option" data-rank="3" onclick="selectRank(this, 3)">3</div>
-                    <div class="rank-option" data-rank="4" onclick="selectRank(this, 4)">4</div>
+                    @for ($rank = 1; $rank <= 4; $rank++)
+                    <div class="rank-option" data-rank="{{ $rank }}">{{ $rank }}</div>
+                    @endfor
                 </div>
             </div>
         </div>
-        
-        <!-- Opsi 2 -->
-        <div class="answer-box answer-item" data-id="2">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4 w-full">
-                    <span class="text-lg font-semibold">2.</span>
-                    <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none border-b-2 border-transparent focus:border-gray-300 transition-colors">
-                </div>
-                <div class="rank-selector">
-                    <div class="rank-option" data-rank="1" onclick="selectRank(this, 1)">1</div>
-                    <div class="rank-option" data-rank="2" onclick="selectRank(this, 2)">2</div>
-                    <div class="rank-option" data-rank="3" onclick="selectRank(this, 3)">3</div>
-                    <div class="rank-option" data-rank="4" onclick="selectRank(this, 4)">4</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Opsi 3 -->
-        <div class="answer-box answer-item" data-id="3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4 w-full">
-                    <span class="text-lg font-semibold">3.</span>
-                    <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none border-b-2 border-transparent focus:border-gray-300 transition-colors">
-                </div>
-                <div class="rank-selector">
-                    <div class="rank-option" data-rank="1" onclick="selectRank(this, 1)">1</div>
-                    <div class="rank-option" data-rank="2" onclick="selectRank(this, 2)">2</div>
-                    <div class="rank-option" data-rank="3" onclick="selectRank(this, 3)">3</div>
-                    <div class="rank-option" data-rank="4" onclick="selectRank(this, 4)">4</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Opsi 4 -->
-        <div class="answer-box answer-item" data-id="4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4 w-full">
-                    <span class="text-lg font-semibold">4.</span>
-                    <input type="text" value="Type Answer Here" class="w-full bg-transparent text-lg font-semibold focus:outline-none border-b-2 border-transparent focus:border-gray-300 transition-colors">
-                </div>
-                <div class="rank-selector">
-                    <div class="rank-option" data-rank="1" onclick="selectRank(this, 1)">1</div>
-                    <div class="rank-option" data-rank="2" onclick="selectRank(this, 2)">2</div>
-                    <div class="rank-option" data-rank="3" onclick="selectRank(this, 3)">3</div>
-                    <div class="rank-option" data-rank="4" onclick="selectRank(this, 4)">4</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Submit Button -->
-    <div class="mt-8 flex justify-center">
-        <button onclick="validateRanking()" class="bg-[#F7B5A3] text-black px-8 py-3 rounded-xl font-bold text-lg hover:brightness-105 transition hover:shadow-md">
-            Submit Jawaban
-        </button>
+        @endfor
     </div>
     
 </div>
@@ -141,82 +83,102 @@
 
 @push('scripts')
 <script>
-    let selectedRanks = {};
+document.addEventListener('DOMContentLoaded', function() {
+    const storageKey = 'pendingQuestions';
+    const questionTextEl = document.getElementById('question_text');
+    const answerItems = Array.from(document.querySelectorAll('.answer-item'));
+    const choiceInputs = answerItems.map(item => item.querySelector('input[type="text"]'));
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const questionIndex = parseInt(urlParams.get('edit'), 10);
+
+    let pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
+    let currentQuestion = pendingQuestions[questionIndex] || {};
     
-    function selectRank(element, rank) {
-        const answerItem = element.closest('.answer-item');
-        const answerId = answerItem.getAttribute('data-id');
-        
-        // Cek apakah rank ini sudah digunakan oleh baris lain
-        const usedRanks = Object.values(selectedRanks);
-        if (usedRanks.includes(rank) && selectedRanks[answerId] !== rank) {
-            console.warn(`Rank ${rank} is already taken.`);
-            return; // Jangan lakukan apa-apa jika rank sudah diambil
+    // Format: [rank_for_choice_0, rank_for_choice_1, ...]
+    // Contoh: [2, 4, 1, 3] berarti jawaban pertama urutan ke-2, dst.
+    // Nilai -1 berarti belum diberi peringkat.
+    let correctOrder = currentQuestion.correct_order || [-1, -1, -1, -1];
+
+    const loadQuestionData = () => {
+        questionTextEl.value = currentQuestion.question_text || '';
+        if (currentQuestion.choices) {
+            choiceInputs.forEach((input, i) => {
+                input.value = currentQuestion.choices[i] || '';
+            });
         }
-        
-        // Hapus rank lama dari item ini jika ada
-        delete selectedRanks[answerId];
-        
-        // Hapus kelas 'selected' dari semua opsi di baris ini
-        const allOptionsInRow = answerItem.querySelectorAll('.rank-option');
-        allOptionsInRow.forEach(opt => opt.classList.remove('selected'));
-        
-        // Tambahkan kelas 'selected' ke opsi yang diklik
-        element.classList.add('selected');
-        
-        // Simpan rank yang baru dipilih
-        selectedRanks[answerId] = rank;
-        
-        // Perbarui UI untuk menunjukkan rank mana yang sudah diambil
-        updateRankAvailability();
-    }
-    
-    function updateRankAvailability() {
+        updateRankUI();
+    };
+
+    const saveQuestionData = () => {
+        // Hapus properti yang tidak relevan dari tipe soal lain
+        delete currentQuestion.correct_choice;
+        delete currentQuestion.correct_choices;
+
+        const data = {
+            ...currentQuestion,
+            q_type_name: 'Reorder',
+            question_text: questionTextEl.value.trim(),
+            choices: choiceInputs.map(input => input.value.trim()),
+            correct_order: correctOrder
+        };
+        pendingQuestions[questionIndex] = data;
+        sessionStorage.setItem(storageKey, JSON.stringify(pendingQuestions));
+    };
+
+    const updateRankUI = () => {
         const allRankOptions = document.querySelectorAll('.rank-option');
-        const usedRanks = Object.values(selectedRanks);
+        const usedRanks = correctOrder.filter(rank => rank !== -1);
         
         allRankOptions.forEach(option => {
-            const rank = parseInt(option.getAttribute('data-rank'));
-            const answerItem = option.closest('.answer-item');
-            const answerId = answerItem.getAttribute('data-id');
-            const isCurrentSelection = selectedRanks[answerId] === rank;
-            
-            // Nonaktifkan jika rank sudah digunakan oleh baris LAIN
-            if (usedRanks.includes(rank) && !isCurrentSelection) {
+            const rank = parseInt(option.dataset.rank);
+            option.classList.remove('selected', 'disabled');
+
+            // Nonaktifkan jika rank ini sudah digunakan oleh baris LAIN
+            if (usedRanks.includes(rank)) {
                 option.classList.add('disabled');
-            } else {
-                option.classList.remove('disabled');
             }
         });
-    }
-    
-    function validateRanking() {
-        const allAnswers = document.querySelectorAll('.answer-item');
-        const selectedCount = Object.keys(selectedRanks).length;
-        
-        if (selectedCount < allAnswers.length) {
-            // Mengganti alert dengan console.log
-            console.error('Silakan beri peringkat untuk semua opsi jawaban!');
-            return;
-        }
-        
-        const rankValues = Object.values(selectedRanks);
-        const uniqueRanks = [...new Set(rankValues)];
-        
-        if (uniqueRanks.length !== rankValues.length) {
-            // Mengganti alert dengan console.log
-            console.error('Tidak boleh ada peringkat yang sama!');
-            return;
-        }
-        
-        // Jika validasi lolos
-        const result = Object.entries(selectedRanks)
-            .sort(([, rankA], [, rankB]) => rankA - rankB)
-            .map(([id, rank]) => 
-                `${rank}. ${document.querySelector(`.answer-item[data-id="${id}"] input`).value}`
-            ).join('\n');
-            
-        console.log('Jawaban berhasil disimpan!\n\nHasil ranking:\n' + result);
-    }
+
+        // Terapkan style 'selected' untuk rank yang sudah dipilih di setiap baris
+        answerItems.forEach((item, itemIndex) => {
+            const selectedRank = correctOrder[itemIndex];
+            if (selectedRank !== -1) {
+                const selectedOption = item.querySelector(`.rank-option[data-rank="${selectedRank}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.remove('disabled'); // Aktifkan kembali agar bisa diklik lagi
+                    selectedOption.classList.add('selected');
+                }
+            }
+        });
+    };
+
+    answerItems.forEach((item, itemIndex) => {
+        const rankOptions = item.querySelectorAll('.rank-option');
+        rankOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const rank = parseInt(option.dataset.rank);
+                const isAlreadyUsed = correctOrder.some((r, i) => r === rank && i !== itemIndex);
+
+                if (isAlreadyUsed) return; // Jangan lakukan apa-apa jika rank sudah diambil
+
+                // Jika mengklik rank yang sama lagi, batalkan pilihan (set ke -1)
+                if (correctOrder[itemIndex] === rank) {
+                    correctOrder[itemIndex] = -1;
+                } else {
+                    correctOrder[itemIndex] = rank;
+                }
+                
+                updateRankUI();
+                saveQuestionData();
+            });
+        });
+    });
+
+    questionTextEl.addEventListener('input', saveQuestionData);
+    choiceInputs.forEach(input => input.addEventListener('input', saveQuestionData));
+
+    loadQuestionData();
+});
 </script>
 @endpush

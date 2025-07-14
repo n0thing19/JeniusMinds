@@ -33,21 +33,7 @@
                 <p class="font-bold">{{ session('success') }}</p>
             </div>
         @endif
-    
-        <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-            <label for="topic_id" class="block text-xl font-bold text-gray-800 mb-2">Select Topic for this Quiz</label>
-            <p class="text-gray-500 mb-4">This topic will be applied to all questions in this session.</p>
-            @php
-                $topics = \App\Models\Quiz\Topic::with('subject')->orderBy('subject_id')->get();
-            @endphp
-            {{-- `name="topic_id"` ini akan ditangkap oleh form utama di layout --}}
-            <select name="topic_id" id="topic_id" class="w-full p-4 border-2 border-[#F3EAE6] rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-[#EEA99D]">
-                <option value="">-- Choose a topic --</option>
-                @foreach($topics as $topic)
-                    <option value="{{ $topic->topic_id }}">{{ $topic->subject->subject_name }} - {{ $topic->topic_name }}</option>
-                @endforeach
-            </select>
-        </div>
+
     </div>
 
     {{-- KONTEN ASLI ANDA: Pemilihan Tipe Soal --}}
@@ -61,21 +47,21 @@
                 <p class="text-gray-500">One correct answer</p>
             </div>
         </a>
-        <a href="{{ route('quiz.addcheckbox') }}" class="question-type-card p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
+        <a href="#" id="add-checkbox-type"class="question-type-card p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
             <div class="icon-box"><i class="far fa-check-square"></i></div>
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">CHECKBOXES</h2>
                 <p class="text-gray-500">Multiple correct answers</p>
             </div>
         </a>
-        <a href="{{ route('quiz.addreorder') }}" class="question-type-card p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
+        <a href="#" id='add-reorder-type' class="question-type-card p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
             <div class="icon-box"><i class="fas fa-layer-group"></i></div>
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">REORDER</h2>
                 <p class="text-gray-500">Place answers in the correct order</p>
             </div>
         </a>
-        <a href="{{ route('quiz.typeanswer') }}" class="question-type-card p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
+        <a href="#" id="add-type-answer" class="question-type-card p-8 rounded-2xl flex items-center space-x-6 cursor-pointer">
             <div class="icon-box"><span class="custom-icon-text">Aa</span></div>
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">TYPE ANSWER</h2>
@@ -132,6 +118,22 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             // Ganti 'addcheckbox' dengan nama route Anda yang benar
             prepareNewQuestion('Checkbox', 'addcheckbox');
+        });
+    }
+    // Event listener untuk tipe soal "REORDER"
+    const addReorderBtn = document.getElementById('add-reorder-type');
+    if (addReorderBtn) {
+        addReorderBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            prepareNewQuestion('Reorder', 'addreorder');
+        });
+    }
+    // Event listener untuk tipe soal "TYPE ANSWER"
+    const addTypeAnswerBtn = document.getElementById('add-type-answer');
+    if (addTypeAnswerBtn) {
+        addTypeAnswerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            prepareNewQuestion('Type Answer', 'addtypeanswer');
         });
     }
 
