@@ -188,6 +188,47 @@ class QuizController extends Controller
         }
     }
 
+    // app/Http/Controllers/QuizController.php
+
+// ... (kode controller Anda yang lain)
+
+    /**
+     * Menampilkan halaman pengerjaan kuis untuk topik tertentu.
+     */
+    public function start(Topic $topic)
+    {
+        // 1. Ambil semua pertanyaan beserta pilihan jawabannya untuk topik ini.
+        //    Menggunakan load() (Eager Loading) jauh lebih efisien daripada query berulang.
+        $topic->load('questions.choices');
+
+        // 2. Format data agar sesuai dengan yang diharapkan oleh Alpine.js di view.
+        //    Struktur ini harus cocok dengan yang digunakan di `quizTaker(quizData)`.
+        $quizData = [
+            'topic_id' => $topic->topic_id,
+            'topic_name' => $topic->topic_name,
+            'questions' => $topic->questions->map(function ($question) {
+                return [
+                    'id' => $question->question_id,
+                    'question_text' => $question->question_text,
+                    'q_type_name' => $question->questionType->type_name, // Jika Anda butuh tipe soal di frontend
+                    'choices' => $question->choices->map(function ($choice) {
+                        return [
+                            'id' => $choice->choice_id,
+                            'choice_text' => $choice->choice_text,
+                        ];
+                    })->all(), // ->all() untuk mengubah koleksi menjadi array biasa
+                ];
+            })->all(),
+        ];
+
+        // 3. Render view 'quiz.show' dan kirimkan data topik serta data kuis yang sudah diformat.
+        //    Pastikan file view Anda bernama `show.blade.php` di dalam folder `resources/views/quiz/`
+        return view('quiz.show', [
+            'topic' => $topic,
+            'quizData' => $quizData
+        ]);
+    }
+
     public function addbutton()
     {
         $subjects = Subject::orderBy('subject_name')->get();
