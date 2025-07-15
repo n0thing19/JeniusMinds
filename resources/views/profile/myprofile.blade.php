@@ -1,24 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'User Profile - Jenius Minds')
+@section('title', 'My Profile')
 
 @push('styles')
 <style>
-    body {
-        background-color: #FFFAF3;
-    }
-    .brand-pink-dark-bg { background-color: #F5B9B0; }
-    
     .profile-icon-container {
         width: 80px;
         height: 80px;
-        background-color: #FDECE7; /* brand-pink-light */
-        border-radius: 0.75rem; /* rounded-xl */
+        background-color: #FDECE7;
+        border-radius: 0.75rem;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-
     .quiz-card {
         transition: all 0.3s ease;
         cursor: pointer;
@@ -36,12 +30,12 @@
     <!-- Bagian Profil -->
     <section class="flex items-center space-x-6 pb-8 border-b-2 brand-border">
         <div class="profile-icon-container">
-            {{-- Ganti dengan gambar profil pengguna jika ada, jika tidak gunakan placeholder --}}
-            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            {{-- Menampilkan inisial nama pengguna sebagai placeholder --}}
+            <span class="text-4xl font-bold text-pink-400">{{ substr($user->name, 0, 1) }}</span>
         </div>
         <div class="flex items-center space-x-4">
-            {{-- Ganti dengan nama pengguna yang sebenarnya --}}
-            <h1 class="text-4xl font-bold text-gray-800">Misellin Mindany</h1>
+            {{-- Menampilkan nama pengguna secara dinamis --}}
+            <h1 class="text-4xl font-bold text-gray-800">{{ $user->name }}</h1>
             <a href="{{ route('profile.edit') }}" class="text-gray-500 hover:text-gray-800 transition-colors">
                 <i class="fas fa-pencil-alt text-2xl"></i>
             </a>
@@ -52,21 +46,23 @@
     <section class="mt-10">
         <h2 class="text-3xl font-bold text-gray-800 mb-6">My Quiz</h2>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {{-- Loop melalui kuis milik pengguna --}}
-            <!-- Kartu Kuis 1 -->
-            <div class="quiz-card bg-[#F5F5F5] p-8 rounded-2xl">
-                <h3 class="font-bold text-xl text-gray-800 mb-4">Mathematics</h3>
-                <p class="text-sm text-gray-500">Created : 23 Jun 2025</p>
+        @if($quizzes->isEmpty())
+            <div class="text-center py-12 bg-gray-50 rounded-2xl">
+                <p class="text-gray-500">You haven't created any quizzes yet.</p>
+                <a href="{{ route('quiz.editor') }}" class="mt-4 inline-block bg-[#F5B9B0] text-black px-6 py-2 rounded-lg font-bold shadow-sm hover:brightness-105 transition">Create Your First Quiz</a>
             </div>
-
-            <!-- Kartu Kuis 2 -->
-            <div class="quiz-card bg-[#DEDDE8] p-8 rounded-2xl">
-                <h3 class="font-bold text-xl text-gray-800 mb-4">Computers</h3>
-                <p class="text-sm text-gray-500">Created : 21 Jun 2025</p>
+        @else
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                {{-- Loop untuk setiap kuis yang dimiliki pengguna --}}
+                @foreach($quizzes as $quiz)
+                    <a href="{{ route('quiz.editor', $quiz->id) }}" class="quiz-card p-6 rounded-2xl {{ $subjectColors[$quiz->subject->subject_name] ?? 'bg-gray-100' }}">
+                        <h3 class="font-bold text-xl text-gray-800 mb-4">{{ $quiz->topic_name }}</h3>
+                        {{-- Menampilkan tanggal pembuatan secara dinamis --}}
+                        {{-- <p class="text-sm text-gray-500">Created : {{ $quiz->created_at->format('d M Y') }}</p> --}}
+                    </a>
+                @endforeach
             </div>
-
-        </div>
+        @endif
     </section>
     
 </main>

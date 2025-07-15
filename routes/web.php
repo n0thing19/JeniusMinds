@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
         ->group(function() {
             Route::get('/', 'show')->name('show');
             Route::get('/edit', 'edit')->name('edit');
+            Route::patch('/update', 'update')->name('update');
+
     });
 
     // Memanggil fungsi grup route untuk kuis
@@ -47,20 +49,20 @@ function quizeditor(): RouteRegistrar
             
             // --- Route untuk Editor Kuis ---
             Route::get('/editor', 'editor')->name('editor');
+            Route::post('/editor/store-all', 'storeAll')->name('store.all');
+
+            // --- PENAMBAHAN BARU: Route untuk mengedit kuis yang sudah ada ---
+            Route::get('/{topic}/edit', 'edit')->name('edit');
+            Route::patch('/{topic}', 'update')->name('update'); // Route untuk menyimpan perubahan
+
+            // --- Route untuk halaman spesifik tipe soal ---
             Route::get('/addbutton', 'addbutton')->name('addbutton');
             Route::get('/addcheckbox', 'addcheckbox')->name('addcheckbox');
-            Route::get('/addtypeanswer', 'addtypeanswer')->name('addtypeanswer');
+            Route::get('/typeanswer', 'addtypeanswer')->name('typeanswer');
             Route::get('/addreorder', 'addreorder')->name('addreorder');
-            Route::post('/editor/store-all', 'storeAll')->name('store.all');
-            
-            // --- Route untuk Mengerjakan Kuis (YANG PERLU DITAMBAHKAN) ---
 
-            // 1. Route untuk menampilkan halaman pengerjaan kuis
-            // URL yang dihasilkan: /quiz/start/{topic}
+            // --- Route untuk Mengerjakan Kuis ---
             Route::get('/start/{topic}', 'start')->name('start');
-
-            // 2. Route untuk memproses jawaban yang dikirim
-            // URL yang dihasilkan: /quiz/submit
             Route::post('/submit', 'submit')->name('submit');
         });
 }

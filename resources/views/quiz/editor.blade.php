@@ -76,7 +76,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const storageKey = 'pendingQuestions';
-
+    @isset($existingQuestions)
+        // Jika ada data dari controller (mode edit),
+        // hapus data lama dan isi sessionStorage dengan data baru.
+        sessionStorage.removeItem(storageKey);
+        sessionStorage.setItem(storageKey, @json($existingQuestions));
+    @endisset
     function prepareNewQuestion(questionTypeName, routeName) {
         // 1. Dapatkan data yang sudah ada
         let pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];

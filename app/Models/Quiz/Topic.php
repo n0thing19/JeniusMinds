@@ -19,6 +19,8 @@ class Topic extends Model
     protected $fillable = [
         'topic_name',
         'subject_id', // Foreign key juga termasuk fillable jika ingin diisi secara massal
+        'user_id', // <-- TAMBAHKAN INI
+
     ];
 
     // Asumsikan tidak menggunakan timestamps

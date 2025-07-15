@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth; // <-- PENAMBAHAN BARU #1: Impor facade Auth
 
 class QuizController extends Controller
 {
@@ -18,11 +19,70 @@ class QuizController extends Controller
      * Menampilkan halaman utama editor kuis.
      * Mengambil semua subject untuk ditampilkan di modal.
      */
-    public function editor()
+    public function editor(Request $request)
     {
+        // Jika ini mode edit (ada parameter topic_id)
+        if ($request->has('topic_id')) {
+            $topic = Topic::findOrFail($request->query('topic_id'));
+            return $this->edit($topic);
+        }
+
+        // Jika ini mode buat baru
         $subjects = Subject::orderBy('subject_name')->get();
-        return view('quiz.editor', ['subjects' => $subjects]);
+        return view('quiz.editor', [
+            'subjects' => $subjects,
+            'topic' => null, // Tidak ada topik saat membuat baru
+            'existingQuestions' => null,
+        ]);
     }
+
+    /**
+     * Menyiapkan data untuk mengedit kuis yang sudah ada.
+     */
+    public function edit(Topic $topic)
+    {
+        // Pastikan pengguna hanya bisa mengedit kuis miliknya sendiri
+        if ($topic->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Ambil semua data terkait (questions, choices, questionType)
+        $topic->load('questions.choices', 'questions.questionType');
+        $subjects = Subject::orderBy('subject_name')->get();
+
+        // Ubah data dari database menjadi format yang sama dengan sessionStorage
+        $formattedQuestions = $topic->questions->map(function ($question) {
+            $choices = $question->choices->pluck('choice_text')->toArray();
+            // Pastikan selalu ada 4 elemen pilihan
+            $choices = array_pad($choices, 4, '');
+
+            $data = [
+                'q_type_name' => $question->questionType->type_name,
+                'question_text' => $question->question_text,
+                'choices' => $choices,
+            ];
+
+            // Tambahkan jawaban yang benar sesuai tipe soal
+            if ($data['q_type_name'] === 'Button') {
+                $data['correct_choice'] = $question->choices->search(fn($choice) => $choice->is_correct) ?: -1;
+            } elseif ($data['q_type_name'] === 'Checkbox') {
+                $data['correct_choices'] = $question->choices->filter(fn($choice) => $choice->is_correct)->keys()->toArray();
+            } elseif ($data['q_type_name'] === 'Reorder') {
+                $data['correct_order'] = $question->choices->pluck('correct_order')->toArray();
+            } elseif ($data['q_type_name'] === 'TextAnswer') {
+                $data['correct_answer'] = $question->choices->first()->choice_text ?? '';
+            }
+
+            return $data;
+        });
+
+        return view('quiz.editor', [
+            'topic' => $topic,
+            'subjects' => $subjects,
+            'existingQuestions' => $formattedQuestions->toJson() // Kirim sebagai JSON
+        ]);
+    }
+
 
     /**
      * Menyimpan topik baru dan semua pertanyaan dari quiz editor.
@@ -50,6 +110,8 @@ class QuizController extends Controller
             $newTopic = Topic::create([
                 'topic_name' => $validatedData['new_topic_name'],
                 'subject_id' => $validatedData['subject_id'],
+                'user_id' => Auth::id(), // <-- PENAMBAHAN BARU #2: Tambahkan ID pengguna yang sedang login
+
             ]);
 
             // 2. Dapatkan ID dari topik yang baru dibuat
