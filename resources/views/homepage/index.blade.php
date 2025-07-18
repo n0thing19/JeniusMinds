@@ -120,8 +120,8 @@
                         <span x-text="`${Math.ceil(selectedQuiz.question_count * 0.5)}`"></span> Minutes
                     </div>
                 </div>
-                <a :href="`/quiz/start/${selectedQuiz.id}`" class="block w-full btn-gradient text-white font-bold py-4 px-4 rounded-xl shadow-lg text-xl">
-                    <i class="fas fa-play mr-2"></i> START QUIZ
+                <a :href="`/quiz/start/${selectedQuiz.topic_name}`" class="block w-full btn-gradient text-white font-bold py-4 px-4 rounded-xl shadow-lg text-xl">
+                <i class="fas fa-play mr-2"></i> START QUIZ
                 </a>
             </div>
         </div>
