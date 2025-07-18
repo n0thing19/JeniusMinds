@@ -54,6 +54,7 @@ function quizeditor(): RouteRegistrar
             // --- PENAMBAHAN BARU: Route untuk mengedit kuis yang sudah ada ---
             Route::get('/{topic}/edit', 'edit')->name('edit');
             Route::patch('/{topic}', 'update')->name('update'); // Route untuk menyimpan perubahan
+            Route::patch('/editor/{topic}', 'update')->name('update');
 
             // --- Route untuk halaman spesifik tipe soal ---
             Route::get('/addbutton', 'addbutton')->name('addbutton');

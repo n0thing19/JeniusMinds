@@ -51,11 +51,12 @@
                 <p class="text-gray-500">You haven't created any quizzes yet.</p>
                 <a href="{{ route('quiz.editor') }}" class="mt-4 inline-block bg-[#F5B9B0] text-black px-6 py-2 rounded-lg font-bold shadow-sm hover:brightness-105 transition">Create Your First Quiz</a>
             </div>
-        @else
+            @else
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                 {{-- Loop untuk setiap kuis yang dimiliki pengguna --}}
                 @foreach($quizzes as $quiz)
-                    <a href="{{ route('quiz.editor', $quiz->id) }}" class="quiz-card p-6 rounded-2xl {{ $subjectColors[$quiz->subject->subject_name] ?? 'bg-gray-100' }}">
+                    <a href="{{ route('quiz.editor', ['topic_id' => $quiz->topic_id]) }}" class="quiz-card p-6 rounded-2xl {{ $subjectColors[$quiz->subject->subject_name] ?? 'bg-gray-100' }}">
+                    {{-- <a href="{{ route('quiz.editor', $quiz->id) }}" class="quiz-card p-6 rounded-2xl {{ $subjectColors[$quiz->subject->subject_name] ?? 'bg-gray-100' }}"> --}}
                         <h3 class="font-bold text-xl text-gray-800 mb-4">{{ $quiz->topic_name }}</h3>
                         {{-- Menampilkan tanggal pembuatan secara dinamis --}}
                         {{-- <p class="text-sm text-gray-500">Created : {{ $quiz->created_at->format('d M Y') }}</p> --}}

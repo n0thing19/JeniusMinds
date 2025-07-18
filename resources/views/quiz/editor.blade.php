@@ -83,11 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
         sessionStorage.setItem(storageKey, @json($existingQuestions));
     @endisset
     function prepareNewQuestion(questionTypeName, routeName) {
-        // 1. Dapatkan data yang sudah ada
         let pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
         const newIndex = pendingQuestions.length;
 
-        // 2. Siapkan objek soal baru yang kosong
         const newQuestionData = {
             q_type_name: questionTypeName,
             question_text: '',
@@ -95,16 +93,24 @@ document.addEventListener('DOMContentLoaded', function() {
             correct_choice: -1
         };
         
-        // 3. Tambahkan ke array dan simpan kembali ke sessionStorage
         pendingQuestions.push(newQuestionData);
         sessionStorage.setItem(storageKey, JSON.stringify(pendingQuestions));
         
-        // 4. (PERBAIKAN) Tunggu sebentar sebelum redirect
-        // Ini memberi waktu bagi browser untuk menyelesaikan penyimpanan
-        // sebelum memuat halaman berikutnya.
+        // Memberi waktu pada browser untuk menyimpan data
         setTimeout(() => {
-            window.location.href = `{{ url('/quiz') }}/${routeName}?edit=${newIndex}`;
-        }, 100); // Penundaan 100 milidetik biasanya sudah cukup
+            // --- PERBAIKAN UTAMA ADA DI SINI ---
+            // 1. Buat URL dasar
+            let newUrl = `{{ url('/quiz') }}/${routeName}?edit=${newIndex}`;
+
+            // 2. Periksa apakah kita sedang dalam mode edit (dari layout)
+            if (window.quizConfig && window.quizConfig.topicId) {
+                // 3. Jika ya, tambahkan topic_id ke URL
+                newUrl += `&topic_id=${window.quizConfig.topicId}`;
+            }
+            
+            // 4. Arahkan ke URL yang sudah benar
+            window.location.href = newUrl;
+        }, 100); 
     }
 
     // Event listener untuk tipe soal "BUTTONS"
