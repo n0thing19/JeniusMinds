@@ -158,6 +158,46 @@ class QuizController extends Controller
             return redirect()->back()->withErrors(['main' => 'An error occurred while updating the quiz. Please try again.']);
         }
     }
+
+        public function destroy(Topic $topic)
+    {
+        // 1. Validasi Keamanan: Pastikan pengguna hanya bisa menghapus kuis miliknya.
+        if ($topic->user_id !== Auth::id()) {
+            // Jika pengguna mencoba menghapus kuis orang lain, kembalikan error 403 (Forbidden).
+            abort(403, 'UNAUTHORIZED ACTION.');
+        }
+
+        // Memulai transaksi database untuk memastikan integritas data.
+        DB::beginTransaction();
+
+        try {
+            // Simpan nama topik untuk pesan sukses sebelum dihapus.
+            $topicName = $topic->topic_name;
+
+            // 2. Hapus Topik.
+            // Karena kita sudah mengatur 'cascade on delete' di model,
+            // Laravel akan secara otomatis menghapus semua pertanyaan (questions)
+            // dan pilihan jawaban (choices) yang terkait dengan topik ini.
+            $topic->delete();
+
+            // 3. Konfirmasi transaksi jika penghapusan berhasil.
+            DB::commit();
+
+            // 4. Arahkan kembali ke halaman profil dengan pesan sukses.
+            return redirect()->route('profile.show')->with('success', 'Quiz "' . $topicName . '" has been successfully deleted.');
+
+        } catch (\Exception $e) {
+            // Jika terjadi error selama proses, batalkan semua perubahan.
+            DB::rollBack();
+
+            // Catat error untuk debugging.
+            Log::error("Failed to delete quiz topic: " . $e->getMessage());
+
+            // Arahkan kembali dengan pesan error.
+            return redirect()->route('profile.show')->withErrors(['main' => 'An error occurred while deleting the quiz. Please try again.']);
+        }
+    }
+
     /**
      * Menyimpan topik baru dan semua pertanyaan dari quiz editor.
      */

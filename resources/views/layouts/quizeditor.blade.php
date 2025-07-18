@@ -13,12 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    {{-- PENTING: Menambahkan 'defer' agar Alpine.js dieksekusi setelah halaman dimuat --}}
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>
         // Membuat variabel global untuk konfigurasi kuis
         window.quizConfig = {
-            // Jika $topic ada, gunakan ID-nya, jika tidak, gunakan null
             topicId: {{ $topic->topic_id ?? 'null' }} 
         };
     </script>
@@ -34,7 +32,7 @@
             transition: all 0.2s ease;
             flex-shrink: 0;
             font-weight: 700;
-            border-radius: 0.75rem; /* rounded-xl */
+            border-radius: 0.75rem;
             border: 2px solid #F3EAE6;
             width: 56px;
             height: 56px;
@@ -44,18 +42,16 @@
             background-color: white;
         }
         .question-nav-item {
-            position: relative; /* Kunci untuk positioning absolut */
+            position: relative;
             flex-shrink: 0;
         }
-
-        /* Gaya untuk ikon hapus yang menempel */
         .delete-icon-overlay {
             position: absolute;
-            top: 1px;      /* Sesuaikan posisi vertikal */
-            right: 1px;    /*Sesuaikan posisi horizontal */
+            top: 1px;
+            right: 1px;
             width: 28px;
             height: 28px;
-            background-color: #ef4444; /* Merah */
+            background-color: #ef4444;
             color: white;
             border-radius: 50%;
             display: flex;
@@ -63,13 +59,12 @@
             justify-content: center;
             font-size: 14px;
             cursor: pointer;
-            border: 2px solid #FFFBF5; /* Cocokkan dengan warna background footer */
+            border: 2px solid #FFFBF5;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: all 0.2s ease-in-out;
         }
-
         .delete-icon-overlay:hover {
-            background-color: #dc2626; /* Merah lebih gelap saat hover */
+            background-color: #dc2626;
             transform: scale(1.1);
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -88,7 +83,7 @@
                     <span class="text-xl font-bold text-gray-800">Jenius Minds</span>
                 </a>
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('quiz.editor') }}" id="cancel-btn" class="text-gray-600 hover:text-gray-900 font-bold transition-colors">Cancel</a>
+                    <button id="cancel-btn" class="text-gray-600 hover:text-gray-900 font-bold transition-colors">Cancel</button>
                     <button @click="openSaveModal()" type="button" class="bg-[#F5B9B0] text-black px-6 py-2 rounded-lg font-bold shadow-sm hover:brightness-105 transition">Done</button>
                 </div>
             </div>
@@ -109,7 +104,7 @@
         </div>
     </footer>
 
-    <!-- ===== Modal untuk Menyimpan Kuis ===== -->
+    <!-- Modal untuk Menyimpan Kuis -->
     <div x-show="isSaveModalOpen" x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4" x-cloak>
         <div @click.away="isSaveModalOpen = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8" x-transition>
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Finalize Your Quiz</h2>
@@ -137,7 +132,7 @@
         </div>
     </div>
 
-    <!-- Form utama yang tersembunyi untuk dikirim ke backend -->
+    <!-- Form utama yang tersembunyi -->
     <form id="main-quiz-form" 
         action="{{ $topic ? route('quiz.update', $topic) : route('quiz.store.all') }}" 
         method="POST" 
@@ -153,12 +148,11 @@
 
     @stack('scripts')
     <script>
-        // --- PERBAIKAN UTAMA: Menggunakan event listener 'alpine:init' ---
         document.addEventListener('alpine:init', () => {
             Alpine.data('quizEditorLayout', () => ({
-            isSaveModalOpen: false,
-            newTopicName: '{{ $topic->topic_name ?? '' }}',
-            selectedSubjectId: '{{ $topic->subject_id ?? '' }}',
+                isSaveModalOpen: false,
+                newTopicName: '{{ $topic->topic_name ?? '' }}',
+                selectedSubjectId: '{{ $topic->subject_id ?? '' }}',
                 openSaveModal() {
                     const pendingQuestions = JSON.parse(sessionStorage.getItem('pendingQuestions')) || [];
                     if (pendingQuestions.length === 0) {
@@ -167,7 +161,6 @@
                     }
                     this.isSaveModalOpen = true;
                 },
-
                 submitFinalQuiz() {
                     if (!this.newTopicName.trim() || !this.selectedSubjectId) {
                         alert('Please fill in the topic name and select a subject.');
@@ -185,109 +178,98 @@
         document.addEventListener('DOMContentLoaded', function() {
             const storageKey = 'pendingQuestions';
             const navContainer = document.getElementById('question-nav-container');
-        // ====================== GANTI FUNGSI DI BAWAH INI ======================
-        const renderFooterNav = () => {
-            const pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
-            if (!navContainer) return;
-            navContainer.innerHTML = ''; // Kosongkan navigasi
 
-            const urlParams = new URLSearchParams(window.location.search);
-            // Dapatkan index yang sedang aktif dari URL
-            const activeIndex = urlParams.has('edit') ? parseInt(urlParams.get('edit'), 10) : -1;
+            const renderFooterNav = () => {
+                const pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
+                if (!navContainer) return;
+                navContainer.innerHTML = '';
 
-            if (pendingQuestions.length > 0) {
-                pendingQuestions.forEach((question, index) => {
-                    // 1. Buat div sebagai wadah utama untuk setiap item
-                    const navItemContainer = document.createElement('div');
-                    navItemContainer.className = 'question-nav-item';
+                const urlParams = new URLSearchParams(window.location.search);
+                const activeIndex = urlParams.has('edit') ? parseInt(urlParams.get('edit'), 10) : -1;
 
-                    // 2. Buat tombol link nomor seperti biasa
-                    const buttonLink = document.createElement('a');
-                    // ... (logika untuk menentukan pathSegment dan href tetap sama)
-                    const qTypeName = (question.q_type_name || '').toLowerCase().replace(/\s+/g, '');
-                    let pathSegment;
-                    switch(qTypeName) {
-                        case 'button': pathSegment = 'addbutton'; break;
-                        case 'checkbox': pathSegment = 'addcheckbox'; break;
-                        case 'typeanswer': pathSegment = 'typeanswer'; break;
-                        case 'reorder': pathSegment = 'addreorder'; break;
-                        default: pathSegment = 'addbutton';
-                    }
-                    let href = `{{ url('/quiz') }}/${pathSegment}?edit=${index}`;
-                    if (window.quizConfig.topicId) {
-                        href += `&topic_id=${window.quizConfig.topicId}`;
-                    }
-                    buttonLink.href = href;
-                    buttonLink.textContent = index + 1;
-                    buttonLink.className = 'question-nav-btn'; // Class styling tombol nomor
+                if (pendingQuestions.length > 0) {
+                    pendingQuestions.forEach((question, index) => {
+                        const navItemContainer = document.createElement('div');
+                        navItemContainer.className = 'question-nav-item';
 
-                    // Beri style khusus jika nomor ini sedang aktif
-                    if (index === activeIndex) {
-                        buttonLink.classList.add('px-12', 'py-5', 'bg-[#FFE3D6]', 'text-black', 'border-[#F7B5A3]');
-                    } else {
-                        buttonLink.classList.add('px-12', 'py-5', 'bg-brand-pink-light');
-                    }
+                        const buttonLink = document.createElement('a');
+                        const qTypeName = (question.q_type_name || '').toLowerCase().replace(/\s+/g, '');
+                        let pathSegment;
+                        switch(qTypeName) {
+                            case 'button': pathSegment = 'addbutton'; break;
+                            case 'checkbox': pathSegment = 'addcheckbox'; break;
+                            case 'typeanswer': pathSegment = 'addtypeanswer'; break;
+                            case 'reorder': pathSegment = 'addreorder'; break;
+                            default: pathSegment = 'addbutton';
+                        }
+                        let href = `{{ url('/quiz') }}/${pathSegment}?edit=${index}`;
+                        if (window.quizConfig.topicId) {
+                            href += `&topic_id=${window.quizConfig.topicId}`;
+                        }
+                        buttonLink.href = href;
+                        buttonLink.textContent = index + 1;
+                        buttonLink.className = 'question-nav-btn';
 
-                    // Masukkan tombol nomor ke dalam wadahnya
-                    navItemContainer.appendChild(buttonLink);
+                        if (index === activeIndex) {
+                            buttonLink.classList.add('px-12', 'py-5', 'bg-[#FFE3D6]', 'text-black', 'border-[#F7B5A3]');
+                        }
 
-                    // 3. JIKA nomor ini sedang aktif, tambahkan ikon hapus!
-                    if (index === activeIndex) {
-                        const deleteIcon = document.createElement('i');
-                        deleteIcon.className = 'fa-solid fa-trash delete-icon-overlay';
+                        navItemContainer.appendChild(buttonLink);
+
+                        if (index === activeIndex) {
+                            const deleteIcon = document.createElement('i');
+                            deleteIcon.className = 'fa-solid fa-trash delete-icon-overlay';
+                            
+                            // ===== PERUBAHAN UTAMA ADA DI SINI =====
+                            deleteIcon.addEventListener('click', function(e) {
+                                e.stopPropagation(); 
+
+                                if (!confirm('Are you sure you want to remove this question?')) {
+                                    return;
+                                }
+
+                                // 1. Hapus pertanyaan dari session storage
+                                let currentQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
+                                currentQuestions.splice(index, 1);
+                                sessionStorage.setItem(storageKey, JSON.stringify(currentQuestions));
+
+                                // 2. Perbarui navigasi footer
+                                renderFooterNav();
+
+                                const mainContent = document.querySelector('main');
+
+                                // 3. Cek apakah sedang dalam mode EDIT (ada topicId)
+                                if (window.quizConfig && window.quizConfig.topicId) {
+                                    // Jika mode EDIT, tampilkan pesan konfirmasi
+                                    if (mainContent) {
+                                        mainContent.innerHTML = `
+                                            <div class="container mx-auto px-6 py-12 text-center">
+                                                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-6 rounded-lg inline-block">
+                                                    <h1 class="text-2xl font-bold">Question Removed</h1>
+                                                    <p class="mt-2">This question has been removed from the session.</p>
+                                                    <p>Your changes will be permanent after you click "Done".</p>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }
+                                } else {
+                                    // Jika mode BUAT BARU, arahkan kembali ke halaman utama editor
+                                    window.location.href = '{{ route('quiz.editor') }}';
+                                }
+                                
+                                this.remove();
+                            });
+                            // =======================================
+                            
+                            navItemContainer.appendChild(deleteIcon);
+                        }
                         
-                        // Tambahkan fungsi hapus saat ikon diklik
-deleteIcon.addEventListener('click', function(e) {
-    e.stopPropagation(); // Mencegah link navigasi ter-klik
-
-    if (!confirm('Are you sure you want to remove this question?')) {
-        return;
-    }
-
-    // 1. Ambil & perbarui data dari sessionStorage
-    let pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
-    pendingQuestions.splice(index, 1); // Hapus pertanyaan dari array
-    sessionStorage.setItem(storageKey, JSON.stringify(pendingQuestions));
-
-    // 2. Render ulang navigasi di footer SECARA LANGSUNG
-    // Ini akan menghilangkan nomor soal yang dihapus secara instan.
-    renderFooterNav();
-
-    // 3. Ubah konten utama halaman untuk memberi feedback
-    // Ini menggantikan konten form dengan pesan konfirmasi.
-    const mainContent = document.querySelector('main');
-    if (mainContent) {
-        mainContent.innerHTML = `
-            <div class="container mx-auto px-6 py-12 text-center">
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-6 rounded-lg inline-block">
-                    <h1 class="text-2xl font-bold">Question Removed</h1>
-                    <p class="mt-2">This question has been removed from the session.</p>
-                    <p>Your changes will be permanent after you click "Done".</p>
-                </div>
-            </div>
-        `;
-    }
-
-    // 4. (Opsional) Hapus ikon hapus itu sendiri setelah diklik
-    this.remove();
-});
-
-
-                        
-                        // Masukkan ikon hapus ke dalam wadah yang sama
-                        navItemContainer.appendChild(deleteIcon);
-                    }
-                    
-                    // 4. Masukkan seluruh item (wadah) ke kontainer navigasi
-                    navContainer.appendChild(navItemContainer);
-                });
-            } else {
-                navContainer.innerHTML = '<p class="text-gray-500 px-4">Click \'+\' to add a question.</p>';
-            }
-        };
-        // ====================== AKHIR FUNGSI PENGGANTI =======================
-
-
+                        navContainer.appendChild(navItemContainer);
+                    });
+                } else {
+                    navContainer.innerHTML = '<p class="text-gray-500 px-4">Click \'+\' to add a question.</p>';
+                }
+            };
 
             const cancelBtn = document.getElementById('cancel-btn');
             if(cancelBtn) {
@@ -295,62 +277,23 @@ deleteIcon.addEventListener('click', function(e) {
                     e.preventDefault();
                     if(confirm('Are you sure? All unsaved questions will be lost.')) {
                         sessionStorage.removeItem(storageKey);
-                        sessionStorage.removeItem('currentQuestionIndex');
-                        window.location.href = this.href;
+                        // Tentukan tujuan redirect berdasarkan mode
+                        const redirectUrl = window.quizConfig.topicId ? '{{ route('profile.show') }}' : '{{ url('/') }}'; // Asumsi ada route 'homepage.index'
+                        window.location.href = redirectUrl;
                     }
                 });
             }
 
             @if(session('success') || $errors->any())
                 sessionStorage.removeItem(storageKey);
-                sessionStorage.removeItem('currentQuestionIndex');
             @endif
 
             renderFooterNav();
+            
             const addQuestionBtn = document.getElementById('add-question-btn');
             if (addQuestionBtn && window.quizConfig.topicId) {
-                // Jika sedang mode edit (topicId ada), ubah link tombol '+'
-                // agar menyertakan topic_id.
                 addQuestionBtn.href = `{{ route('quiz.editor') }}?topic_id=${window.quizConfig.topicId}`;
             }
-                // --- TAMBAHKAN BLOK KODE BARU DI BAWAH INI ---
-
-            const deleteBtn = document.getElementById('delete-question-btn');
-            const urlParams = new URLSearchParams(window.location.search);
-            const editIndex = urlParams.get('edit'); // Cek apakah ada parameter 'edit' di URL
-
-            // Tampilkan tombol hanya jika kita sedang di halaman edit pertanyaan
-            if (deleteBtn && editIndex !== null) {
-                deleteBtn.style.display = 'flex'; // Tampilkan tombol hapus
-
-                // Tambahkan event listener untuk klik
-                deleteBtn.addEventListener('click', function() {
-                    if (!confirm('Are you sure you want to delete this question?')) {
-                        return; // Batalkan jika pengguna klik 'Cancel'
-                    }
-
-                    const currentIndex = parseInt(editIndex, 10);
-                    let pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
-
-                    // Hapus pertanyaan dari array berdasarkan index-nya
-                    if (currentIndex >= 0 && currentIndex < pendingQuestions.length) {
-                        pendingQuestions.splice(currentIndex, 1);
-                    }
-                    
-                    // Simpan kembali array yang sudah dimodifikasi ke sessionStorage
-                    sessionStorage.setItem(storageKey, JSON.stringify(pendingQuestions));
-
-                    // Arahkan kembali pengguna ke halaman editor utama
-                    alert('Question deleted.');
-                    let redirectUrl = `{{ route('quiz.editor') }}`;
-                    if (window.quizConfig.topicId) {
-                        redirectUrl += `?topic_id=${window.quizConfig.topicId}`;
-                    }
-                    window.location.href = redirectUrl;
-                });
-            }
-            // --- AKHIR DARI BLOK KODE TAMBAHAN ---
-
         });
     </script>
 </body>
