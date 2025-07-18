@@ -34,12 +34,18 @@ class ProfileController extends Controller
             'Chemistry'   => 'bg-blue-100',
             // Tambahkan warna untuk subject lain di sini
         ];
+        
+        $topics = Topic::where('user_id', $user->id)
+                    ->with('subject')
+                    ->withCount('questions')
+                    ->get();
 
         // 3. Kirim data pengguna dan kuis mereka ke view
         return view('profile.myprofile', [
             'user' => $user,
             'quizzes' => $quizzes,
-            'subjectColors' => $subjectColors, // Kirim data warna ke view
+            'subjectColors' => $subjectColors,
+            'topics' => $topics,
         ]);
     }
 

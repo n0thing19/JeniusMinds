@@ -76,73 +76,69 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const storageKey = 'pendingQuestions';
+
     @isset($existingQuestions)
-        // Jika ada data dari controller (mode edit),
-        // hapus data lama dan isi sessionStorage dengan data baru.
-        sessionStorage.removeItem(storageKey);
-        sessionStorage.setItem(storageKey, @json($existingQuestions));
+        // --- PERBAIKAN UTAMA ---
+        // Cek dulu apakah sessionStorage sudah ada isinya.
+        const existingSessionData = sessionStorage.getItem(storageKey);
+
+        // Jika tidak ada data di session (atau datanya kosong), baru kita isi dari database.
+        // Ini mencegah data yang sudah dimodifikasi di client ter-reset saat kembali ke halaman ini.
+        if (!existingSessionData || JSON.parse(existingSessionData).length === 0) {
+            sessionStorage.setItem(storageKey, @json($existingQuestions));
+        }
     @endisset
+
     function prepareNewQuestion(questionTypeName, routeName) {
-        // 1. Dapatkan data yang sudah ada
         let pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
         const newIndex = pendingQuestions.length;
 
-        // 2. Siapkan objek soal baru yang kosong
         const newQuestionData = {
             q_type_name: questionTypeName,
             question_text: '',
             choices: ['', '', '', ''],
             correct_choice: -1
+            // Anda bisa menambahkan properti default lain di sini jika perlu
         };
         
-        // 3. Tambahkan ke array dan simpan kembali ke sessionStorage
         pendingQuestions.push(newQuestionData);
         sessionStorage.setItem(storageKey, JSON.stringify(pendingQuestions));
         
-        // 4. (PERBAIKAN) Tunggu sebentar sebelum redirect
-        // Ini memberi waktu bagi browser untuk menyelesaikan penyimpanan
-        // sebelum memuat halaman berikutnya.
+        // Memberi waktu pada browser untuk menyimpan data
         setTimeout(() => {
-            window.location.href = `{{ url('/quiz') }}/${routeName}?edit=${newIndex}`;
-        }, 100); // Penundaan 100 milidetik biasanya sudah cukup
+            let newUrl = `{{ url('/quiz') }}/${routeName}?edit=${newIndex}`;
+
+            if (window.quizConfig && window.quizConfig.topicId) {
+                newUrl += `&topic_id=${window.quizConfig.topicId}`;
+            }
+            
+            window.location.href = newUrl;
+        }, 100); 
     }
 
     // Event listener untuk tipe soal "BUTTONS"
-    const addButtonBtn = document.getElementById('add-button-type');
-    if (addButtonBtn) {
-        addButtonBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            prepareNewQuestion('Button', 'addbutton');
-        });
-    }
+    document.getElementById('add-button-type').addEventListener('click', function(e) {
+        e.preventDefault();
+        prepareNewQuestion('Button', 'addbutton');
+    });
 
-    // Event listener untuk tipe soal "CHECKBOXES" (jika ada)
-    const addCheckboxBtn = document.getElementById('add-checkbox-type');
-    if (addCheckboxBtn) {
-        addCheckboxBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Ganti 'addcheckbox' dengan nama route Anda yang benar
-            prepareNewQuestion('Checkbox', 'addcheckbox');
-        });
-    }
+    // Event listener untuk tipe soal "CHECKBOXES"
+    document.getElementById('add-checkbox-type').addEventListener('click', function(e) {
+        e.preventDefault();
+        prepareNewQuestion('Checkbox', 'addcheckbox');
+    });
+    
     // Event listener untuk tipe soal "REORDER"
-    const addReorderBtn = document.getElementById('add-reorder-type');
-    if (addReorderBtn) {
-        addReorderBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            prepareNewQuestion('Reorder', 'addreorder');
-        });
-    }
-    // Event listener untuk tipe soal "TYPE ANSWER"
-    const addTypeAnswerBtn = document.getElementById('add-type-answer');
-    if (addTypeAnswerBtn) {
-        addTypeAnswerBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            prepareNewQuestion('Type Answer', 'addtypeanswer');
-        });
-    }
+    document.getElementById('add-reorder-type').addEventListener('click', function(e) {
+        e.preventDefault();
+        prepareNewQuestion('Reorder', 'addreorder');
+    });
 
-    // Tambahkan event listener lain di sini jika diperlukan
+    // Event listener untuk tipe soal "TYPE ANSWER"
+    document.getElementById('add-type-answer').addEventListener('click', function(e) {
+        e.preventDefault();
+        prepareNewQuestion('Type Answer', 'addtypeanswer');
+    });
 });
 </script>
 @endpush

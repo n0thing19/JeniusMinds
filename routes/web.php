@@ -52,13 +52,14 @@ function quizeditor(): RouteRegistrar
             Route::post('/editor/store-all', 'storeAll')->name('store.all');
 
             // --- PENAMBAHAN BARU: Route untuk mengedit kuis yang sudah ada ---
-            Route::get('/{topic}/edit', 'edit')->name('edit');
-            Route::patch('/{topic}', 'update')->name('update'); // Route untuk menyimpan perubahan
+            Route::get('/editor/{topic}', [QuizController::class, 'edit'])->name('edit');
+            Route::patch('/editor/{topic}', [QuizController::class, 'update'])->name('update');
+            Route::delete('/topic/{topic}', 'destroy')->name('destroy');
 
             // --- Route untuk halaman spesifik tipe soal ---
             Route::get('/addbutton', 'addbutton')->name('addbutton');
             Route::get('/addcheckbox', 'addcheckbox')->name('addcheckbox');
-            Route::get('/typeanswer', 'addtypeanswer')->name('typeanswer');
+            Route::get('/addtypeanswer', 'addtypeanswer')->name('addtypeanswer');
             Route::get('/addreorder', 'addreorder')->name('addreorder');
 
             // --- Route untuk Mengerjakan Kuis ---

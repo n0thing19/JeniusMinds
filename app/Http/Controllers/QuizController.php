@@ -83,6 +83,120 @@ class QuizController extends Controller
         ]);
     }
 
+    public function update(Request $request, Topic $topic)
+    {
+        // 1. Validasi Keamanan: Pastikan pengguna hanya bisa mengedit kuis miliknya.
+        if ($topic->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // 2. Validasi Input
+        $validatedData = $request->validate([
+            'new_topic_name' => 'required|string|max:255|min:3',
+            'subject_id'     => 'required|exists:subjects,subject_id',
+            'questions_data' => 'required|json'
+        ]);
+
+        $questionsData = json_decode($validatedData['questions_data'], true);
+
+        // Periksa jika data pertanyaan kosong setelah di-decode
+        if (empty($questionsData)) {
+            return redirect()->back()->withErrors(['main' => 'Cannot save an empty quiz. Please add at least one question.']);
+        }
+
+        // Memulai transaksi database untuk memastikan semua operasi berhasil atau tidak sama sekali.
+        DB::beginTransaction();
+
+        try {
+            // 3. Update detail Topik (nama kuis dan mata pelajaran)
+            $topic->update([
+                'topic_name' => $validatedData['new_topic_name'],
+                'subject_id' => $validatedData['subject_id'],
+            ]);
+
+            // 4. HAPUS SEMUA PERTANYAAN LAMA YANG TERKAIT DENGAN TOPIK INI
+            // Ini adalah langkah kunci. Pastikan relasi di model Anda diatur untuk 'cascade on delete'
+            // atau Laravel akan menghapusnya secara manual.
+            $topic->questions()->delete();
+
+            // Ambil ID tipe pertanyaan untuk efisiensi
+            $questionTypes = QuestionType::pluck('q_type_id', 'type_name');
+
+            // 5. LOOPING DAN BUAT ULANG SEMUA PERTANYAAN DARI DATA BARU
+            foreach ($questionsData as $q_data) {
+                // Buat pertanyaan baru
+                $newQuestion = Question::create([
+                    'topic_id'      => $topic->topic_id,
+                    'question_text' => $q_data['question_text'] ?? 'Untitled Question',
+                    'q_type_id'     => $questionTypes[$q_data['q_type_name']] ?? null,
+                ]);
+
+                // Loop untuk menyimpan pilihan jawaban (choices) untuk pertanyaan ini
+                if (isset($q_data['choices']) && is_array($q_data['choices'])) {
+                    foreach ($q_data['choices'] as $index => $choiceText) {
+                        if (!empty($choiceText)) {
+                            Choice::create([
+                                'question_id' => $newQuestion->question_id,
+                                'choice_text' => $choiceText,
+                                // Tentukan apakah pilihan ini benar
+                                'is_correct'  => isset($q_data['correct_choice']) && $q_data['correct_choice'] == $index,
+                            ]);
+                        }
+                    }
+                }
+            }
+
+            // Jika semua berhasil, konfirmasi transaksi
+            DB::commit();
+
+            return redirect()->route('profile.show')->with('success', 'Quiz "' . $topic->topic_name . '" has been updated successfully!');
+
+        } catch (\Exception $e) {
+            // Jika ada error, batalkan semua perubahan
+            DB::rollBack();
+            Log::error("Failed to update quiz: " . $e->getMessage()); // Log error untuk debugging
+            return redirect()->back()->withErrors(['main' => 'An error occurred while updating the quiz. Please try again.']);
+        }
+    }
+
+        public function destroy(Topic $topic)
+    {
+        // 1. Validasi Keamanan: Pastikan pengguna hanya bisa menghapus kuis miliknya.
+        if ($topic->user_id !== Auth::id()) {
+            // Jika pengguna mencoba menghapus kuis orang lain, kembalikan error 403 (Forbidden).
+            abort(403, 'UNAUTHORIZED ACTION.');
+        }
+
+        // Memulai transaksi database untuk memastikan integritas data.
+        DB::beginTransaction();
+
+        try {
+            // Simpan nama topik untuk pesan sukses sebelum dihapus.
+            $topicName = $topic->topic_name;
+
+            // 2. Hapus Topik.
+            // Karena kita sudah mengatur 'cascade on delete' di model,
+            // Laravel akan secara otomatis menghapus semua pertanyaan (questions)
+            // dan pilihan jawaban (choices) yang terkait dengan topik ini.
+            $topic->delete();
+
+            // 3. Konfirmasi transaksi jika penghapusan berhasil.
+            DB::commit();
+
+            // 4. Arahkan kembali ke halaman profil dengan pesan sukses.
+            return redirect()->route('profile.show')->with('success', 'Quiz "' . $topicName . '" has been successfully deleted.');
+
+        } catch (\Exception $e) {
+            // Jika terjadi error selama proses, batalkan semua perubahan.
+            DB::rollBack();
+
+            // Catat error untuk debugging.
+            Log::error("Failed to delete quiz topic: " . $e->getMessage());
+
+            // Arahkan kembali dengan pesan error.
+            return redirect()->route('profile.show')->withErrors(['main' => 'An error occurred while deleting the quiz. Please try again.']);
+        }
+    }
 
     /**
      * Menyimpan topik baru dan semua pertanyaan dari quiz editor.
@@ -187,27 +301,50 @@ class QuizController extends Controller
             return redirect()->back()->withErrors(['main' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
-
-    public function addbutton()
+    private function getEditorViewData(Request $request, string $viewName)
     {
         $subjects = Subject::orderBy('subject_name')->get();
-        return view('quiz.addbutton', ['subjects' => $subjects]);
+        $topic = null; // Defaultnya null (untuk mode buat baru)
+
+        // Periksa apakah ada 'topic_id' di query string URL
+        if ($request->has('topic_id')) {
+            // Temukan topik berdasarkan ID
+            $topic = Topic::findOrFail($request->query('topic_id'));
+
+            // Validasi keamanan: pastikan pengguna hanya bisa mengedit kuis miliknya
+            if ($topic->user_id !== Auth::id()) {
+                abort(403, 'Unauthorized action.');
+            }
+        }
+
+        // Kirim data ke view yang ditentukan
+        return view($viewName, [
+            'subjects' => $subjects,
+            'topic'    => $topic, // Variabel $topic ini akan selalu ada (berisi objek atau null)
+        ]);
     }
 
-    public function addcheckbox()
+    public function addbutton(Request $request)
     {
-        $subjects = Subject::orderBy('subject_name')->get();
-        return view('quiz.addcheckbox', ['subjects' => $subjects]);
+        // Ganti implementasi lama dengan memanggil metode privat baru
+        return $this->getEditorViewData($request, 'quiz.addbutton');
     }
 
-    public function addtypeanswer()
+    public function addcheckbox(Request $request)
     {
-        $subjects = Subject::orderBy('subject_name')->get();
-        return view('quiz.addtypeanswer', ['subjects' => $subjects]);
+        // Ganti implementasi lama dengan memanggil metode privat baru
+        return $this->getEditorViewData($request, 'quiz.addcheckbox');
     }
 
-    public function addreorder()
+    public function addtypeanswer(Request $request)
     {
-        $subjects = Subject::orderBy('subject_name')->get();
-        return view('quiz.addreorder', ['subjects' => $subjects]);
-    }}
+        // Ganti implementasi lama dengan memanggil metode privat baru
+        return $this->getEditorViewData($request, 'quiz.addtypeanswer');
+    }
+
+    public function addreorder(Request $request)
+    {
+        // Ganti implementasi lama dengan memanggil metode privat baru
+        return $this->getEditorViewData($request, 'quiz.addreorder');
+    }
+}
