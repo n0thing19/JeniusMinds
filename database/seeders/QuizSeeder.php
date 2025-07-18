@@ -367,10 +367,10 @@ class QuizSeeder extends Seeder
             ['question_id' => $question9, 'choice_text' => 'D. x = 4,5', 'is_correct' => false, 'correct_order' => null],
 
             // Pertanyaan 10 (Reorder)
-            ['question_id' => $question10, 'choice_text' => 'B. Tuliskan persamaan awal', 'is_correct' => false, 'correct_order' => 1],
-            ['question_id' => $question10, 'choice_text' => 'A. Bagi kedua sisi dengan 2', 'is_correct' => false, 'correct_order' => 2],
-            ['question_id' => $question10, 'choice_text' => 'C. Tambahkan 1 kedua sisi', 'is_correct' => false, 'correct_order' => 3],
-            ['question_id' => $question10, 'choice_text' => 'D. Dapatkan solusi akhir x = 55', 'is_correct' => false, 'correct_order' => 4],
+            ['question_id' => $question10, 'choice_text' => 'Tuliskan persamaan awal', 'is_correct' => false, 'correct_order' => 1],
+            ['question_id' => $question10, 'choice_text' => 'Bagi kedua sisi dengan 2', 'is_correct' => false, 'correct_order' => 2],
+            ['question_id' => $question10, 'choice_text' => 'Tambahkan 1 kedua sisi', 'is_correct' => false, 'correct_order' => 3],
+            ['question_id' => $question10, 'choice_text' => 'Dapatkan solusi akhir x = 5', 'is_correct' => false, 'correct_order' => 4],
 
             // Pertanyaan 11
             ['question_id' => $question11, 'choice_text' => 'A. Secretive', 'is_correct' => false, 'correct_order' => null],
@@ -446,7 +446,6 @@ class QuizSeeder extends Seeder
 
             //Pertanyaan 25
             ['question_id' => $question25, 'choice_text' => 'Lethargic', 'is_correct' => true, 'correct_order' => null],
-            ['question_id' => $question10, 'choice_text' => 'D. Dapatkan solusi akhir x = 5', 'is_correct' => false, 'correct_order' => 4], // Mengoreksi '55' menjadi '5'
         ]);
 
         // Aktifkan kembali foreign key checks

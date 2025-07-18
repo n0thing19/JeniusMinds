@@ -8,7 +8,7 @@ use Illuminate\Routing\RouteRegistrar;
 use App\Http\Controllers\HomepageController;
 
 // Route untuk halaman utama
-Route::get('/', [HomepageController::class, 'index']);
+Route::get('/', [HomepageController::class, 'index'])->name('homepage.index');
 
 
 // Grup route untuk autentikasi (hanya untuk tamu)
