@@ -198,6 +198,147 @@ class QuizController extends Controller
         }
     }
 
+        public function start(Topic $topic)
+    {
+        $topic->load('questions.choices', 'questions.questionType');
+
+
+
+
+
+        $quizData = [
+            'topic_id' => $topic->topic_id,
+            'topic_name' => $topic->topic_name,
+            'questions' => $topic->questions->map(function ($question) {
+                return [
+                    'id' => $question->question_id,
+                    'question_text' => $question->question_text,
+                    'q_type_name' => $question->questionType->type_name,
+                    'choices' => $question->choices->map(function ($choice) {
+                        return ['id' => $choice->choice_id, 'choice_text' => $choice->choice_text];
+                    })->all(),
+
+
+
+                ];
+            })->all(),
+        ];
+        return view('quiz.show', ['topic' => $topic, 'quizData' => $quizData]);
+
+
+
+
+
+
+    }
+
+    public function submit(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'topic_id' => 'required|exists:topics,topic_id',
+                'answers' => 'required|array',
+            ]);
+
+            $userAnswersPayload = $validated['answers'];
+            $topicId = $validated['topic_id'];
+
+
+
+
+            $topic = Topic::with('questions.choices', 'questions.questionType')->findOrFail($topicId);
+            
+            $score = 0;
+
+
+
+            foreach ($topic->questions as $question) {
+                $questionId = $question->question_id;
+                $userAnswer = $userAnswersPayload[$questionId] ?? null;
+
+                if ($userAnswer === null) {
+                    continue;
+                }
+
+                $isCorrect = false;
+
+                switch ($question->questionType->type_name) {
+                    case 'Button':
+                        $correctChoiceId = $question->choices->where('is_correct', true)->first()?->choice_id;
+                        $isCorrect = ((int)$userAnswer === (int)$correctChoiceId);
+                        break;
+
+                    case 'TypeAnswer':
+                        $correctChoice = $question->choices->where('is_correct', true)->first();
+                        $correctAnswerText = $correctChoice?->choice_text;
+
+                        // Log detail untuk debugging TypeAnswer
+                        Log::info("--- TypeAnswer Check for QID: {$questionId} ---", [
+                            '1_user_answer_raw' => $userAnswer,
+                            '2_user_answer_type' => gettype($userAnswer),
+                            '3_correct_choice_object' => $correctChoice ? $correctChoice->toArray() : 'null',
+                            '4_correct_answer_text_raw' => $correctAnswerText,
+                            '5_correct_answer_type' => gettype($correctAnswerText)
+                        ]);
+                        
+                        if (is_string($userAnswer) && $correctAnswerText !== null) {
+                            $isCorrect = (strcasecmp(trim($userAnswer), trim($correctAnswerText)) === 0);
+                        } else {
+                            $isCorrect = false;
+                        }
+                        break;
+
+                    case 'Checkbox':
+                        $correctChoiceIds = $question->choices->where('is_correct', true)->pluck('choice_id')->toArray();
+                        if (!is_array($userAnswer)) continue 2;
+                        
+                        $userAnswerInt = array_map('intval', $userAnswer);
+                        
+                        sort($userAnswerInt);
+                        sort($correctChoiceIds);
+                        
+                        $isCorrect = ($userAnswerInt == $correctChoiceIds);
+                        break;
+                    
+                    case 'Reorder':
+                        $correctOrderMap = $question->choices->pluck('correct_order', 'choice_id')->filter()->toArray();
+                        
+                        if (!is_array($userAnswer) || count($userAnswer) != count($correctOrderMap)) {
+                            continue 2;
+                        }
+                        
+                        $userOrderMap = collect($userAnswer)->pluck('order', 'choice_id');
+                        
+                        $isCorrect = true;
+                        foreach ($correctOrderMap as $choiceId => $correctOrder) {
+                            if (!isset($userOrderMap[$choiceId]) || (int)$userOrderMap[$choiceId] != (int)$correctOrder) {
+                                $isCorrect = false;
+                                break;
+                            }
+                        }
+                        break;
+                }
+
+                if ($isCorrect) {
+                    $score++;
+                }
+            }
+
+            return response()->json([
+                'message' => 'Quiz submitted successfully!',
+                'score' => $score,
+                'total_questions' => $topic->questions->count(),
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Quiz Submission Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
+            return response()->json([
+                'message' => 'An error occurred on the server while processing the quiz.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     /**
      * Menyimpan topik baru dan semua pertanyaan dari quiz editor.
      */
