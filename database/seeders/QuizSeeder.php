@@ -371,7 +371,10 @@ class QuizSeeder extends Seeder
             ['question_id' => $question10, 'choice_text' => 'Bagi kedua sisi dengan 2', 'is_correct' => false, 'correct_order' => 2],
             ['question_id' => $question10, 'choice_text' => 'Tambahkan 1 kedua sisi', 'is_correct' => false, 'correct_order' => 3],
             ['question_id' => $question10, 'choice_text' => 'Dapatkan solusi akhir x = 5', 'is_correct' => false, 'correct_order' => 4],
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
             // Pertanyaan 11
             ['question_id' => $question11, 'choice_text' => 'A. Secretive', 'is_correct' => false, 'correct_order' => null],
             ['question_id' => $question11, 'choice_text' => 'B. Rude', 'is_correct' => false, 'correct_order' => null],

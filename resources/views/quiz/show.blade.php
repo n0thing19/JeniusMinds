@@ -67,7 +67,15 @@
 
 @section('content')
 <div x-data="quizTaker({{ json_encode($quizData) }})" x-init="init(); startTimer()" x-cloak>
+<<<<<<< HEAD
     
+=======
+
+
+
+
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
     <div x-show="!isFinished">
         <div class="sticky top-0 bg-[#FFFBF5]/80 backdrop-blur-lg z-10 py-4 border-b brand-border">
             <div class="container mx-auto px-6">
@@ -75,6 +83,7 @@
                     <div class="text-2xl font-bold text-gray-700">
                         <i class="far fa-clock mr-2"></i>
                         <span x-text="formattedTime"></span>
+<<<<<<< HEAD
                     </div>
                     <div class="w-1/2">
                         <div class="progress-bar-container w-full h-4">
@@ -84,10 +93,28 @@
                     <div class="text-lg font-semibold text-gray-500">
                         <span x-text="currentQuestionIndex + 1"></span> / <span x-text="questions.length"></span>
                     </div>
+=======
+                    </div>
+                    <div class="w-1/2">
+                        <div class="progress-bar-container w-full h-4">
+                            <div class="progress-bar h-full" :style="`width: ${progressPercentage}%`"></div>
+                        </div>
+                    </div>
+                    <div class="text-lg font-semibold text-gray-500">
+                        <span x-text="currentQuestionIndex + 1"></span> / <span x-text="questions.length"></span>
+                    </div>
+
+
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
                 </div>
             </div>
         </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
         <main class="container mx-auto px-6 py-8">
             <div class="max-w-4xl mx-auto">
                 <template x-for="(question, index) in questions" :key="question.id">
@@ -97,12 +124,27 @@
                             <p class="text-2xl font-bold text-gray-800" x-text="question.question_text"></p>
                         </div>
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
                         <div>
                             <template x-if="question.q_type_name === 'Button'"><div class="grid grid-cols-1 md:grid-cols-2 gap-6">@include('quiz.partials._button')</div></template>
                             <template x-if="question.q_type_name === 'Checkbox'"><div class="grid grid-cols-1 md:grid-cols-2 gap-6">@include('quiz.partials._checkbox')</div></template>
                             <template x-if="question.q_type_name === 'TypeAnswer'">@include('quiz.partials._typeanswer')</template>
                             <template x-if="question.q_type_name === 'Reorder'"><div class="space-y-4">@include('quiz.partials._reorder')</div></template>
                         </div>
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
                     </div>
                 </template>
             </div>
@@ -133,9 +175,41 @@
             <p class="text-2xl font-bold text-gray-800">
                 <span x-text="timeTaken.minutes">0</span> minutes <span x-text="timeTaken.seconds">0</span> seconds
             </p>
+<<<<<<< HEAD
         </div>
 
         <a href="{{ route('homepage.index') }}" class="btn-gradient text-white font-bold py-4 px-12 rounded-full shadow-lg text-lg">Back to Home</a>
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+        <a href="{{ route('homepage') }}" class="btn-gradient text-white font-bold py-4 px-12 rounded-full shadow-lg text-lg">Back to Home</a>
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
     </div>
 
 </div>
@@ -148,6 +222,11 @@
             // Data & State
             questions: quizData.questions || [],
             timeLimitInSeconds: (quizData.questions.length * 30),
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
             currentQuestionIndex: 0,
             userAnswers: {},
             timeLeft: 0,
@@ -157,6 +236,10 @@
             // Variabel untuk menampung hasil
             finalScore: 0,
             timeTaken: { minutes: 0, seconds: 0 },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
 
             init() {
                 this.timeLeft = this.timeLimitInSeconds;
@@ -167,6 +250,11 @@
 
             // Computed Properties
             get progressPercentage() { return ((this.currentQuestionIndex + 1) / this.questions.length) * 100; },
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
             get formattedTime() {
                 const minutes = Math.floor(this.timeLeft / 60);
                 const seconds = this.timeLeft % 60;
@@ -180,6 +268,10 @@
                         this.timeLeft--;
                     } else {
                         this.submitQuiz();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
                     }
                 }, 1000);
             },
@@ -198,6 +290,10 @@
             getReorderValue(questionId, choiceId) {
                 const answer = this.userAnswers[questionId]?.find(a => a.choice_id === choiceId);
                 return answer ? answer.order : '';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
             },
 
             nextQuestion() { if (this.currentQuestionIndex < this.questions.length - 1) { this.currentQuestionIndex++; } },
@@ -253,7 +349,11 @@
                     this.finalScore = 'X'; // Tanda 'X' untuk error
                     alert('An error occurred while submitting. Please check the browser console (F12) for details.');
                 });
+<<<<<<< HEAD
             }
+=======
+           }
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
         }
     }
 </script>

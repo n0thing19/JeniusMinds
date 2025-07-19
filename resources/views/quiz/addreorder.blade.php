@@ -38,6 +38,7 @@
         border-color: #F7B5A3;
         transform: scale(1.05);
     }
+    
     .rank-option.disabled {
         opacity: 0.5;
         cursor: not-allowed;

@@ -8,7 +8,11 @@ use Illuminate\Routing\RouteRegistrar;
 use App\Http\Controllers\HomepageController;
 
 // Route untuk halaman utama
+<<<<<<< HEAD
 Route::get('/', [HomepageController::class, 'index'])->name('homepage.index');
+=======
+Route::get('/', [HomepageController::class, 'index'])->name('homepage');
+>>>>>>> 9d9ea8e2efc3d0a58f326580782d58d24d52cf1e
 
 
 // Grup route untuk autentikasi (hanya untuk tamu)

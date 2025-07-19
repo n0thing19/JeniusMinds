@@ -32,6 +32,14 @@ class ProfileController extends Controller
             'Computers'   => 'bg-purple-100',
             'English'     => 'bg-pink-100',
             'Chemistry'   => 'bg-blue-100',
+            'Computers'   => 'bg-purple-100',
+            'Biology'     => 'bg-green-100',
+            'Economy'     => 'bg-gray-200',
+            'Geography'   => 'bg-teal-100',
+            'Physics'     => 'bg-yellow-100',
+            'Music'       => 'bg-indigo-100',
+            'Sports'      => 'bg-red-100',
+            'Mandarin'    => 'bg-gold-100',
             // Tambahkan warna untuk subject lain di sini
         ];
         
