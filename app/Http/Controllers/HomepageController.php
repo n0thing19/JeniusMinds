@@ -64,7 +64,7 @@ class HomepageController extends Controller
 
             // Tambahkan data ikon ke setiap Topic
             $subject->topics->each(function ($topic) use ($topicDisplayData) {
-                $topic->icon_class = $topicDisplayData[$topic->topic_name]; 
+                $topic->icon_class = $topicDisplayData[$topic->topic_name] ?? 'fas fa-puzzle-piece'; 
             });
         });
 

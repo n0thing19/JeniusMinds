@@ -65,5 +65,8 @@ function quizeditor(): RouteRegistrar
             // --- Route untuk Mengerjakan Kuis ---
             Route::get('/start/{topic}', 'start')->name('start');
             Route::post('/submit', 'submit')->name('submit');
+
+            // --- RUTE BARU UNTUK JOIN DENGAN KODE ---
+            Route::post('/join-with-code', 'joinWithCode')->name('join_with_code');
         });
 }

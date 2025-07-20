@@ -38,6 +38,7 @@ return new class extends Migration
                   ->nullable()
                   ->constrained(table: 'users', column: 'id')
                   ->onDelete('cascade');
+            $table->string('code', 6)->unique()->nullable();
         });
 
         // Tabel utama untuk menyimpan pertanyaan

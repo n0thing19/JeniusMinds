@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Quiz\Topic; 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
@@ -18,50 +19,43 @@ class ProfileController extends Controller
         // 1. Ambil data pengguna yang sedang login
         $user = Auth::user();
 
-        // 2. Ambil semua kuis (topik) yang dibuat oleh pengguna ini.
-        //    Ini mengasumsikan ada relasi 'topics' di model User Anda.
-        //    'with('subject')' digunakan untuk eager loading agar lebih efisien.
-        $quizzes = Topic::where('user_id', $user->id)
+        // 2. Ambil semua topik kuis milik pengguna.
+        //    - with('subject') untuk mengambil data subjek terkait (Eager Loading).
+        //    - withCount('questions') untuk menghitung jumlah pertanyaan di setiap kuis.
+        //    Ini adalah cara yang efisien untuk mengambil semua data dalam satu query.
+        $topics = Topic::where('user_id', $user->id)
                         ->with('subject')
+                        ->withCount('questions')
                         ->get();
 
-        // Definisikan data tampilan untuk setiap subject.
-        // Idealnya, ini disimpan di database, tapi kita bisa definisikan di sini untuk sementara.
+        // Definisikan data warna untuk setiap subject.
         $subjectColors = [
-            'Mathematics' => 'bg-gray-100',
-            'Computers'   => 'bg-purple-100',
+            'Mathematics' => 'bg-yellow-100',
             'English'     => 'bg-pink-100',
             'Chemistry'   => 'bg-blue-100',
             'Computers'   => 'bg-purple-100',
             'Biology'     => 'bg-green-100',
             'Economy'     => 'bg-gray-200',
             'Geography'   => 'bg-teal-100',
-            'Physics'     => 'bg-yellow-100',
+            'Physics'     => 'bg-yellow-200',
             'Music'       => 'bg-indigo-100',
             'Sports'      => 'bg-red-100',
-            'Mandarin'    => 'bg-gold-100',
-            // Tambahkan warna untuk subject lain di sini
+            'Mandarin'    => 'bg-yellow-300',
         ];
         
-        $topics = Topic::where('user_id', $user->id)
-                    ->with('subject')
-                    ->withCount('questions')
-                    ->get();
-
-        // 3. Kirim data pengguna dan kuis mereka ke view
-        return view('profile.myprofile', [
-            'user' => $user,
-            'quizzes' => $quizzes,
-            'subjectColors' => $subjectColors,
-            'topics' => $topics,
-        ]);
+        // 3. Kirim data yang diperlukan ke view.
+        //    Kita hanya perlu mengirim 'user', 'topics', dan 'subjectColors'.
+        return view('profile.myprofile', compact('user', 'topics', 'subjectColors'));
     }
 
-    // Metode 'edit' bisa ditambahkan di sini nanti
+    /**
+     * Menampilkan halaman untuk mengedit profil.
+     */
     public function edit()
     {
-        // Mengambil pengguna yang sedang login dan mengirimkannya ke view
-        return view('profile.editprofile', ['user' => Auth::user()]);
+        return view('profile.editprofile', [
+            'user' => Auth::user()
+        ]);
     }
 
     /**
@@ -69,28 +63,26 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        // Mengambil pengguna yang sedang login
         $user = Auth::user();
 
-        // Validasi input dasar
-        $request->validate([
+        // Validasi input
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
+            // Validasi email ditambahkan untuk konsistensi
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            // Validasi password dibuat lebih modern dan aman
+            'password' => ['nullable', 'confirmed', Password::defaults()],
         ]);
 
-        // Memperbarui nama pengguna
-        $user->name = $request->name;
+        // Memperbarui nama dan email
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
 
-        // Logika untuk mengubah kata sandi (jika diisi)
-        if ($request->filled('current_password')) {
-            $request->validate([
-                'current_password' => ['required', 'current_password'],
-                'new_password' => ['required', Password::defaults(), 'confirmed'],
-            ]);
-
-            $user->password = Hash::make($request->new_password);
+        // Jika ada input password baru, hash dan perbarui.
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
         }
 
-        // Simpan semua perubahan ke database
         $user->save();
 
         // Arahkan kembali ke halaman profil dengan pesan sukses

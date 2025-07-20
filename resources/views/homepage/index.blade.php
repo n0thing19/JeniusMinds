@@ -34,10 +34,6 @@
 @endpush
 
 @section('content')
-{{-- 
-  PERBAIKAN: Logika Alpine.js ditempatkan langsung di dalam atribut x-data.
-  Ini adalah cara yang paling andal untuk memastikan semuanya berfungsi.
---}}
 <div x-data="{
     isQuizModalOpen: false,
     selectedQuiz: {},
@@ -49,13 +45,51 @@
     closeModal() {
         this.isQuizModalOpen = false;
         document.body.classList.remove('modal-open');
+    },
+    handleCodeSubmit() {
+        const codeInput = document.getElementById('enter-code');
+        const code = codeInput.value.trim();
+
+        if (code.length !== 6) {
+            alert('Please enter a valid 6-character code.');
+            return;
+        }
+
+        fetch('{{ route('quiz.join_with_code') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ code: code })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw new Error(err.error || 'Something went wrong.') });
+            }
+            return response.json();
+        })
+        .then(data => {
+            this.openQuizModal(data);
+            codeInput.value = '';
+        })
+        .catch(error => {
+            alert(error.message);
+        });
     }
 }">
     <div class="container mx-auto px-6 py-4 mt-4">
         <section class="mb-10 text-left">
             <label for="enter-code" class="font-semibold text-lg text-gray-700">Have a code?</label>
-            <div class="mt-2 flex justify-left">
-                <input type="text" id="enter-code" placeholder="Enter Code Here" class="w-full md:w-1/3 px-5 py-3 border-2 brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-[#EEA99D]/50 transition-all shadow-sm">
+            <div class="mt-2 flex items-center space-x-3">
+                <input 
+                    type="text" 
+                    id="enter-code" 
+                    placeholder="Enter Code Here" 
+                    maxlength="6"
+                    @keydown.enter.prevent="handleCodeSubmit()"
+                    class="w-full md:w-1/3 px-5 py-3 border-2 brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-[#EEA99D]/50 transition-all shadow-sm uppercase">
+                <button @click="handleCodeSubmit()" class="btn-gradient text-black px-8 py-3 rounded-full font-bold shadow-sm whitespace-nowrap">Join</button>
             </div>
         </section>
 
