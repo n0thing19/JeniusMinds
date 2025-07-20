@@ -1,61 +1,217 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🧠 JeniusMinds – Interactive Quiz Platform
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+*JeniusMinds* is a Laravel-based web application designed to provide a dynamic, engaging, and educational quiz platform. It empowers users—such as teachers, students, or content creators—to create and take custom quizzes with various question types in a streamlined learning environment.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Project Goals
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+JeniusMinds aims to offer an educational tool that:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Encourages student engagement through gamified quizzes.
+* Enables educators to easily design and manage custom quizzes.
+* Supports different learning styles via diverse question formats.
+* Provides immediate feedback and scoring to enhance the learning process.
 
-## Learning Laravel
+---
+## 🤝Teams
+* Jonathan Alexander (03082230031) - Backend
+* Misellin Mindany (03082230005) - Frontend & UI
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## ⚙ Technology Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Tool             | Description                                   |
+| ---------------- | --------------------------------------------- |
+| Laravel 12       | Backend framework                             |
+| Tailwind CSS     | Utility-first CSS framework for styling       |
+| Alpine.js        | Lightweight JavaScript framework for UI logic |
+| MySQL / SQLite   | Relational database                           |
+| Vite             | Frontend build tool and asset bundler         |
+| Laravel Queues   | Background job handling (e.g., quiz results)  |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## ✨ Key Features
 
-### Premium Partners
+### 👥 User Management
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* Secure registration and login system.
+* User profile editing (name, password).
 
-## Contributing
+### 🧠 Quiz Creation and Management
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* Create quizzes by selecting a topic.
+* Add multiple types of questions:
+  * *Multiple Choice (Button):* Single correct answer.
+  * *Checkboxes:* Multiple correct answers.
+  * *Ordering (Reorder):* Arrange items in the correct sequence.
+  * *Text Input (TypeAnswer):* User types a short answer.
+* Temporary question saving via sessionStorage for safety.
+* Edit or delete existing quizzes from the user dashboard.
 
-## Code of Conduct
+### 📝 Taking a Quiz
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* Clean, focused UI for answering questions.
+* Easy navigation between questions (Previous/Next).
+* Countdown timer for added challenge.
+* Instant feedback with final score and time taken.
 
-## Security Vulnerabilities
+### 🏠 Homepage
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Browse available quizzes by subject/topic.
+* Search quizzes.
+* Join quizzes with one click.
 
-## License
+### 📊 (upcoming) Performance Tracking
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Track quiz history.
+* Display time statistics and scoring breakdown.
+
+---
+
+## 🧭 User Workflow
+
+1. Register or log in to access your personal dashboard.
+2. Create a new quiz by entering a subject.
+3. Add questions using the supported types.
+4. Publish and share your quiz with Code.
+5. Other users take the quiz and get scored instantly.
+6. View your results and time spent on each quiz.
+
+---
+
+## 📁 Folder Structure
+
+```
+JeniusMinds/
+├── app/
+│   └── Http/
+│       └── Controllers/
+│           ├── AuthController.php
+│           ├── Controller.php      
+│           ├── HomepageController.php
+│           ├── ProfileController.php
+│           ├── QuizController.php
+│       └── Middleware/
+│           ├── Authenticate.php
+│       └── Quiz/
+│           ├── Choice.php
+│           ├── Question.php
+│           ├── QuestionType.php
+│           ├── Subject.php
+│           ├── Topic.php
+│       └── User.php/
+│      
+├── database/
+│       └── factories/
+│           ├── UserFactory.php
+│       └── migrations/
+│           ├── 0001_01_01_000000_create_users_table.php
+│           ├── 2025_07_07_173133_create_quiz_table.php
+│       └── seeders/
+│           ├── DatabaseSeeder.php
+│           ├── QuizSeeder.php
+│
+├── public/
+│       └── assets/
+│           ├── biology.png
+│           ├── ...              
+│
+├── resources/
+│   └── views/
+│       ├── layouts/
+│       │   └── app.blade.php
+│       │   └── quizeditor.blade.php
+│       ├── profile/
+│       │   └── editprofile.blade.php
+│       │   └── myprofile.blade.php
+│       ├── quiz/
+│       │   └── partials/
+│       │       └── addbutton.blade.php
+│       │       └── addcheckbox.blade.php
+│       │       └── addreorder.blade.php
+│       │       └── addtypeanswer.blade.php
+│       │       └── editor.blade.php
+│       │       └── show.blade.php            
+│
+└── routes/
+    ├── console.php                          
+    └── web.php                          
+```
+
+---
+
+## ⚙ Getting Started
+
+### ✅ Requirements
+
+Ensure your development environment includes:
+
+* PHP >= 8.2
+* Composer
+* Node.js + npm
+* MySQL / MariaDB
+* Git
+
+### 🚀 Installation
+
+1.  Clone the repository
+    ```bash
+    git clone https://github.com/n0thing19/JeniusMinds
+    ```
+
+2.  Install PHP dependencies
+    ```bash
+    composer install
+    ```
+
+3.  Set up environment variables
+    ```bash
+    cp .env.example .env
+    ```
+
+4.  Generate the application key
+    ```bash
+    php artisan key:generate
+    ```
+
+5.  Run migrations
+    ```bash
+    php artisan migrate
+    ```
+
+6.  Run seeder
+    ```bash
+    php artisan db:seed --class=QuizSeeder
+    ```
+
+7.  Start development server
+    ```bash
+    composer run dev
+    ```
+
+Visit the app at: `http://localhost:8000`
+
+---
+
+## 🗃 Database Structure
+
+| Table          | Description                                          |
+| -------------- | ---------------------------------------------------- |
+| `users`          | Stores user account information                      |
+| `subjects`       | Quiz subject categories (e.g., Math, English)        |
+| `topics`         | Individual quizzes, linked to users and subjects     |
+| `question_types` | Defines available question formats                   |
+| `questions`      | Stores question content, type, and related topic     |
+| `choices`        | Options for each question, with correct answer flags |
+
+---
+
+## 📄 License
+
+This project is open-sourced under the [MIT License](LICENSE). You are free to use, modify, and distribute it for personal or commercial use.
