@@ -1,4 +1,7 @@
 # 🧠 JeniusMinds – Interactive Quiz Platform
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 
 *JeniusMinds* is a Laravel-based web application designed to provide a dynamic, engaging, and educational quiz platform. It empowers users—such as teachers, students, or content creators—to create and take custom quizzes with various question types in a streamlined learning environment.
 
@@ -200,12 +203,12 @@ Visit the app at: `http://localhost:8000`
 
 | Table          | Description                                          |
 | -------------- | ---------------------------------------------------- |
-| users          | Stores user account information                      |
-| subjects       | Quiz subject categories (e.g., Math, English)        |
-| topics         | Individual quizzes, linked to users and subjects     |
-| question_types | Defines available question formats                   |
-| questions      | Stores question content, type, and related topic     |
-| choices        | Options for each question, with correct answer flags |
+| `users`          | Stores user account information                      |
+| `subjects`       | Quiz subject categories (e.g., Math, English)        |
+| `topics`         | Individual quizzes, linked to users and subjects     |
+| `question_types` | Defines available question formats                   |
+| `questions`      | Stores question content, type, and related topic     |
+| `choices`        | Options for each question, with correct answer flags |
 
 ---
 
