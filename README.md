@@ -22,14 +22,14 @@ JeniusMinds aims to offer an educational tool that:
 
 ## ⚙ Technology Stack
 
-| Tool           | Description                                   |
-| -------------- | --------------------------------------------- |
-| Laravel 12     | Backend framework                             |
-| Tailwind CSS   | Utility-first CSS framework for styling       |
-| Alpine.js      | Lightweight JavaScript framework for UI logic |
-| MySQL / SQLite | Relational database                           |
-| Vite           | Frontend build tool and asset bundler         |
-| Laravel Queues | Background job handling (e.g., quiz results)  |
+| Tool             | Description                                   |
+| ---------------- | --------------------------------------------- |
+| Laravel 12       | Backend framework                             |
+| Tailwind CSS     | Utility-first CSS framework for styling       |
+| Alpine.js        | Lightweight JavaScript framework for UI logic |
+| MySQL / SQLite   | Relational database                           |
+| Vite             | Frontend build tool and asset bundler         |
+| Laravel Queues   | Background job handling (e.g., quiz results)  |
 
 ---
 
@@ -42,9 +42,8 @@ JeniusMinds aims to offer an educational tool that:
 
 ### 🧠 Quiz Creation and Management
 
-* Create quizzes by selecting a  topic.
+* Create quizzes by selecting a topic.
 * Add multiple types of questions:
-
   * *Multiple Choice (Button):* Single correct answer.
   * *Checkboxes:* Multiple correct answers.
   * *Ordering (Reorder):* Arrange items in the correct sequence.
@@ -83,15 +82,15 @@ JeniusMinds aims to offer an educational tool that:
 
 ---
 
-## 📁 Folder Structure (Simplified)
+## 📁 Folder Structure
 
-
+```
 JeniusMinds/
 ├── app/
 │   └── Http/
 │       └── Controllers/
 │           ├── AuthController.php
-│           ├── Controller.php       
+│           ├── Controller.php      
 │           ├── HomepageController.php
 │           ├── ProfileController.php
 │           ├── QuizController.php
@@ -135,12 +134,12 @@ JeniusMinds/
 │       │       └── addreorder.blade.php
 │       │       └── addtypeanswer.blade.php
 │       │       └── editor.blade.php
-│       │       └── show.blade.php           
+│       │       └── show.blade.php            
 │
 └── routes/
     ├── console.php                          
     └── web.php                          
-
+```
 
 ---
 
@@ -158,43 +157,49 @@ Ensure your development environment includes:
 
 ### 🚀 Installation
 
-bash
-1. Clone the repository
-git clone https://github.com/n0thing19/JeniusMinds
+1.  Clone the repository
+    ```bash
+    git clone https://github.com/n0thing19/JeniusMinds
+    ```
 
-bash
-2. Install PHP dependencies
-composer install
+2.  Install PHP dependencies
+    ```bash
+    composer install
+    ```
 
-bash
-3. Set up environment variables
-cp .env.example .env
+3.  Set up environment variables
+    ```bash
+    cp .env.example .env
+    ```
 
-bash
-4. Generate the application key
-php artisan key:generate
+4.  Generate the application key
+    ```bash
+    php artisan key:generate
+    ```
 
-bash
-5. Run migrations
-php artisan migrate
+5.  Run migrations
+    ```bash
+    php artisan migrate
+    ```
 
-bash
-6. Run seeder
-php artisan db:seed --class=QuizSeeder
+6.  Run seeder
+    ```bash
+    php artisan db:seed --class=QuizSeeder
+    ```
 
-bash
-7. Start development server
-composer run dev
+7.  Start development server
+    ```bash
+    composer run dev
+    ```
 
-
-Visit the app at: http://localhost:8000
+Visit the app at: `http://localhost:8000`
 
 ---
 
 ## 🗃 Database Structure
 
-| Table            | Description                                          |
-| ---------------- | ---------------------------------------------------- |
+| Table          | Description                                          |
+| -------------- | ---------------------------------------------------- |
 | users          | Stores user account information                      |
 | subjects       | Quiz subject categories (e.g., Math, English)        |
 | topics         | Individual quizzes, linked to users and subjects     |
