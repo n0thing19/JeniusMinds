@@ -39,7 +39,6 @@ JeniusMinds aims to offer an educational tool that:
 | Alpine.js        | Lightweight JavaScript framework for UI logic |
 | MySQL / SQLite   | Relational database                           |
 | Vite             | Frontend build tool and asset bundler         |
-| Laravel Queues   | Background job handling (e.g., quiz results)  |
 
 ---
 
