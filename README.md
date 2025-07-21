@@ -96,26 +96,28 @@ JeniusMinds/
 │           ├── Controller.php      
 │           ├── HomepageController.php
 │           ├── ProfileController.php
-│           ├── QuizController.php
+│           └── QuizController.php
 │       └── Middleware/
-│           ├── Authenticate.php
+│           └── Authenticate.php
 │       └── Quiz/
 │           ├── Choice.php
 │           ├── Question.php
 │           ├── QuestionType.php
+│           ├── QuizAttempt.php
 │           ├── Subject.php
-│           ├── Topic.php
-│       └── User.php/
+│           └── Topic.php
+│       └── User.php
 │      
 ├── database/
 │       └── factories/
-│           ├── UserFactory.php
+│           └── UserFactory.php
 │       └── migrations/
 │           ├── 0001_01_01_000000_create_users_table.php
 │           ├── 2025_07_07_173133_create_quiz_table.php
+│           └── 2025_07_20_202431_create_quiz_attempts_table.php
 │       └── seeders/
 │           ├── DatabaseSeeder.php
-│           ├── QuizSeeder.php
+│           └── QuizSeeder.php
 │
 ├── public/
 │       └── assets/
@@ -124,23 +126,33 @@ JeniusMinds/
 │
 ├── resources/
 │   └── views/
+│       ├── auth/
+│       │   ├── signin.blade.php
+│       │   └── signup.blade.php
+│       ├── homepage/
+│       │   └── index.blade.php
 │       ├── layouts/
-│       │   └── app.blade.php
+│       │   ├── app.blade.php
+│       │   ├── quiz.blade.php
 │       │   └── quizeditor.blade.php
 │       ├── profile/
-│       │   └── editprofile.blade.php
-│       │   └── myprofile.blade.php
+│       │   ├── editprofile.blade.php
+│       │   ├── myprofile.blade.php
+│       │   └── review.blade.php
 │       ├── quiz/
 │       │   └── partials/
-│       │       └── addbutton.blade.php
-│       │       └── addcheckbox.blade.php
-│       │       └── addreorder.blade.php
-│       │       └── addtypeanswer.blade.php
-│       │       └── editor.blade.php
-│       │       └── show.blade.php            
+│       │       ├── _button.blade.php
+│       │       ├── _checkbox.blade.php
+│       │       ├── _reorder.blade.php
+│       │       └── _typeanswer.blade.php
+│       │   ├── addbutton.blade.php
+│       │   ├── addcheckbox.blade.php
+│       │   ├── addreorder.blade.php
+│       │   ├── addtypeanswer.blade.php
+│       │   ├── editor.blade.php
+│       │   └── show.blade.php            
 │
 └── routes/
-    ├── console.php                          
     └── web.php                          
 ```
 
@@ -155,7 +167,7 @@ Ensure your development environment includes:
 * PHP >= 8.2
 * Composer
 * Node.js + npm
-* MySQL / MariaDB
+* MySQL
 * Git
 
 ### 🚀 Installation
@@ -209,6 +221,7 @@ Visit the app at: `http://localhost:8000`
 | `question_types` | Defines available question formats                   |
 | `questions`      | Stores question content, type, and related topic     |
 | `choices`        | Options for each question, with correct answer flags |
+| `quiz_attempts`  | Store completed user quiz history                    |
 
 ---
 
