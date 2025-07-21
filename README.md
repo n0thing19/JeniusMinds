@@ -192,7 +192,7 @@ Ensure your development environment includes:
    
 4.  Set up environment variables
     ```bash
-    cp .env.example .env
+    copy .env.example .env
     ```
 
 5.  Generate the application key
