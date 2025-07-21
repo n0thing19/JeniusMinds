@@ -19,11 +19,12 @@ class QuizSeeder extends Seeder
      */
     public function run()
     {
-        // Nonaktifkan foreign key checks sementara untuk menghindari masalah urutan saat truncate
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        } elseif (DB::getDriverName() === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = OFF;');
+        }
 
-        // Kosongkan tabel sebelum mengisi ulang (opsional, tergantung kebutuhan)
-        // Menggunakan truncate() langsung pada DB::table() karena model Eloquent tidak memiliki metode truncate()
         DB::table('choices')->truncate();
         DB::table('questions')->truncate();
         DB::table('topics')->truncate();
@@ -448,6 +449,10 @@ class QuizSeeder extends Seeder
         ]);
 
         // Aktifkan kembali foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        } elseif (DB::getDriverName() === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = ON;');
+        }
     }
 }
