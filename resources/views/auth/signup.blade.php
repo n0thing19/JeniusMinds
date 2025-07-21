@@ -33,11 +33,10 @@
             border-color: #EEA99D;
             box-shadow: 0 0 0 2px rgba(238, 169, 157, 0.3);
         }
-        /* Added style for validation error messages */
         .error-message {
-            color: #c53030; /* A shade of red */
-            font-size: 0.875rem; /* text-sm */
-            margin-top: 0.25rem; /* mt-1 */
+            color: #c53030; 
+            font-size: 0.875rem; 
+            margin-top: 0.25rem; 
         }
     </style>
 </head>

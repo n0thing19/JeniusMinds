@@ -52,8 +52,9 @@ class AuthContoller extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+            'email' => 'The provided email is incorrect.',
+            'password' => 'The provided password is incorrect.',
+        ]);
     }
     public function signout(Request $request): RedirectResponse
     {

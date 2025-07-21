@@ -5,7 +5,6 @@
 @push('styles')
 <style>
     body { font-family: 'Poppins', sans-serif; background-color: #FFFAF3; }
-    body.modal-open { overflow: hidden; }
     .brand-pink-light { background-color: #F4E0DA; }
     .brand-pink-dark { background-color: #EEA99D; }
     .brand-yellow-card { background-color: #F5F5F5; } 
@@ -23,7 +22,7 @@
     .icon-bg { background: #FFFFFF; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px -4px rgba(0,0,0,0.1); }
     .scroll-container::-webkit-scrollbar { display: none; }
     .category-container { position: relative; padding: 0 3rem; }
-    .scroll-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10; cursor: pointer; border: none; }
+    .scroll-btn { position: absolute; top: 58%; transform: translateY(-50%); background: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10; cursor: pointer; border: none; }
     .scroll-btn:hover { background: #f5f5f5; }
     .scroll-btn-left { left: 0; }
     .scroll-btn-right { right: 0; }
@@ -88,7 +87,7 @@
                     placeholder="Enter Code Here" 
                     maxlength="6"
                     @keydown.enter.prevent="handleCodeSubmit()"
-                    class="w-full md:w-1/3 px-5 py-3 border-2 brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-[#EEA99D]/50 transition-all shadow-sm uppercase">
+                    class="w-full md:w-1/3 px-5 py-3 border-2 brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-[#EEA99D]/50 transition-all shadow-sm">
                 <button @click="handleCodeSubmit()" class="btn-gradient text-black px-8 py-3 rounded-full font-bold shadow-sm whitespace-nowrap">Join</button>
             </div>
         </section>
@@ -137,9 +136,8 @@
     </div>
 
     <!-- ===== Modal Kuis ===== -->
-    <div x-show="isQuizModalOpen" x-transition class="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-60 p-4" x-cloak>
+    <div x-show="isQuizModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" x-cloak>
         <div @click.away="closeModal()" class="bg-white rounded-2xl shadow-2xl w-full max-w-md text-center overflow-hidden" x-transition>
-            <button @click="closeModal()" class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl z-10">&times;</button>
             <img :src="selectedQuiz.image_url" alt="Gambar Kuis" class="w-full h-56 object-cover">
             <div class="p-8">
                 <h2 class="text-3xl font-extrabold text-gray-800" x-text="selectedQuiz.subject_name"></h2>
@@ -154,7 +152,7 @@
                         <span x-text="`${Math.ceil(selectedQuiz.question_count * 0.5)}`"></span> Minutes
                     </div>
                 </div>
-                <a :href="`/quiz/start/${selectedQuiz.id}`" class="block w-full btn-gradient text-white font-bold py-4 px-4 rounded-xl shadow-lg text-xl">
+                <a :href="`/quiz/start/${selectedQuiz.id}`" class="block w-full btn-gradient text-black font-bold py-4 px-4 rounded-xl shadow-lg text-xl">
                     <i class="fas fa-play mr-2"></i> START QUIZ
                 </a>
             </div>
@@ -164,7 +162,6 @@
 @endsection
 
 @push('scripts')
-{{-- Skrip untuk tombol scroll kategori tetap bisa di sini karena tidak bergantung pada Alpine.js --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const categoryContainers = document.querySelectorAll('.category-container');

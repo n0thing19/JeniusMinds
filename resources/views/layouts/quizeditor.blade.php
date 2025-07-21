@@ -6,7 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Quiz Editor') - Jenius Minds</title>
     
-    {{-- Aset CSS dan Font --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +14,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>
-        // Membuat variabel global untuk konfigurasi kuis
         window.quizConfig = {
             topicId: {{ $topic->topic_id ?? 'null' }} 
         };
@@ -27,6 +25,15 @@
         }
         .brand-border { 
             border-color: #F3EAE6; 
+        }
+        .btn-gradient {
+            background-image: linear-gradient(to right, #F7B5A3, #E99A87);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .btn-gradient:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 25px -8px rgba(238, 169, 157, 0.6);
+            filter: brightness(1.1);
         }
         .question-nav-btn {
             transition: all 0.2s ease;
@@ -80,23 +87,22 @@
             <div class="flex justify-between items-center">
                 <a href="{{ url('/') }}" class="flex items-center space-x-3 group">
                     <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="w-14 h-14">
-                    <span class="text-xl font-bold text-gray-800">Jenius Minds</span>
+                    <span class="text-xl font-bold text-gray-800 group-hover:text-[#EEA99D] transition-colors">Jenius Minds</span>
                 </a>
                 <div class="flex items-center space-x-4">
                     <button id="cancel-btn" class="text-gray-600 hover:text-gray-900 font-bold transition-colors">Cancel</button>
-                    <button @click="openSaveModal()" type="button" class="bg-[#F5B9B0] text-black px-6 py-2 rounded-lg font-bold shadow-sm hover:brightness-105 transition">Done</button>
+                    <button @click="openSaveModal()" type="button" class="btn-gradient text-black px-6 py-2 rounded-full font-bold shadow-md">Done</button>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="pb-32">
+    <main class="pb-20">
         @yield('content')
     </main>
 
     <footer class="fixed bottom-0 left-0 right-0 bg-[#FFFBF5] p-4 border-t brand-border z-10">
         <div class="container mx-auto flex items-center justify-between space-x-4">
-            <button type="button" class="bg-[#F7B5A3] text-sm text-black px-4 h-14 rounded-xl font-bold flex items-center flex-shrink-0 hover:brightness-105 transition">Settings</button>
             <div class="flex-grow overflow-x-auto no-scrollbar">
                 <div id="question-nav-container" class="flex justify-start items-center space-x-2 px-2"></div>
             </div>
@@ -126,7 +132,7 @@
                 </div>
                 <div class="flex justify-end items-center space-x-4 mt-8">
                     <button type="button" @click="isSaveModalOpen = false" class="font-bold text-gray-600 hover:text-gray-900 transition-colors">Cancel</button>
-                    <button type="submit" class="bg-[#F5B9B0] text-black px-8 py-3 rounded-lg font-bold shadow-md hover:brightness-105 transition">Save Quiz</button>
+                    <button type="submit" class="btn-gradient text-white px-8 py-3 rounded-full font-bold shadow-md">Save Quiz</button>
                 </div>
             </form>
         </div>
@@ -220,7 +226,6 @@
                             const deleteIcon = document.createElement('i');
                             deleteIcon.className = 'fa-solid fa-trash delete-icon-overlay';
                             
-                            // ===== PERUBAHAN UTAMA ADA DI SINI =====
                             deleteIcon.addEventListener('click', function(e) {
                                 e.stopPropagation(); 
 
@@ -228,19 +233,15 @@
                                     return;
                                 }
 
-                                // 1. Hapus pertanyaan dari session storage
                                 let currentQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
                                 currentQuestions.splice(index, 1);
                                 sessionStorage.setItem(storageKey, JSON.stringify(currentQuestions));
 
-                                // 2. Perbarui navigasi footer
                                 renderFooterNav();
 
                                 const mainContent = document.querySelector('main');
 
-                                // 3. Cek apakah sedang dalam mode EDIT (ada topicId)
                                 if (window.quizConfig && window.quizConfig.topicId) {
-                                    // Jika mode EDIT, tampilkan pesan konfirmasi
                                     if (mainContent) {
                                         mainContent.innerHTML = `
                                             <div class="container mx-auto px-6 py-12 text-center">
@@ -253,13 +254,11 @@
                                         `;
                                     }
                                 } else {
-                                    // Jika mode BUAT BARU, arahkan kembali ke halaman utama editor
                                     window.location.href = '{{ route('quiz.editor') }}';
                                 }
                                 
                                 this.remove();
                             });
-                            // =======================================
                             
                             navItemContainer.appendChild(deleteIcon);
                         }
@@ -277,7 +276,6 @@
                     e.preventDefault();
                     if(confirm('Are you sure? All unsaved questions will be lost.')) {
                         sessionStorage.removeItem(storageKey);
-                        // Tentukan tujuan redirect berdasarkan mode
                         const redirectUrl = window.quizConfig.topicId ? '{{ route('profile.show') }}' : '{{ url('/') }}'; // Asumsi ada route 'homepage.index'
                         window.location.href = redirectUrl;
                     }
@@ -296,5 +294,6 @@
             }
         });
     </script>
+
 </body>
 </html>

@@ -53,10 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentQuestion = pendingQuestions[questionIndex] || {};
     let correctChoiceIndex = currentQuestion.correct_choice ?? -1;
 
-    // Sisa script (loadQuestionData, saveQuestionData, updateCardStyles, event listeners)
-    // tidak perlu diubah sama sekali. Biarkan seperti di jawaban sebelumnya.
-    // ...
-    // Fungsi untuk memuat data ke dalam form
     const loadQuestionData = () => {
         questionTextEl.value = currentQuestion.question_text || '';
         if (currentQuestion.choices) {
@@ -67,20 +63,17 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCardStyles();
     };
 
-    // Fungsi untuk menyimpan perubahan ke sessionStorage setiap kali ada input
     const saveQuestionData = () => {
         const data = {
-            q_type_name: 'Button', // Pastikan tipe soal selalu tersimpan
+            q_type_name: 'Button', 
             question_text: questionTextEl.value.trim(),
             choices: choiceInputs.map(input => input.value.trim()),
             correct_choice: correctChoiceIndex
         };
-        // Simpan kembali data ke index yang benar dalam array
         pendingQuestions[questionIndex] = data;
         sessionStorage.setItem(storageKey, JSON.stringify(pendingQuestions));
     };
 
-    // Fungsi untuk memberi style pada kartu jawaban (correct/incorrect)
     const updateCardStyles = () => {
         answerCards.forEach((card, index) => {
             card.classList.remove('correct', 'incorrect');
@@ -94,20 +87,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Event listener untuk saat kartu jawaban diklik
     answerCards.forEach((card, index) => {
         card.addEventListener('click', () => {
             correctChoiceIndex = index;
             updateCardStyles();
-            saveQuestionData(); // Simpan perubahan setelah memilih jawaban benar
+            saveQuestionData(); 
         });
     });
 
-    // Event listener untuk menyimpan setiap kali ada ketikan
     questionTextEl.addEventListener('input', saveQuestionData);
     choiceInputs.forEach(input => input.addEventListener('input', saveQuestionData));
 
-    // Muat data soal saat halaman pertama kali dibuka
     loadQuestionData();
 });
 </script>

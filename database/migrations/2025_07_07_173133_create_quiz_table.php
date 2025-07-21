@@ -11,79 +11,54 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Tabel untuk menyimpan mata pelajaran (e.g., Math, Science)
         Schema::create('subjects', function (Blueprint $table) {
-            $table->id('subject_id'); // Primary key auto-increment (BIGINT)
+            $table->id('subject_id'); 
             $table->string('subject_name');
-            // $table->timestamps(); // Opsional: jika butuh created_at & updated_at
         });
 
-        // Tabel untuk menyimpan tipe-tipe pertanyaan (e.g., Button, Checkbox)
         Schema::create('question_types', function (Blueprint $table) {
-            $table->id('q_type_id'); // Primary key auto-increment
-            $table->string('type_name')->unique(); // Nama tipe harus unik
+            $table->id('q_type_id'); 
+            $table->string('type_name')->unique(); 
         });
 
-        // Tabel untuk menyimpan topik dari setiap mata pelajaran
         Schema::create('topics', function (Blueprint $table) {
-            $table->id('topic_id'); // Primary key auto-increment
-            $table->string('topic_name');
-            
-            // Foreign key ke tabel 'subjects'
-            // PERBAIKAN: Menambahkan nama kolom referensi 'subject_id'
+            $table->id('topic_id'); 
+            $table->string('topic_name'); 
             $table->foreignId('subject_id')
                   ->constrained(table: 'subjects', column: 'subject_id')
-                  ->onDelete('cascade'); // Jika subject dihapus, topic ikut terhapus
+                  ->onDelete('cascade'); 
             $table->foreignId('user_id')
                   ->nullable()
                   ->constrained(table: 'users', column: 'id')
                   ->onDelete('cascade');
-            $table->string('code', 6)->unique()->nullable();
+            $table->string('code', 6)
+                  ->unique()
+                  ->nullable();
         });
 
-        // Tabel utama untuk menyimpan pertanyaan
         Schema::create('questions', function (Blueprint $table) {
-            $table->id('question_id'); // Primary key auto-increment
-            $table->text('question_text'); // Gunakan text untuk pertanyaan yang lebih panjang
-
-            // Foreign key ke tabel 'topics'
-            // PERBAIKAN: Menambahkan nama kolom referensi 'topic_id'
+            $table->id('question_id'); 
+            $table->text('question_text');
             $table->foreignId('topic_id')
                   ->constrained(table: 'topics', column: 'topic_id')
                   ->onDelete('cascade');
-
-            // Foreign key ke tabel 'question_types'
-            // PERBAIKAN: Menambahkan nama kolom referensi 'q_type_id'
             $table->foreignId('q_type_id')
                   ->constrained(table: 'question_types', column: 'q_type_id');
-            
-            // Kolom 'correct_ans' dihapus karena informasinya dikelola di tabel 'choices'
         });
 
-        // Tabel untuk menyimpan pilihan jawaban dari setiap pertanyaan
         Schema::create('choices', function (Blueprint $table) {
-            $table->id('choice_id'); // Primary key auto-increment
+            $table->id('choice_id');
             $table->string('choice_text');
-            $table->boolean('is_correct')->default(false); // Untuk tipe soal pilihan ganda/checkbox
-            
-            // Untuk tipe soal 'reorder', kolom ini menyimpan urutan yang benar
+            $table->boolean('is_correct')->default(false); 
             $table->unsignedInteger('correct_order')->nullable(); 
-
-            // Foreign key ke tabel 'questions'
-            // PERBAIKAN: Menambahkan nama kolom referensi 'question_id'
             $table->foreignId('question_id')
                   ->constrained(table: 'questions', column: 'question_id')
-                  ->onDelete('cascade'); // Jika pertanyaan dihapus, pilihan jawaban ikut terhapus
+                  ->onDelete('cascade'); 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     * (Fungsi down() sudah benar dengan urutan terbalik)
-     */
     public function down(): void
     {
-        // Urutan drop sudah benar, dari tabel yang memiliki foreign key ke tabel yang dirujuk.
         Schema::dropIfExists('choices');
         Schema::dropIfExists('questions');
         Schema::dropIfExists('topics');

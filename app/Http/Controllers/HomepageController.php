@@ -9,8 +9,6 @@ class HomepageController extends Controller
 {
     public function index()
     {
-        // Definisikan data tampilan untuk setiap SUBJECT di sini.
-        // Idealnya, data ini (icon_class, dll.) disimpan di database Anda.
         $subjectDisplayData = [
             'Mathematics' => ['icon_class' => 'fas fa-calculator', 'color_class' => 'brand-yellow-card', 'image_path' => 'assets/math.png'],
             'English'     => ['icon_class' => 'fas fa-book-open', 'color_class' => 'brand-pink-card', 'image_path' => 'assets/english.png'],
@@ -25,7 +23,6 @@ class HomepageController extends Controller
             'Mandarin'    => ['icon_class' => 'fas fa-language', 'color_class' => 'brand-gold-card', 'image_path' => 'assets/mandarin.png'],
         ];
 
-        // --- PENAMBAHAN BARU: Definisikan ikon untuk setiap TOPIC secara lengkap ---
         $topicDisplayData = [
             // Mathematics
             'Algebra' => 'fas fa-square-root-alt', 'Arithmetic' => 'fas fa-sort-numeric-up', 'Trigonometry' => 'fas fa-wave-square', 'Geometry' => 'fas fa-draw-polygon', 'Calculus' => 'fas fa-infinity', 'Statistics' => 'fas fa-chart-pie',
@@ -56,13 +53,10 @@ class HomepageController extends Controller
         }])->get();
 
         $subjects->each(function ($subject) use ($subjectDisplayData, $topicDisplayData) {
-            // Tambahkan data display ke Subject
             $displayData = $subjectDisplayData[$subject->subject_name] ?? ['icon_class' => 'fas fa-question-circle', 'color_class' => 'brand-gray-card', 'image_path' => 'assets/default.png'];
             $subject->icon_class = $displayData['icon_class'];
             $subject->color_class = $displayData['color_class'];
             $subject->image_path = $displayData['image_path'];
-
-            // Tambahkan data ikon ke setiap Topic
             $subject->topics->each(function ($topic) use ($topicDisplayData) {
                 $topic->icon_class = $topicDisplayData[$topic->topic_name] ?? 'fas fa-puzzle-piece'; 
             });

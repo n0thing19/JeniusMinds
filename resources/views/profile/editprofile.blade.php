@@ -1,4 +1,4 @@
-@extends('layouts.app') {{-- Asumsi Anda menggunakan layout utama 'app' --}}
+@extends('layouts.app')
 
 @section('title', 'Edit Profile')
 
@@ -9,7 +9,7 @@
         background-color: #FEF6F3;
         border: 2px solid #F3EAE6;
         padding: 0.75rem 1rem;
-        padding-left: 3rem; /* Ruang untuk ikon */
+        padding-left: 3rem;
         width: 100%;
         border-radius: 0.75rem;
         font-weight: 500;
@@ -37,7 +37,6 @@
     <div class="max-w-3xl mx-auto">
         <h1 class="text-center text-4xl font-extrabold text-gray-800 mb-10">Edit Profile</h1>
 
-        {{-- Menampilkan pesan error validasi --}}
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative mb-6" role="alert">
                 <strong class="font-bold">Oops!</strong>
@@ -51,7 +50,7 @@
 
         <form action="{{ route('profile.update') }}" method="POST" class="space-y-12" x-data="{ changePassword: false }">
             @csrf
-            @method('PATCH') {{-- Metode HTTP untuk update --}}
+            @method('PATCH') 
             
             <!-- Bagian Informasi Profil -->
             <div class="bg-white p-8 rounded-2xl shadow-lg border brand-border">

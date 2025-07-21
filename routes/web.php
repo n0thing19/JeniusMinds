@@ -11,7 +11,7 @@ use App\Http\Controllers\HomepageController;
 Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 
 
-// Grup route untuk autentikasi (hanya untuk tamu)
+// Grup route untuk autentikasi
 Route::controller(AuthContoller::class)->middleware('guest')->group(function () {
     Route::get('/signin', 'signin')->name('signin');
     Route::post('/signin', 'authenticate')->name('authenticate');
@@ -31,10 +31,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/', 'show')->name('show');
             Route::get('/edit', 'edit')->name('edit');
             Route::patch('/update', 'update')->name('update');
+            Route::get('/history/{attempt}', 'reviewAttempt')->name('review_attempt');
+
 
     });
 
-    // Memanggil fungsi grup route untuk kuis
     quizeditor();
 });
 
@@ -43,30 +44,20 @@ Route::middleware('auth')->group(function () {
 function quizeditor(): RouteRegistrar
 {
     return Route::controller(QuizController::class)
-        ->prefix('quiz') // Semua URL di sini akan diawali dengan /quiz
-        ->name('quiz.')   // Semua nama route di sini akan diawali dengan quiz.
+        ->prefix('quiz')
+        ->name('quiz.') 
         ->group(function () {
-            
-            // --- Route untuk Editor Kuis ---
             Route::get('/editor', 'editor')->name('editor');
             Route::post('/editor/store-all', 'storeAll')->name('store.all');
-
-            // --- PENAMBAHAN BARU: Route untuk mengedit kuis yang sudah ada ---
             Route::get('/editor/{topic}', [QuizController::class, 'edit'])->name('edit');
             Route::patch('/editor/{topic}', [QuizController::class, 'update'])->name('update');
             Route::delete('/topic/{topic}', 'destroy')->name('destroy');
-
-            // --- Route untuk halaman spesifik tipe soal ---
             Route::get('/addbutton', 'addbutton')->name('addbutton');
             Route::get('/addcheckbox', 'addcheckbox')->name('addcheckbox');
             Route::get('/addtypeanswer', 'addtypeanswer')->name('addtypeanswer');
             Route::get('/addreorder', 'addreorder')->name('addreorder');
-
-            // --- Route untuk Mengerjakan Kuis ---
             Route::get('/start/{topic}', 'start')->name('start');
             Route::post('/submit', 'submit')->name('submit');
-
-            // --- RUTE BARU UNTUK JOIN DENGAN KODE ---
             Route::post('/join-with-code', 'joinWithCode')->name('join_with_code');
         });
 }

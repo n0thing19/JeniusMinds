@@ -4,7 +4,6 @@
 
 @push('styles')
 <style>
-    /* --- Answer Box Styles --- */
     .answer-box {
         background-color: #FFE2D6;
         border: 2px solid #FFE2D6;
@@ -13,8 +12,6 @@
         margin-bottom: 1rem;
         transition: all 0.2s ease;
     }
-    
-    /* --- Rank Selector Styles --- */
     .rank-selector {
         display: flex;
         gap: 8px;
@@ -95,9 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let pendingQuestions = JSON.parse(sessionStorage.getItem(storageKey)) || [];
     let currentQuestion = pendingQuestions[questionIndex] || {};
     
-    // Format: [rank_for_choice_0, rank_for_choice_1, ...]
-    // Contoh: [2, 4, 1, 3] berarti jawaban pertama urutan ke-2, dst.
-    // Nilai -1 berarti belum diberi peringkat.
     let correctOrder = currentQuestion.correct_order || [-1, -1, -1, -1];
 
     const loadQuestionData = () => {
@@ -111,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const saveQuestionData = () => {
-        // Hapus properti yang tidak relevan dari tipe soal lain
         delete currentQuestion.correct_choice;
         delete currentQuestion.correct_choices;
 
@@ -134,19 +127,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const rank = parseInt(option.dataset.rank);
             option.classList.remove('selected', 'disabled');
 
-            // Nonaktifkan jika rank ini sudah digunakan oleh baris LAIN
             if (usedRanks.includes(rank)) {
                 option.classList.add('disabled');
             }
         });
 
-        // Terapkan style 'selected' untuk rank yang sudah dipilih di setiap baris
         answerItems.forEach((item, itemIndex) => {
             const selectedRank = correctOrder[itemIndex];
             if (selectedRank !== -1) {
                 const selectedOption = item.querySelector(`.rank-option[data-rank="${selectedRank}"]`);
                 if (selectedOption) {
-                    selectedOption.classList.remove('disabled'); // Aktifkan kembali agar bisa diklik lagi
+                    selectedOption.classList.remove('disabled'); 
                     selectedOption.classList.add('selected');
                 }
             }
@@ -160,9 +151,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const rank = parseInt(option.dataset.rank);
                 const isAlreadyUsed = correctOrder.some((r, i) => r === rank && i !== itemIndex);
 
-                if (isAlreadyUsed) return; // Jangan lakukan apa-apa jika rank sudah diambil
+                if (isAlreadyUsed) return; 
 
-                // Jika mengklik rank yang sama lagi, batalkan pilihan (set ke -1)
                 if (correctOrder[itemIndex] === rank) {
                     correctOrder[itemIndex] = -1;
                 } else {

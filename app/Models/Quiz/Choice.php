@@ -11,28 +11,19 @@ class Choice extends Model
 
     protected $table = 'choices';
 
-    // Primary key adalah 'choice_id'
     protected $primaryKey = 'choice_id';
 
     protected $fillable = [
         'choice_text',
         'is_correct',
         'correct_order',
-        'question_id', // Foreign key juga termasuk fillable
+        'question_id', 
     ];
 
-    // Asumsikan tidak menggunakan timestamps
     public $timestamps = false;
 
-    /**
-     * Mendefinisikan relasi Many-to-One dengan model Question.
-     * Sebuah Choice dimiliki oleh satu Question.
-     */
     public function question()
     {
-        // 'Question::class' adalah model yang berelasi.
-        // 'question_id' adalah foreign key di tabel 'choices'.
-        // 'question_id' adalah local key di tabel 'questions'.
         return $this->belongsTo(Question::class, 'question_id', 'question_id');
     }
 }

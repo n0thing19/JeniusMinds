@@ -10,14 +10,13 @@ use App\Models\Quiz\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str; // <-- 1. PASTIKAN USE STATEMENT INI ADA
+use Illuminate\Support\Str; 
+use App\Models\Quiz\QuizAttempt;
+
 
 class QuizController extends Controller
 {
-    // ... (Semua metode lain seperti editor, edit, update, destroy, dll. tidak ada perubahan) ...
-
     public function editor(Request $request)
     {
         if ($request->has('topic_id')) {
@@ -185,55 +184,63 @@ class QuizController extends Controller
             $userAnswersPayload = $validated['answers'];
             $topicId = $validated['topic_id'];
             $topic = Topic::with('questions.choices', 'questions.questionType')->findOrFail($topicId);
+            
             $score = 0;
+            $results = [];
 
             foreach ($topic->questions as $question) {
                 $questionId = $question->question_id;
-                $userAnswer = $userAnswersPayload[$questionId] ?? null;
-
-                if ($userAnswer === null) {
-                    continue;
-                }
-
+                $userAnswerData = $userAnswersPayload[$questionId] ?? null;
                 $isCorrect = false;
+                $correctAnswer = null;
+                $userAnswerForDisplay = 'Not Answered';
 
                 switch ($question->questionType->type_name) {
                     case 'Button':
-                        $correctChoiceId = $question->choices->where('is_correct', true)->first()?->choice_id;
-                        $isCorrect = ((int)$userAnswer === (int)$correctChoiceId);
+                        $correctChoice = $question->choices->where('is_correct', true)->first();
+                        if ($correctChoice) {
+                            $correctAnswer = $correctChoice->choice_text;
+                            $isCorrect = ((int)$userAnswerData === (int)$correctChoice->choice_id);
+                        }
+                        if ($userAnswerData) {
+                            $userChoice = $question->choices->find($userAnswerData);
+                            $userAnswerForDisplay = $userChoice ? $userChoice->choice_text : 'Invalid Answer';
+                        }
                         break;
 
                     case 'TypeAnswer':
                         $correctChoice = $question->choices->where('is_correct', true)->first();
-                        $correctAnswerText = $correctChoice?->choice_text;
-                        if (is_string($userAnswer) && $correctAnswerText !== null) {
-                            $isCorrect = (strcasecmp(trim($userAnswer), trim($correctAnswerText)) === 0);
-                        } else {
-                            $isCorrect = false;
+                        if ($correctChoice) {
+                            $correctAnswer = $correctChoice->choice_text;
+                            if ($userAnswerData) {
+                                $isCorrect = (strcasecmp(trim($userAnswerData), trim($correctAnswer)) === 0);
+                            }
+                        }
+                        if ($userAnswerData) {
+                            $userAnswerForDisplay = $userAnswerData;
                         }
                         break;
 
                     case 'Checkbox':
-                        $correctChoiceIds = $question->choices->where('is_correct', true)->pluck('choice_id')->toArray();
-                        if (!is_array($userAnswer)) continue 2;
-                        $userAnswerInt = array_map('intval', $userAnswer);
-                        sort($userAnswerInt);
-                        sort($correctChoiceIds);
-                        $isCorrect = ($userAnswerInt == $correctChoiceIds);
+                        $correctChoices = $question->choices->where('is_correct', true);
+                        $correctAnswer = $correctChoices->pluck('choice_text')->all();
+                        if (is_array($userAnswerData)) {
+                            $correctChoiceIds = $correctChoices->pluck('choice_id')->sort()->values()->all();
+                            $userAnswerIds = collect($userAnswerData)->map(fn($id) => (int)$id)->sort()->values()->all();
+                            $isCorrect = ($userAnswerIds == $correctChoiceIds);
+                            $userAnswerForDisplay = $question->choices->whereIn('choice_id', $userAnswerData)->pluck('choice_text')->all();
+                        }
                         break;
                     
                     case 'Reorder':
-                        $correctOrderMap = $question->choices->pluck('correct_order', 'choice_id')->filter()->toArray();
-                        if (!is_array($userAnswer) || count($userAnswer) != count($correctOrderMap)) {
-                            continue 2;
-                        }
-                        $userOrderMap = collect($userAnswer)->pluck('order', 'choice_id');
-                        $isCorrect = true;
-                        foreach ($correctOrderMap as $choiceId => $correctOrder) {
-                            if (!isset($userOrderMap[$choiceId]) || (int)$userOrderMap[$choiceId] != (int)$correctOrder) {
-                                $isCorrect = false;
-                                break;
-                            }
+                        $correctlyOrderedChoices = $question->choices->sortBy('correct_order');
+                        $correctAnswer = $correctlyOrderedChoices->pluck('choice_text')->all();
+                        if (is_array($userAnswerData) && !empty($userAnswerData)) {
+                            $userOrderedIds = collect($userAnswerData)->sortBy('order')->pluck('choice_id');
+                            $isCorrect = $correctlyOrderedChoices->pluck('choice_id')->values()->all() == $userOrderedIds->values()->all();
+                            $userAnswerForDisplay = $question->choices->whereIn('choice_id', $userOrderedIds)->sortBy(function($choice) use ($userOrderedIds) {
+                                return array_search($choice->choice_id, $userOrderedIds->all());
+                            })->pluck('choice_text')->all();
                         }
                         break;
                 }
@@ -241,12 +248,28 @@ class QuizController extends Controller
                 if ($isCorrect) {
                     $score++;
                 }
+
+                $results[] = [
+                    'question_text' => $question->question_text,
+                    'user_answer' => $userAnswerForDisplay,
+                    'correct_answer' => $correctAnswer,
+                    'is_correct' => $isCorrect,
+                ];
             }
+            
+            $attempt = new QuizAttempt();
+            $attempt->user_id = Auth::id();
+            $attempt->topic_id = $topicId;
+            $attempt->score = $score;
+            $attempt->total_questions = $topic->questions->count();
+            $attempt->user_answers = $userAnswersPayload;
+            $attempt->save();
 
             return response()->json([
                 'message' => 'Quiz submitted successfully!',
                 'score' => $score,
                 'total_questions' => $topic->questions->count(),
+                'results' => $results,
             ]);
 
         } catch (\Exception $e) {
@@ -258,9 +281,6 @@ class QuizController extends Controller
         }
     }
 
-    /**
-     * Menyimpan topik baru dan semua pertanyaan dari quiz editor.
-     */
     public function storeAll(Request $request)
     {
         $validatedData = $request->validate([
@@ -279,18 +299,15 @@ class QuizController extends Controller
 
         DB::beginTransaction();
         try {
-            // 2. BUAT KODE UNIK
             do {
                 $code = Str::random(6);
             } while (Topic::where('code', $code)->exists());
 
-
-            // 3. BUAT TOPIK BARU DENGAN KODE UNIK
             $newTopic = Topic::create([
                 'topic_name' => $validatedData['new_topic_name'],
                 'subject_id' => $validatedData['subject_id'],
                 'user_id' => Auth::id(),
-                'code' => $code, // <-- Tambahkan kode yang baru dibuat
+                'code' => $code, 
             ]);
 
             $topicId = $newTopic->topic_id;
@@ -357,34 +374,24 @@ class QuizController extends Controller
             return redirect()->back()->withErrors(['main' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
-        /**
-     * Mencari kuis berdasarkan kode unik dan mengembalikan datanya.
-     */
     public function joinWithCode(Request $request)
     {
         $validated = $request->validate([
             'code' => 'required|string|size:6',
         ]);
 
-        // 1. Cari topik berdasarkan kode.
-        //    'with' dan 'withCount' tetap penting agar accessor memiliki semua data yang dibutuhkan.
         $topic = Topic::where('code', $validated['code'])
                       ->with('subject')
                       ->withCount('questions')
                       ->first();
 
-        // 2. Jika topik tidak ditemukan, kembalikan error.
         if (!$topic) {
             return response()->json(['error' => 'Quiz with that code was not found.'], 404);
         }
 
-        // 3. Langsung panggil accessor 'modalData' dari model Topic.
-        //    Laravel akan secara otomatis membuatkan URL gambar dan data lainnya untuk Anda.
         return response()->json($topic->modal_data);
     }       
 
-
-    // ... (Metode lainnya tidak perlu diubah) ...
     private function getEditorViewData(Request $request, string $viewName)
     {
         $subjects = Subject::orderBy('subject_name')->get();

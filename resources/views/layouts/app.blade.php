@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- Judul halaman akan dinamis, dengan judul default 'Jenius Minds' --}}
+
     <title>@yield('title', 'Jenius Minds')</title>
     
-    {{-- Aset CSS dan Font --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-    {{-- Style kustom yang umum di seluruh situs --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -32,8 +29,6 @@
             box-shadow: 0 10px 20px -10px rgba(238, 169, 157, 0.7);
         }
     </style>
-
-    {{-- Memungkinkan halaman lain untuk menambahkan style tambahan --}}
     @stack('styles')
 </head>
 <body class="text-gray-700">
@@ -47,13 +42,6 @@
                     <span class="text-xl font-bold text-gray-800 group-hover:text-[#EEA99D] transition-colors">Jenius Minds</span>
                 </a>
                 
-                <div class="hidden md:block w-1/3">
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-search text-gray-400"></i></span>
-                        <input type="text" placeholder="Search for quizzes..." class="w-full pl-10 pr-4 py-2 border brand-border rounded-full focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all">
-                    </div>
-                </div>
-
                 <div class="flex items-center space-x-4">
                     @guest
                         <a href="{{ route('signin') }}" class="text-gray-600 hover:text-[#EEA99D] font-medium transition-colors">Sign In</a>
@@ -161,8 +149,6 @@
             </div>
         </div>
     </footer>
-
-    {{-- Memungkinkan halaman lain untuk menambahkan script tambahan --}}
     @stack('scripts')
 </body>
 </html>

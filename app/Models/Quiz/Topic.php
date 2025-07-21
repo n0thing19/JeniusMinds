@@ -37,16 +37,10 @@ class Topic extends Model
     {
         return $this->hasMany(Question::class, 'topic_id', 'topic_id');
     }
-
-    /**
-     * Accessor untuk menghasilkan data modal secara dinamis.
-     * Termasuk URL gambar dari placehold.co dengan warna yang sesuai.
-     */
     protected function modalData(): Attribute
     {
         return Attribute::make(
             get: function () {
-                // Definisikan data warna untuk setiap subjek di sini.
                 $subjectColors = [
                     'Mathematics' => ['FEE394', 'a16207'],
                     'English'     => ['FFE1D6', 'c2410c'],
@@ -61,20 +55,17 @@ class Topic extends Model
                     'Mandarin'    => ['FEFCE8', 'b45309'],
                 ];
 
-                // Ambil warna untuk subjek saat ini, atau gunakan warna default.
                 $colors = $subjectColors[$this->subject->subject_name] ?? ['E5E7EB', '4B5563'];
                 $bgColor = $colors[0];
                 $textColor = $colors[1];
 
-                // Buat URL gambar dari placehold.co
                 $imageUrl = "https://placehold.co/600x400/{$bgColor}/{$textColor}?text=" . urlencode($this->topic_name);
 
-                // Kembalikan semua data yang dibutuhkan oleh modal.
                 return [
                     'id' => $this->topic_id,
                     'topic_name' => $this->topic_name,
                     'subject_name' => $this->subject->subject_name,
-                    'question_count' => $this->questions_count, // Dari withCount()
+                    'question_count' => $this->questions_count,
                     'image_url' => $imageUrl,
                 ];
             },

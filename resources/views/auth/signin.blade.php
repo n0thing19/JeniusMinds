@@ -33,27 +33,30 @@
             border-color: #EEA99D;
             box-shadow: 0 0 0 2px rgba(238, 169, 157, 0.3);
         }
+        /* Style baru untuk pesan error di bawah input */
+        .error-message {
+            color: #c53030; /* Warna merah untuk error */
+            font-size: 0.875rem; /* Ukuran teks kecil */
+            margin-top: 0.5rem; /* Jarak dari atas */
+        }
     </style>
 </head>
 <body class="text-gray-700">
-
-            <div class="min-h-screen flex items-center justify-center p-6">
-            <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
-                    
+    <div class="min-h-screen flex items-center justify-center p-6">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
             <div class="p-8">
-            <!-- Logo Section -->
-            <div class="flex justify-center mb-4"> 
-                <div class="flex items-center space-x-3 group">
-                    <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="rounded-full w-12 h-12">
-                    <span class="text-3xl font-bold text-gray-800">Jenius Minds</span>
-
+                <!-- Logo Section -->
+                <div class="flex justify-center mb-4"> 
+                    <div class="flex items-center space-x-3 group">
+                        <img src="{{ asset('assets/Logo.png') }}" alt="Logo Jenius Minds" class="rounded-full w-12 h-12">
+                        <span class="text-3xl font-bold text-gray-800">Jenius Minds</span>
+                    </div>
                 </div>
-            </div>
 
                 <!-- Header Section -->
-                <div class="mb-2">
+                <div class="mb-8">
                     <h2 class="text-2xl text-center font-bold text-gray-800 mb-2">Welcome Back!</h2>
-                    <p class="text-gray-500 text-center mb-8">Sign in to continue your journey of fun learning.</p>
+                    <p class="text-gray-500 text-center">Sign in to continue your journey of fun learning.</p>
                 </div>
 
                 <!-- Form Section -->
@@ -65,8 +68,12 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <i class="fas fa-envelope text-gray-400"></i>
                             </span>
-                            <input type="email" id="email" name="email" placeholder="you@example.com" class="w-full pl-10 pr-4 py-3 rounded-lg form-input focus:outline-none">
+                            <input type="email" id="email" name="email" placeholder="you@example.com" class="w-full pl-10 pr-4 py-3 rounded-lg form-input focus:outline-none" value="{{ old('email') }}" required>
                         </div>
+                        {{-- Pesan error untuk email --}}
+                        @error('email')
+                            <p class="error-message">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -78,8 +85,12 @@
                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <i class="fas fa-lock text-gray-400"></i>
                             </span>
-                            <input type="password" id="password" name="password" placeholder="Enter your password" class="w-full pl-10 pr-4 py-3 rounded-lg form-input focus:outline-none">
+                            <input type="password" id="password" name="password" placeholder="Enter your password" class="w-full pl-10 pr-4 py-3 rounded-lg form-input focus:outline-none" required>
                         </div>
+                        {{-- Pesan error untuk password --}}
+                        @error('password')
+                            <p class="error-message">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -96,9 +107,7 @@
                     </p>
                 </div>
             </div>
-
         </div>
     </div>
-
 </body>
 </html>
