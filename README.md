@@ -184,17 +184,22 @@ Ensure your development environment includes:
     ```bash
     composer install
     ```
-
-3.  Set up environment variables
+    
+3. Install Node Dependencies
+   ```bash
+   npm install
+   ```
+   
+4.  Set up environment variables
     ```bash
     cp .env.example .env
     ```
 
-4.  Generate the application key
+5.  Generate the application key
     ```bash
     php artisan key:generate
     ```
-5. Database Configuration
+6. Database Configuration
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
@@ -204,17 +209,17 @@ Ensure your development environment includes:
    DB_PASSWORD=your_password
    ```
 
-6.  Run migrations
+7.  Run migrations
     ```bash
     php artisan migrate
     ```
 
-7.  Run seeder
+8.  Run seeder
     ```bash
     php artisan db:seed --class=QuizSeeder
     ```
 
-8.  Start development server
+9.  Start development server
     ```bash
     composer run dev
     ```
