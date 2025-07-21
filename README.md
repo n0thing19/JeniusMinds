@@ -9,6 +9,7 @@
 [![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC5C3?style=for-the-badge&logo=alpinedotjs&logoColor=black)](https://alpinejs.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00D4AA?style=for-the-badge)](https://opensource.org/licenses/MIT)
 </div>
+
 *JeniusMinds* is a Laravel-based web application designed to provide a dynamic, engaging, and educational quiz platform. It empowers users—such as teachers, students, or content creators—to create and take custom quizzes with various question types in a streamlined learning environment.
 
 ---
