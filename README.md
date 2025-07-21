@@ -199,27 +199,18 @@ Ensure your development environment includes:
     ```bash
     php artisan key:generate
     ```
-6. Database Configuration
-   ```env
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=jeniusminds
-   DB_USERNAME=your_username
-   DB_PASSWORD=your_password
-   ```
 
-7.  Run migrations
+6.  Run migrations
     ```bash
     php artisan migrate
     ```
 
-8.  Run seeder
+7.  Run seeder
     ```bash
     php artisan db:seed --class=QuizSeeder
     ```
 
-9.  Start development server
+8.  Start development server
     ```bash
     composer run dev
     ```
