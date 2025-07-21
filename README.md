@@ -177,6 +177,7 @@ Ensure your development environment includes:
 1.  Clone the repository
     ```bash
     git clone https://github.com/n0thing19/JeniusMinds
+    cd JeniusMinds
     ```
 
 2.  Install PHP dependencies
